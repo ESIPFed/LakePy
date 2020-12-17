@@ -14,7 +14,11 @@ def search(name, source=None):
                                    'secret_arn': secret_arn,
                                    'database': database}).connect()
 
-    df_lake = pd.read_sql('select * from reference_ID where lake_name like :name',
+    if source:
+        df_lake = pd.read_sql('select * from reference_ID where lake_name like :name and source like :source',
+                              con=sql_engine, params={'name': safe_name, 'source': source})
+    else:
+        df_lake = pd.read_sql('select * from reference_ID where lake_name like :name',
                           con = sql_engine, params = {'name' : safe_name})
 
     if len(df_lake) < 1:
@@ -40,7 +44,7 @@ def search(name, source=None):
                                 how = 'outer').drop('metadata', axis = 1)
         return df_unpacked
 
-def _lake_meta_constructor(df):
+def lake_meta_constructor(df):
     # todo location!!!!!!!!
     if len(df) > 1:
         raise RuntimeError('{} lakes have been passed to the constructor which only accepts one as input.\n'
@@ -71,7 +75,9 @@ def _lake_meta_constructor(df):
             id = df.id_No[0]
             country = df.country[0]
             original_id = df.identifier[0]
-            observation_period = df.start_date[0].str.value + df.end_date[0].str.value
+            observation_period = df.start_date[0] + ' -- ' + df.end_date[0]
+            latitude = df.latitude[0]
+            longitude = df.longitude[0]
             lake = Lake(name=name,
                         country = country,
                         continent=None,
@@ -79,19 +85,17 @@ def _lake_meta_constructor(df):
                         original_id = original_id,
                         id = id,
                         observation_period = observation_period,
-                        latitude = None,
-                        longitude = None)
+                        latitude = latitude,
+                        longitude = longitude)
             return lake
         # elif source == 'usgs':
-
-
 
 
 class Lake(object):
     """
     blump
     """
-    def init(self, name, location, country, continent, source, original_id, id,
+    def __init__(self, name, country, continent, source, original_id, id,
              observation_period, latitude, longitude):
         """constructor"""
         self.name = name
@@ -106,5 +110,6 @@ class Lake(object):
 
 if __name__ == '__main__':
     import pprint
-    df = search("%Maine")
+    df = search("Salton", source='hydroweb')
     pprint.pprint(df)
+    my_lake = lake_meta_constructor(df)
