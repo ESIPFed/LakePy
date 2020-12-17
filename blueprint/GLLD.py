@@ -40,7 +40,7 @@ def search(name, source=None):
                                 how = 'outer').drop('metadata', axis = 1)
         return df_unpacked
 
-def lake_constructor_from_search(df):
+def _lake_meta_constructor(df):
     # todo location!!!!!!!!
     if len(df) > 1:
         raise RuntimeError('{} lakes have been passed to the constructor which only accepts one as input.\n'
@@ -64,6 +64,8 @@ def lake_constructor_from_search(df):
                         observation_period = observation_period,
                         latitude = None,
                         longitude = None)
+            return lake
+
         elif source == 'hydroweb':
             name = df.lake_name[0]
             id = df.id_No[0]
@@ -79,6 +81,7 @@ def lake_constructor_from_search(df):
                         observation_period = observation_period,
                         latitude = None,
                         longitude = None)
+            return lake
         # elif source == 'usgs':
 
 
