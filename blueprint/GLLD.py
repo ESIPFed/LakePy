@@ -1,4 +1,4 @@
-def search(name, source=None, id_No=None):
+def search(name=None, source=None, id_No=None):
     from sqlalchemy import create_engine
     from sqlalchemy import text
     import pandas as pd
@@ -13,26 +13,20 @@ def search(name, source=None, id_No=None):
                                    'resource_arn': cluster_arn,
                                    'secret_arn': secret_arn,
                                    'database': database}).connect()
-    if id:
+    if id_No:
         df_lake = pd.read_sql('select * from reference_ID where id_No like :id',
                               con=sql_engine, params={'id': id_No})
     elif source:
         df_lake = pd.read_sql('select * from reference_ID where lake_name like :name and source like :source',
                               con=sql_engine, params={'name': safe_name, 'source': source})
     else:
-        df_lake = pd.read_sql('select * from reference_ID where lake_name like :name',
+        df_lake = pd.read_sql('SELECT * FROM reference_ID WHERE MATCH (lake_name) AGAINST (:name IN NATURAL LANGUAGE MODE) LIMIT 0, 5',
                               con=sql_engine, params={'name': safe_name})
 
     if len(df_lake) < 1:
         raise RuntimeError('No results returned. Please adjust search parameters or see documentation')
-
-    # if len(df_lake) > 1:
-    #     warnings.warn('Search Result:\'{}\' has {} entries from {} different databases. Metadata will be passed as a '
-    #                   'dictionary instead of unpacked. Specify a "source" to return unpacked dataframe'.format(
-    #         df_lake.lake_name[0], len(df_lake), len(df_lake.source.value_counts())), category = RuntimeWarning)
-    #     return df_lake
     if len(df_lake) > 1:
-        print('Search Result:\'{}\' has {} entries from {} different databases. Specify \'id_No\''.format(safe_name, len(df_lake), len(df_lake.source.value_counts())))
+        print('Search Result: \'{}\' has more than 1 Result. Showing the {} most relevant results. Specify \'id_No\'.'.format(safe_name, len(df_lake)))
         print(df_lake.filter(['id_No', 'source', 'lake_name']).to_markdown())
 
     elif len(df_lake) == 1:
@@ -117,6 +111,6 @@ class Lake(object):
 
 if __name__ == '__main__':
     # import pprint
-    my_lake = search('Salton')
+    my_lake = search('possum king')
     # pprint.pprint(df)
     # my_lake = lake_meta_constructor(df)
