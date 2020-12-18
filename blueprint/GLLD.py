@@ -6,7 +6,8 @@ def search(name=None, source=None, id_No=None):
     cluster_arn = 'arn:aws:rds:us-east-2:003707765429:cluster:esip-global-lake-level'
     secret_arn = 'arn:aws:secretsmanager:us-east-2:003707765429:secret:esip-lake-level-enduser-qugKfY'
     database = 'GlobalLakeLevel'
-    safe_name = text(name)
+    if name:
+        safe_name = text(name)
 
     sql_engine = create_engine('mysql+pydataapi://',
                                connect_args={
@@ -14,7 +15,7 @@ def search(name=None, source=None, id_No=None):
                                    'secret_arn': secret_arn,
                                    'database': database}).connect()
     if id_No:
-        df_lake = pd.read_sql('select * from reference_ID where id_No like :id',
+        df_lake = pd.read_sql('select * from reference_ID where id_No = :id',
                               con=sql_engine, params={'id': id_No})
     elif source:
         df_lake = pd.read_sql('select * from reference_ID where lake_name like :name and source like :source',
@@ -26,7 +27,8 @@ def search(name=None, source=None, id_No=None):
     if len(df_lake) < 1:
         raise RuntimeError('No results returned. Please adjust search parameters or see documentation')
     if len(df_lake) > 1:
-        print('Search Result: \'{}\' has more than 1 Result. Showing the {} most relevant results. Specify \'id_No\'.'.format(safe_name, len(df_lake)))
+        print('Search Result: \'{}\' has more than 1 Result. Showing the {} most relevant results.\n'
+              'Specify \'id_No\' or narrow search name.'.format(safe_name, len(df_lake)))
         print(df_lake.filter(['id_No', 'source', 'lake_name']).to_markdown())
 
     elif len(df_lake) == 1:
@@ -39,7 +41,7 @@ def search(name=None, source=None, id_No=None):
                                how='outer').drop('metadata', axis=1)
         lake_object = lake_meta_constructor(df_unpacked)
 
-        return lake_object
+        return lake_object, df_unpacked
 
     sql_engine.close()
 
@@ -111,6 +113,6 @@ class Lake(object):
 
 if __name__ == '__main__':
     # import pprint
-    my_lake = search('possum king')
+    my_lake, df = search('possum', id_No='1220')
     # pprint.pprint(df)
     # my_lake = lake_meta_constructor(df)
