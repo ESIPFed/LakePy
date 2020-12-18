@@ -88,7 +88,24 @@ def lake_meta_constructor(df):
                         latitude = latitude,
                         longitude = longitude)
             return lake
-        # elif source == 'usgs':
+        elif source == 'usgs':
+            name = df.lake_name[0]
+            id = df.id_No[0]
+            country = df.country[0]
+            original_id = df.identifier[0]
+            observation_period = df.start_date[0] + ' -- ' + df.end_date[0]
+            latitude = df.latitude[0]
+            longitude = df.longitude[0]
+            lake = Lake(name=name,
+                        country = country,
+                        continent=None,
+                        source = source,
+                        original_id = original_id,
+                        id = id,
+                        observation_period = observation_period,
+                        latitude = latitude,
+                        longitude = longitude)
+
 
 
 class Lake(object):
