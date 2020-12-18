@@ -47,6 +47,20 @@ def search(name=None, source=None, id_No=None):
 
 
 def lake_meta_constructor(df):
+    from sqlalchemy import create_engine
+    from sqlalchemy import text
+    import pandas as pd
+    import warnings
+    cluster_arn = 'arn:aws:rds:us-east-2:003707765429:cluster:esip-global-lake-level'
+    secret_arn = 'arn:aws:secretsmanager:us-east-2:003707765429:secret:esip-lake-level-enduser-qugKfY'
+    database = 'GlobalLakeLevel'
+
+    sql_engine = create_engine('mysql+pydataapi://',
+                               connect_args={
+                                   'resource_arn': cluster_arn,
+                                   'secret_arn': secret_arn,
+                                   'database': database}).connect()
+    import pandas as pd
     # todo location!!!!!!!!
     if len(df) > 1:
         raise RuntimeError('{} lakes have been passed to the constructor which only accepts one as input.\n'
@@ -61,6 +75,7 @@ def lake_meta_constructor(df):
             original_id = df.grealm_database_ID[0]
             id = df.id_No[0]
             observation_period = df['Satellite Observation Period'][0]
+            misc_data = {'Type' : df.Type[0], 'Resolution': df.Resolution[0]}
             lake = Lake(name=name,
                         country = country,
                         continent=continent,
@@ -69,7 +84,8 @@ def lake_meta_constructor(df):
                         id = id,
                         observation_period = observation_period,
                         latitude = None,
-                        longitude = None)
+                        longitude = None,
+                        misc_data = misc_data)
             return lake
 
         elif source == 'hydroweb':
@@ -80,6 +96,7 @@ def lake_meta_constructor(df):
             observation_period = df.start_date[0] + ' -- ' + df.end_date[0]
             latitude = df.latitude[0]
             longitude = df.longitude[0]
+            misc_data = {'basin' : df.basin[0], 'status': df.status[0]}
             lake = Lake(name=name,
                         country = country,
                         continent=None,
@@ -88,9 +105,33 @@ def lake_meta_constructor(df):
                         id = id,
                         observation_period = observation_period,
                         latitude = latitude,
-                        longitude = longitude)
+                        longitude = longitude,
+                        misc_data = misc_data)
             return lake
-        # elif source == 'usgs':
+        elif source == 'usgs':
+            df_new = pd.read_sql('select lake_name, min(date), max(date) from lake_water_level where lake_name = '
+                                 ':name', con = sql_engine, params = {'name': df.lake_name[0]})
+            print(df_new.to_markdown())
+            name = df.lake_name[0]
+            id = df.id_No[0]
+            country = 'USA'
+            continent = 'North America'
+            original_id = df.site_no[0]
+            observation_period = df_new['min(date)'][0] + ' -- ' + df_new['max(date)'][0]
+            latitude = df.dec_lat_va[0]
+            longitude = df.dec_long_va[0]
+            misc_data = {'basin' : df.basin[0], 'status': df.status[0]}
+            lake = Lake(name=name,
+                        country = country,
+                        continent=continent,
+                        source = source,
+                        original_id = original_id,
+                        id = id,
+                        observation_period = observation_period,
+                        latitude = latitude,
+                        longitude = longitude,
+                        misc_data = misc_data)
+            return lake
 
 
 class Lake(object):
@@ -98,7 +139,7 @@ class Lake(object):
     blump
     """
     def __init__(self, name, country, continent, source, original_id, id,
-             observation_period, latitude, longitude):
+             observation_period, latitude, longitude, misc_data):
         """constructor"""
         self.name = name
         self.country = country
@@ -109,6 +150,7 @@ class Lake(object):
         self.observation_period = observation_period
         self.latitude = latitude
         self.longitude = longitude
+        self.misc_data = misc_data
 
 
 if __name__ == '__main__':
