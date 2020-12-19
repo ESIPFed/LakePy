@@ -13,7 +13,7 @@ def search(name=None, source=None, id_No=None):
                                connect_args={
                                    'resource_arn': cluster_arn,
                                    'secret_arn': secret_arn,
-                                   'database': database}).connect()
+                                   'database': database}, pool_pre_ping=True).connect()
     if id_No:
         df_lake = pd.read_sql('select * from reference_ID where id_No = :id',
                               con=sql_engine, params={'id': id_No})
@@ -205,8 +205,23 @@ class Lake(object):
         self.misc_data = misc_data
         self.dataframe = dataframe
         self.data = data
-    @staticmethod:
-    def run(self):
+    @staticmethod
+    def check_connection(self):
+        from sqlalchemy import create_engine
+        cluster_arn = 'arn:aws:rds:us-east-2:003707765429:cluster:esip-global-lake-level'
+        secret_arn = 'arn:aws:secretsmanager:us-east-2:003707765429:secret:esip-lake-level-enduser-qugKfY'
+        database = 'GlobalLakeLevel'
+        try:
+            create_engine('mysql+pydataapi://',
+                                       connect_args = {
+                                           'resource_arn': cluster_arn,
+                                           'secret_arn': secret_arn,
+                                           'database': database}, pool_pre_ping = True).connect()
+            connected = True
+            return connected
+        except Exception as e:
+            connected = False
+            return connected
 
     def plot_mapview(self, show=True, out_path=None, *args, **kwargs):
         import geopandas as gpd
