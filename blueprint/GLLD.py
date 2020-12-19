@@ -250,9 +250,9 @@ class Lake(object):
                     ])), type = "date")
             plot.show()
         elif how == "altair":
-            chart = alt.Chart(self.data).encode(
-                x = 'date',
-                y = 'water_level'
+            chart = alt.Chart(self.data).mark_line().encode(
+                alt.X('date'),
+                alt.Y('water_level: R')
             )
             chart.show()
 
