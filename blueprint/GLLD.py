@@ -205,6 +205,9 @@ class Lake(object):
         self.misc_data = misc_data
         self.dataframe = dataframe
         self.data = data
+    @staticmethod:
+    def run(self):
+
     def plot_mapview(self, show=True, out_path=None, *args, **kwargs):
         import geopandas as gpd
         import contextily as ctx
@@ -226,16 +229,20 @@ class Lake(object):
         else:
             return ax
 
-    def plot_timeseries(self, how='plotly', show = True, *args, **kwargs):
+    def plot_timeseries(self, how='plotly', color="blue", show = True, *args, **kwargs):
         import matplotlib.ticker as ticker
         import plotly.io as pio
         import plotly.express as px
         import seaborn as sns
         import matplotlib.pyplot as plt
-        import altair as alt
+        import warnings
         if how == 'plotly':
             pio.renderers.default = "browser"
-            plot = px.line(self.data, x='date', y = 'water_level', title = self.id_No.astype(str) + " : " + self.name)
+            plot = px.line(self.data, x='date', y = 'water_level', title = self.id_No.astype(str)
+                                                                                         + ": " + self.name)
+            if color:
+                warnings.warn('Cannot specify color for plotly style plots, use how = "seaborn" or "matplotlib" to '
+                              'pass color', category = RuntimeWarning)
             plot.update_xaxes(
                 rangeslider_visible = True,
                 rangeselector = dict(
@@ -249,13 +256,6 @@ class Lake(object):
                         dict(step = "all"),
                     ])), type = "date")
             plot.show()
-        elif how == "altair":
-            chart = alt.Chart(self.data).mark_line().encode(
-                alt.X('date'),
-                alt.Y('water_level: R')
-            )
-            chart.show()
-
         else:
             fig, ax = plt.subplots(1, 1)
             ax.xaxis.set_major_locator(ticker.AutoLocator())
@@ -264,9 +264,9 @@ class Lake(object):
             ax.set_xlabel('Date')
             if how == 'seaborn':
                 sns.set_style('whitegrid')
-                sns.lineplot(data = self.data, x = "date", y = "water_level", ax = ax, *args, **kwargs)
+                sns.lineplot(data = self.data, x = "date", y = "water_level", ax = ax, color = color, *args, **kwargs)
             elif how == 'matplotlib':
-                ax.plot(self.data.date, self.data.water_level, *args,
+                ax.plot(self.data.date, self.data.water_level, color = color, *args,
                          **kwargs)
                 plt.xticks(rotation = 45, ha = 'right')
             else:
@@ -277,6 +277,8 @@ class Lake(object):
                 return ax
 
 if __name__ == '__main__':
-    lake = search('Ayakkum')
-    lake.plot_timeseries(how='altair')
+    lake = search(name='Ayakkum')
+
+    # lake.plot_timeseries(how='plotly', color = 'red')
     # lake.plot_mapview()
+
