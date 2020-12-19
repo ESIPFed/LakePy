@@ -153,7 +153,7 @@ def get_levels(lake):
     :param lake: must be of class Lake()
     :return:
     """
-    from utils import
+    from blueprint.utils import printProgressBar
     from sqlalchemy import create_engine
     import pandas as pd
     import numpy as np
@@ -175,10 +175,12 @@ def get_levels(lake):
     space = space.tolist()
     space.append(rownum)
     df_list = []
-    for i in space:
+    printProgressBar(0, len(space), prefix='Building Lake', suffix='Complete', length=50)
+    for count, i in enumerate(space, 0):
         search_df = pd.read_sql('select * from lake_water_level where id_No = :id_No', con = sql_engine,
                                 params = {'id_No': id_No})
         df_list.append(search_df)
+        printProgressBar(count + 1, len(space), prefix = 'Building Lake', suffix = 'Complete', length = 50)
     df = pd.concat(df_list).sort_values('date')
     return df
 
@@ -202,9 +204,51 @@ class Lake(object):
         self.misc_data = misc_data
         self.dataframe = dataframe
         self.data = data
+    def plot_timeseries(self, how='plotly', show = True, *args, **kwargs):
+        import plotly.graph_objects as go
+        import matplotlib.ticker as ticker
+        import plotly.io as pio
+        pio.renderers.default = "browser"
+        import plotly.express as px
+        import seaborn as sns
+        import matplotlib.pyplot as plt
+        if how == 'plotly':
+            plot = px.line(self.data, x='date', y = 'water_level', title = self.id_No.astype(str) + " : " + self.name)
+            plot.update_xaxes(
+                rangeslider_visible = {False},
+                rangeselector = dict(
+                    buttons = list([
+                        dict(count = 1, label = "1m", step = "month", stepmode = "backward"),
+                        dict(count = 6, label = "6m", step = "month", stepmode = "backward"),
+                        dict(count = 1, label = "YTD", step = "year", stepmode = "todate"),
+                        dict(count = 1, label = "1Y", step = "year", stepmode = "backward"),
+                        dict(count = 5, label = "5Y", step = "year", stepmode = "backward"),
+                        dict(count = 10, label = "10Y", step = "year", stepmode = "backward"),
+                        dict(step = "all"),
+                    ])), type = "date")
+            plot.show()
+        elif how == 'seaborn':
+            g = sns.lineplot(data = self.data, x = "date", y = "water_level", *args, **kwargs)
+            g.set_title(self.id_No.astype(str) + " : " + self.name)
+            if show == True:
+                plt.show()
+            else:
+                return g
+        elif how == 'matplotlib':
+            p = plt.plot(x = self.data['date'], y = self.data['water_level'] *args, **kwargs)
+            p.set_title(self.id_No.astype(str) + " : " + self.name)
+            if show == True:
+                plt.show()
+            else:
+                return p
+
+
+
+
 
 
 
 if __name__ == '__main__':
     # import pprint
-    possum = search('possum', id_No='1220')
+    possum = search(id_No='179')
+    possum.plot_timeseries()
