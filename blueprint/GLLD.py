@@ -21,7 +21,8 @@ def search(name=None, source=None, id_No=None):
         df_lake = pd.read_sql('select * from reference_ID where lake_name like :name and source like :source',
                               con=sql_engine, params={'name': safe_name, 'source': source})
     else:
-        df_lake = pd.read_sql('SELECT * FROM reference_ID WHERE MATCH (lake_name) AGAINST (:name IN NATURAL LANGUAGE MODE) LIMIT 0, 5',
+        df_lake = pd.read_sql('SELECT * FROM reference_ID WHERE MATCH (lake_name) AGAINST (:name IN NATURAL LANGUAGE '
+                              'MODE) LIMIT 0, 5',
                               con=sql_engine, params={'name': safe_name})
 
     if len(df_lake) < 1:
@@ -68,7 +69,6 @@ def lake_meta_constructor(df):
     elif len(df) == 1:
         source = df.source[0]
         if source == 'grealm':
-            # df = df.query('source == "grealm')
             name = df.lake_name[0]
             country = df.Country[0]
             continent = df.Continent[0]
@@ -161,7 +161,7 @@ def get_levels(lake):
     secret_arn = 'arn:aws:secretsmanager:us-east-2:003707765429:secret:esip-lake-level-enduser-qugKfY'
     database = 'GlobalLakeLevel'
     chunksize = 500
-    id_No = '1220'
+    id_No = lake.id_No
     sql_engine = create_engine('mysql+pydataapi://',
                                connect_args={
                                    'resource_arn': cluster_arn,
@@ -177,7 +177,8 @@ def get_levels(lake):
     df_list = []
     printProgressBar(0, len(space), prefix='Building Lake', suffix='Complete', length=50)
     for count, i in enumerate(space, 0):
-        search_df = pd.read_sql('select * from lake_water_level where id_No = :id_No', con = sql_engine,
+        search_df = pd.read_sql('select * from lake_water_level where id_No = :id_No limit {}, {}'.format(i, chunksize),
+                                con = sql_engine,
                                 params = {'id_No': id_No})
         df_list.append(search_df)
         printProgressBar(count + 1, len(space), prefix = 'Building Lake', suffix = 'Complete', length = 50)
@@ -204,18 +205,39 @@ class Lake(object):
         self.misc_data = misc_data
         self.dataframe = dataframe
         self.data = data
+    def plot_mapview(self, show=True, out_path=None, *args, **kwargs):
+        import geopandas as gpd
+        import contextily as ctx
+        import altair as alt
+        from shapely.geometry import Point
+        alt.renderers.enable('altair_viewer')
+        import matplotlib.pyplot as plt
+        gdf = gpd.GeoDataFrame(self.dataframe, geometry = [Point(self.longitude.astype(float), self.latitude.astype(
+            float))])
+        gdf.crs = 'EPSG:4326'
+        fig, ax = plt.subplots(1,1)
+        gdf.plot(*args, **kwargs, alpha=.5, ax=ax, color='red')
+        ctx.add_basemap(ax, source = ctx.providers.OpenTopoMap, crs = 'EPSG:4326')
+        ax.set_title(self.id_No.astype(str) + " : " + self.name)
+        if out_path:
+            plt.savefig(out_path)
+        if show == True:
+            plt.show()
+        else:
+            return ax
+
     def plot_timeseries(self, how='plotly', show = True, *args, **kwargs):
-        import plotly.graph_objects as go
         import matplotlib.ticker as ticker
         import plotly.io as pio
-        pio.renderers.default = "browser"
         import plotly.express as px
         import seaborn as sns
         import matplotlib.pyplot as plt
+        import altair as alt
         if how == 'plotly':
+            pio.renderers.default = "browser"
             plot = px.line(self.data, x='date', y = 'water_level', title = self.id_No.astype(str) + " : " + self.name)
             plot.update_xaxes(
-                rangeslider_visible = {False},
+                rangeslider_visible = True,
                 rangeselector = dict(
                     buttons = list([
                         dict(count = 1, label = "1m", step = "month", stepmode = "backward"),
@@ -227,28 +249,34 @@ class Lake(object):
                         dict(step = "all"),
                     ])), type = "date")
             plot.show()
-        elif how == 'seaborn':
-            g = sns.lineplot(data = self.data, x = "date", y = "water_level", *args, **kwargs)
-            g.set_title(self.id_No.astype(str) + " : " + self.name)
+        elif how == "altair":
+            chart = alt.Chart(self.data).encode(
+                x = 'date',
+                y = 'water_level'
+            )
+            chart.show()
+
+        else:
+            fig, ax = plt.subplots(1, 1)
+            ax.xaxis.set_major_locator(ticker.AutoLocator())
+            ax.set_title(self.id_No.astype(str) + " : " + self.name)
+            ax.set_ylabel('Water Level [m]')
+            ax.set_xlabel('Date')
+            if how == 'seaborn':
+                sns.set_style('whitegrid')
+                sns.lineplot(data = self.data, x = "date", y = "water_level", ax = ax, *args, **kwargs)
+            elif how == 'matplotlib':
+                ax.plot(self.data.date, self.data.water_level, *args,
+                         **kwargs)
+                plt.xticks(rotation = 45, ha = 'right')
+            else:
+                raise SyntaxError("'how' parameter must be 'plotly', 'seaborn', or 'matplotlib'")
             if show == True:
                 plt.show()
             else:
-                return g
-        elif how == 'matplotlib':
-            p = plt.plot(x = self.data['date'], y = self.data['water_level'] *args, **kwargs)
-            p.set_title(self.id_No.astype(str) + " : " + self.name)
-            if show == True:
-                plt.show()
-            else:
-                return p
-
-
-
-
-
-
+                return ax
 
 if __name__ == '__main__':
-    # import pprint
-    possum = search(id_No='179')
-    possum.plot_timeseries()
+    lake = search('Ayakkum')
+    lake.plot_timeseries(how='altair')
+    # lake.plot_mapview()
