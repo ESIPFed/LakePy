@@ -1,4 +1,5 @@
-def printProgressBar(iteration, total, prefix = '', suffix = '', decimals = 1, length = 100, fill = '\u15E7', printEnd =
+def _printProgressBar(iteration, total, prefix = '', suffix = '', decimals = 1, length = 100, fill = '\u15E7',
+                      printEnd =
 "\r"):
     """
     Call in a loop to create terminal progress bar

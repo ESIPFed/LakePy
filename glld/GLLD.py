@@ -40,14 +40,14 @@ def search(name=None, source=None, id_No=None):
                                left_index=True,
                                right_index=True,
                                how='outer').drop('metadata', axis=1)
-        lake_object = lake_meta_constructor(df_unpacked)
+        lake_object = _lake_meta_constructor(df_unpacked)
 
         return lake_object
 
     sql_engine.close()
 
 
-def lake_meta_constructor(df):
+def _lake_meta_constructor(df):
     from sqlalchemy import create_engine
     from sqlalchemy import text
     import pandas as pd
@@ -89,7 +89,7 @@ def lake_meta_constructor(df):
                         misc_data = misc_data,
                         dataframe = dataframe,
                         data = None)
-            lake.data = get_levels(lake)
+            lake.data = _get_levels(lake)
             return lake
 
         elif source == 'hydroweb':
@@ -114,7 +114,7 @@ def lake_meta_constructor(df):
                         misc_data = misc_data,
                         dataframe = dataframe,
                         data = None)
-            lake.data = get_levels(lake)
+            lake.data = _get_levels(lake)
             return lake
         elif source == 'usgs':
             df_new = pd.read_sql('select lake_name, min(date), max(date) from lake_water_level where lake_name = '
@@ -144,16 +144,16 @@ def lake_meta_constructor(df):
                         misc_data = misc_data,
                         dataframe = dataframe,
                         data = None)
-            lake.data = get_levels(lake)
+            lake.data = _get_levels(lake)
             return lake
 
-def get_levels(lake):
+def _get_levels(lake):
     """
 
     :param lake: must be of class Lake()
     :return:
     """
-    from blueprint.utils import printProgressBar
+    from glld.utils import _printProgressBar
     from sqlalchemy import create_engine
     import pandas as pd
     import numpy as np
@@ -175,13 +175,13 @@ def get_levels(lake):
     space = space.tolist()
     space.append(rownum)
     df_list = []
-    printProgressBar(0, len(space), prefix='Building Lake', suffix='Complete', length=50)
+    _printProgressBar(0, len(space), prefix='Building Lake', suffix='Complete', length=50)
     for count, i in enumerate(space, 0):
         search_df = pd.read_sql('select * from lake_water_level where id_No = :id_No limit {}, {}'.format(i, chunksize),
                                 con = sql_engine,
                                 params = {'id_No': id_No})
         df_list.append(search_df)
-        printProgressBar(count + 1, len(space), prefix = 'Building Lake', suffix = 'Complete', length = 50)
+        _printProgressBar(count + 1, len(space), prefix = 'Building Lake', suffix = 'Complete', length = 50)
     df = pd.concat(df_list).sort_values('date')
     return df
 
@@ -226,9 +226,7 @@ class Lake(object):
     def plot_mapview(self, show=True, out_path=None, *args, **kwargs):
         import geopandas as gpd
         import contextily as ctx
-        import altair as alt
         from shapely.geometry import Point
-        alt.renderers.enable('altair_viewer')
         import matplotlib.pyplot as plt
         gdf = gpd.GeoDataFrame(self.dataframe, geometry = [Point(self.longitude.astype(float), self.latitude.astype(
             float))])
