@@ -24,9 +24,7 @@ def _printProgressBar(iteration, total, prefix = '', suffix = '', decimals = 1, 
 
 def validate(date_text):
     import datetime
-    import pandas as pd
     try:
-        date = pd.to_datetime(date_text, '%Y-%m-%d')
-        return date
+        datetime.datetime.strptime(date_text, '%Y-%m-%d')
     except ValueError:
         raise ValueError("Incorrect data format, should be YYYY-MM-DD")

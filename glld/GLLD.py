@@ -301,10 +301,12 @@ class Lake(object):
         import warnings
         from glld.utils import validate
         if date_start and date_end:
-            ds = validate(date_start)
-            de = validate(date_end)
+            validate(date_start)
+            validate(date_end)
+
             self.data.date = pd.to_datetime(self.data.date)
-            self.data = self.data[self.data['date'] > ds & self.data['date'] < de]
+            self.data = self.data[(self.data['date'] > pd.Timestamp(date_start)) & (self.data['date'] < pd.Timestamp(
+                date_end))]
         elif date_start is None and date_end is None:
             pass
         else:
@@ -349,8 +351,4 @@ class Lake(object):
             else:
                 return ax
 
-if __name__ == '__main__':
-    lake = search(name='Ayakkum')
-    lake.plot_timeseries(how='plotly', color = 'red', date_start = "2008-01-01", date_end = "2016-01-01")
-    # lake.plot_mapview()
 
