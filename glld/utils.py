@@ -21,3 +21,12 @@ def _printProgressBar(iteration, total, prefix = '', suffix = '', decimals = 1, 
     # Print New Line on Complete
     if iteration == total:
         print()
+
+def validate(date_text):
+    import datetime
+    import pandas as pd
+    try:
+        date = pd.to_datetime(date_text, '%Y-%m-%d')
+        return date
+    except ValueError:
+        raise ValueError("Incorrect data format, should be YYYY-MM-DD")

@@ -1,13 +1,25 @@
 def search(name=None, source=None, id_No=None):
+    """
+    Main search function for querying the Global Lake Level Database
+    :param name: Name of Lake or Reservoir. Be sure to use proper spelling. Wildcards (%) are allowed,
+    as is any MySQL 5.7 syntax
+    :type name: str
+    :param source: Lake water level source flag, accepted values are "usgs", "grealm", or "hydroweb"
+    :type source: str
+    :param id_No: Global Lake Level Database identification number,
+    :type id_No: str
+    :return: Lake() object
+    """
     from sqlalchemy import create_engine
     from sqlalchemy import text
     import pandas as pd
-    import warnings
     cluster_arn = 'arn:aws:rds:us-east-2:003707765429:cluster:esip-global-lake-level'
     secret_arn = 'arn:aws:secretsmanager:us-east-2:003707765429:secret:esip-lake-level-enduser-qugKfY'
     database = 'GlobalLakeLevel'
     if name:
         safe_name = text(name)
+    if type(id_No) is int:
+        id_No = str(id_No)
 
     sql_engine = create_engine('mysql+pydataapi://',
                                connect_args={
@@ -48,6 +60,12 @@ def search(name=None, source=None, id_No=None):
 
 
 def _lake_meta_constructor(df):
+    """
+    This function populates the Lake() object with metadata
+    :param df: Pandas DataFrame of lake metadata from search()
+    :type df: Pandas DataFrame
+    :return: Lake() object with associated metadata
+    """
     from sqlalchemy import create_engine
     from sqlalchemy import text
     import pandas as pd
@@ -149,8 +167,9 @@ def _lake_meta_constructor(df):
 
 def _get_levels(lake):
     """
-
-    :param lake: must be of class Lake()
+    This function populates the Lake().data attribute with all available lake levels
+    :param lake: must be of Lake() object with metadata built from _lake_meta_constructor
+    :type lake: class Lake()
     :return:
     """
     from glld.utils import _printProgressBar
@@ -188,11 +207,37 @@ def _get_levels(lake):
 
 class Lake(object):
     """
-    blump
+
     """
     def __init__(self, name, country, continent, source, original_id, id_No,
              observation_period, latitude, longitude, misc_data, dataframe, data):
-        """constructor"""
+        """
+        Lake() constructor
+        :param name: Lake name
+        :type name: str
+        :param country: Country of lake residence
+        :type country: str
+        :param continent: Continent of lake residence
+        :type continent: str
+        :param source: Original database of lake data
+        :type source: str
+        :param original_id: Original identifier of lake
+        :type original_id: str
+        :param id_No: GLLD identification number
+        :type id_No: int
+        :param observation_period: Range of water level data
+        :type observation_period: str
+        :param latitude: Decimal degree latitude
+        :type latitude: str
+        :param longitude: Decimal degree longitude
+        :type longitude: str
+        :param misc_data: Database-specific metadata
+        :type misc_data: dict
+        :param dataframe: Lake metadata as Pandas DataFrame
+        :type dataframe: pandas.DataFrame()
+        :param data: Lake water level timeseries data
+        :type data: pandas.DataFrame()
+        """
         self.name = name
         self.country = country
         self.continent = continent
@@ -205,25 +250,19 @@ class Lake(object):
         self.misc_data = misc_data
         self.dataframe = dataframe
         self.data = data
-    @staticmethod
-    def check_connection(self):
-        from sqlalchemy import create_engine
-        cluster_arn = 'arn:aws:rds:us-east-2:003707765429:cluster:esip-global-lake-level'
-        secret_arn = 'arn:aws:secretsmanager:us-east-2:003707765429:secret:esip-lake-level-enduser-qugKfY'
-        database = 'GlobalLakeLevel'
-        try:
-            create_engine('mysql+pydataapi://',
-                                       connect_args = {
-                                           'resource_arn': cluster_arn,
-                                           'secret_arn': secret_arn,
-                                           'database': database}, pool_pre_ping = True).connect()
-            connected = True
-            return connected
-        except Exception as e:
-            connected = False
-            return connected
 
     def plot_mapview(self, show=True, out_path=None, *args, **kwargs):
+        """
+        Plot map-style overview of lake location using geopandas as contextily
+        :param show: Flag to determine whether matplotlib.pyplot.show() is called (True) or axis object is returned (
+        False)
+        :type show: bool
+        :param out_path: If supplied, figure will be saved to local filepath
+        :type out_path: str
+        :param args: additonal *args to pass to matplotlib.pyplot axis
+        :param kwargs: additonal **kwargs to pass to matplotlib.pyplot axis
+        :return: matplotlib axis instance if :param show is False
+        """
         import geopandas as gpd
         import contextily as ctx
         from shapely.geometry import Point
@@ -242,13 +281,34 @@ class Lake(object):
         else:
             return ax
 
-    def plot_timeseries(self, how='plotly', color="blue", show = True, *args, **kwargs):
+    def plot_timeseries(self, how='plotly', color="blue", show = True,
+                        date_start=None, date_end=None, *args, **kwargs):
+        """
+        Plot timeseries of lake water level data
+        :param how:
+        :param color:
+        :param show:
+        :param args:
+        :param kwargs:
+        :return:
+        """
         import matplotlib.ticker as ticker
         import plotly.io as pio
         import plotly.express as px
         import seaborn as sns
+        import pandas as pd
         import matplotlib.pyplot as plt
         import warnings
+        from glld.utils import validate
+        if date_start and date_end:
+            ds = validate(date_start)
+            de = validate(date_end)
+            self.data.date = pd.to_datetime(self.data.date)
+            self.data = self.data[self.data['date'] > ds & self.data['date'] < de]
+        elif date_start is None and date_end is None:
+            pass
+        else:
+            raise ValueError('date_start and date_end params must both be None or strings with date format "%Y-%m-%d"')
         if how == 'plotly':
             pio.renderers.default = "browser"
             plot = px.line(self.data, x='date', y = 'water_level', title = self.id_No.astype(str)
@@ -291,7 +351,6 @@ class Lake(object):
 
 if __name__ == '__main__':
     lake = search(name='Ayakkum')
-
-    # lake.plot_timeseries(how='plotly', color = 'red')
+    lake.plot_timeseries(how='plotly', color = 'red', date_start = "2008-01-01", date_end = "2016-01-01")
     # lake.plot_mapview()
 
