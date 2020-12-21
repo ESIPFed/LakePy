@@ -21,10 +21,22 @@ and on-demand.
 - [Amazon Aurora Serverless](https://aws.amazon.com/rds/aurora/serverless/)
 - [Amazon Aurora Serverless Data API](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html)
 
-## Features
+## Quickstart
+
+### Installation
+```
+pip install lakepy
+```
+if you are using conda for package management you can
+ [still use pip!](https://medium.com/@msarahan/anaconda-also-comes-with-pip-and-you-can-use-it-to-install-pypi-packages-into-conda-environments-9e7f021509f7)
+ ### Searching the Global Lake Level Database
+ The database can be searched using a name, a source ("grealm", "hydroweb", or "usgs"), or an identification number
+ . The best practice for searching is to first specify a name.
+ 
+ Let's search for [Lake Mead](https://en.wikipedia.org/wiki/Lake_Mead)
 ```
 import lakepy as lk
-my_lake = lk.search("Ayakkum")
+my_lake = lk.search("mead")
 ```
 LakePy allows for native time series plotting as well as map-view plots
 ```
@@ -37,8 +49,8 @@ my_lake.plot_mapview()
 ## Code Example
 Show what the library does as concisely as possible, developers should be able to figure out **how** your project solves their problem by looking at the code example. Make sure the API you are showing off is obvious, and that your code is short and concise.
 
-## Installation
-Provide step by step series of examples and explanations about how to get a development env running.
+
+
 
 ## API Reference
 

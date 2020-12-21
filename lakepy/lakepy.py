@@ -36,7 +36,7 @@ def search(name=None, source=None, id_No=None):
         df_lake = pd.read_sql('SELECT * FROM reference_ID WHERE MATCH (lake_name) AGAINST (:name IN NATURAL LANGUAGE '
                               'MODE) LIMIT 0, 5',
                               con=sql_engine, params={'name': safe_name})
-
+    sql_engine.close()
     if len(df_lake) < 1:
         raise RuntimeError('No results returned. Please adjust search parameters or see documentation')
     if len(df_lake) > 1:
@@ -54,10 +54,9 @@ def search(name=None, source=None, id_No=None):
                                how='outer').drop('metadata', axis=1)
         print(df_unpacked.to_markdown())
         lake_object = _lake_meta_constructor(df_unpacked)
-
         return lake_object
 
-    sql_engine.close()
+
 
 
 def _lake_meta_constructor(df):
@@ -162,6 +161,7 @@ def _lake_meta_constructor(df):
                         dataframe = dataframe,
                         data = None)
             lake.data = _get_levels(lake)
+            sql_engine.close()
             return lake
 def _get_levels(lake):
     """
@@ -200,6 +200,7 @@ def _get_levels(lake):
         df_list.append(search_df)
         _printProgressBar(count + 1, len(space), prefix = 'Building Lake', suffix = 'Complete', length = 50)
     df = pd.concat(df_list).sort_values('date')
+    sql_engine.close()
     return df
 
 
