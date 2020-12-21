@@ -163,7 +163,7 @@ def _lake_meta_constructor(df):
                         data = None)
             lake.data = _get_levels(lake)
             return lake
-
+˚
 def _get_levels(lake):
     """
     This function populates the Lake().data attribute with all available lake levels
