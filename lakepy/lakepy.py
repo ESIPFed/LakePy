@@ -66,10 +66,8 @@ def _lake_meta_constructor(df):
     :type df: Pandas DataFrame
     :return: Lake() object with associated metadata
     """
-    from sqlalchemy import create_engine
-    from sqlalchemy import text
     import pandas as pd
-    import warnings
+    from sqlalchemy import create_engine
     cluster_arn = 'arn:aws:rds:us-east-2:003707765429:cluster:esip-global-lake-level'
     secret_arn = 'arn:aws:secretsmanager:us-east-2:003707765429:secret:esip-lake-level-enduser-qugKfY'
     database = 'GlobalLakeLevel'
@@ -79,7 +77,7 @@ def _lake_meta_constructor(df):
                                    'resource_arn': cluster_arn,
                                    'secret_arn': secret_arn,
                                    'database': database}).connect()
-    import pandas as pd
+
     # todo location!!!!!!!!
     if len(df) > 1:
         raise RuntimeError('{} lakes have been passed to the constructor which only accepts one as input.\n'
