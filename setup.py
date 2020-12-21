@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 HERE = pathlib.Path(__file__).parent
 
-VERSION = '1.0.2'
+VERSION = '1.0.4'
 PACKAGE_NAME = 'lakepy'
 AUTHOR = 'James H. Gearon & John D. Franey'
 AUTHOR_EMAIL = 'jake.gearon@gmail.com'
@@ -27,7 +27,8 @@ INSTALL_REQUIRES = [
     'shapely',
     'contextily',
     'pydataapi',
-    'more-itertools==8.4'
+    'more-itertools==8.4',
+    'tabulate'
 
 ]
 
