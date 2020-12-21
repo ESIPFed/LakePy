@@ -249,7 +249,7 @@ class Lake(object):
         self.dataframe = dataframe
         self.data = data
 
-    def plot_mapview(self, show=True, out_path=None, zoom=12, *args, **kwargs):
+    def plot_mapview(self, show=True, out_path=None, zoom=None, *args, **kwargs):
         """
         Plot map-style overview of lake location using geopandas as contextily
         :param show: Flag to determine whether matplotlib.pyplot.show() is called (True) or axis object is returned (
@@ -268,9 +268,12 @@ class Lake(object):
         gdf = gpd.GeoDataFrame(self.dataframe, geometry = [Point(self.longitude.astype(float), self.latitude.astype(
             float))])
         gdf.crs = 'EPSG:4326'
+        minx, miny, maxx, maxy = gdf.bounds
         fig, ax = plt.subplots(1,1)
-        gdf.plot(*args, **kwargs, alpha=.5, ax=ax, color='red')
-        ctx.add_basemap(ax, source = ctx.providers.OpenTopoMap, crs = 'EPSG:4326', reset_extent = True)
+        gdf.plot(*args, **kwargs, alpha=.5, ax=ax, color='red', aspect = 'equal')
+        ax.set_xlim(minx, maxx)
+        ax.set_ylim(miny, maxy)
+        ctx.add_basemap(ax, source = ctx.providers.OpenTopoMap, crs = 'EPSG:4326', **{'zoom': zoom})
         ax.set_title(self.id_No.astype(str) + " : " + self.name)
         if out_path:
             plt.savefig(out_path)
