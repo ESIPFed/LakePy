@@ -12,6 +12,7 @@ def search(name=None, source=None, id_No=None):
     """
     from sqlalchemy import create_engine
     from sqlalchemy import text
+    import warnings
     import pandas as pd
     cluster_arn = 'arn:aws:rds:us-east-2:003707765429:cluster:esip-global-lake-level'
     secret_arn = 'arn:aws:secretsmanager:us-east-2:003707765429:secret:esip-lake-level-enduser-qugKfY'
@@ -40,8 +41,8 @@ def search(name=None, source=None, id_No=None):
     if len(df_lake) < 1:
         raise RuntimeError('No results returned. Please adjust search parameters or see documentation')
     if len(df_lake) > 1:
-        print('Search Result: \'{}\' has more than 1 Result. Showing the {} most relevant results.\n'
-              'Specify \'id_No\' or narrow search name.'.format(safe_name, len(df_lake)))
+        warnings.warn('Search Result: \'{}\' has more than 1 Result. Showing the {} most relevant results.\n'
+              'Specify \'id_No\' or narrow search name.'.format(safe_name, len(df_lake)), category = RuntimeWarning)
         print(df_lake.filter(['id_No', 'source', 'lake_name']).to_markdown())
 
     elif len(df_lake) == 1:

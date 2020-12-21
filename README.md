@@ -33,11 +33,41 @@ if you are using conda for package management you can
  The database can be searched using a name, a source ("grealm", "hydroweb", or "usgs"), or an identification number
  . The best practice for searching is to first specify a name.
  
- Let's search for [Lake Mead](https://en.wikipedia.org/wiki/Lake_Mead)
+ Let's search for [Lake Mead](https://en.wikipedia.org/wiki/Lake_Mead) instantiating a Lake() object.
 ```
 import lakepy as lk
 my_lake = lk.search("mead")
 ```
+If there is more than one Lake matching "Mead", the search function will return a
+
+> "Search Result: 'Mead' has more than 1 Result. Showing the 2 most relevant results.
+Specify 'id_No' or narrow search name."
+
+|    |   id_No | source   | lake_name                           |
+|---:|--------:|:---------|:------------------------------------|
+|  0 |     138 | hydroweb | Mead                                |
+|  1 |    1556 | usgs     | MEAD LAKE WEST BAY NEAR WILLARD, WI |
+
+We will select id_No 138 corresponding to Lake Mead from HydroWeb's database and re-run our search 1 of 2 ways:
+- Specify the **id_No** explicitly as a string
+
+```
+my_lake = lk.search(id_No = "138")
+```
+
+- Specify a **name** and a **source**
+```
+my_lake = lk.search(name="mead", source="hydroweb")
+```
+We _highly recommend_ specifying an id_No _whenever possible_ to avoid issues with similarly named lakes. Either way
+, the search returns a metadata markdown dataframe
+
+|    |   id_No | source   | lake_name   | basin    | status   | country   | end_date         |   latitude |   longitude | identifier   | start_date       |
+|---:|--------:|:---------|:------------|:---------|:---------|:----------|:-----------------|-----------:|------------:|:-------------|:-----------------|
+|  0 |     138 | hydroweb | Mead        | Colorado | research | USA       | 2014-12-29 00:21 |      36.13 |     -114.45 | L_mead       | 2000-06-14 10:22 |
+
+It is important to note that different databases will return different types and amounts of metadata. Currently
+
 LakePy allows for native time series plotting as well as map-view plots
 ```
 my_lake.plot_timeseries()
