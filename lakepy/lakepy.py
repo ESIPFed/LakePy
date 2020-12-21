@@ -273,7 +273,10 @@ class Lake(object):
         gdf.plot(*args, **kwargs, alpha=.5, ax=ax, color='red', aspect = 'equal')
         ax.set_xlim(minx, maxx)
         ax.set_ylim(miny, maxy)
-        ctx.add_basemap(ax, source = ctx.providers.OpenTopoMap, crs = 'EPSG:4326', **{'zoom': zoom})
+        if zoom:
+            ctx.add_basemap(ax, source = ctx.providers.OpenTopoMap, crs = 'EPSG:4326', zoom=zoom)
+        else:
+            ctx.add_basemap(ax, source = ctx.providers.OpenTopoMap, crs = 'EPSG:4326')
         ax.set_title(self.id_No.astype(str) + " : " + self.name)
         if out_path:
             plt.savefig(out_path)
