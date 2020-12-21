@@ -267,8 +267,8 @@ class Lake(object):
         import contextily as ctx
         from shapely.geometry import Point
         import matplotlib.pyplot as plt
-        gdf = gpd.GeoDataFrame(self.dataframe, geometry = [Point(self.longitude.astype(float), self.latitude.astype(
-            float))])
+        gdf = gpd.GeoDataFrame(self.dataframe, geometry = [Point(float(self.longitude),
+                                                                 float(self.latitude))])
         gdf.crs = 'EPSG:4326'
         minx, miny, maxx, maxy = gdf.bounds
         fig, ax = plt.subplots(1,1)
@@ -279,7 +279,7 @@ class Lake(object):
             ctx.add_basemap(ax, source = ctx.providers.OpenTopoMap, crs = 'EPSG:4326', zoom=zoom)
         else:
             ctx.add_basemap(ax, source = ctx.providers.OpenTopoMap, crs = 'EPSG:4326')
-        ax.set_title(self.id_No.astype(str) + " : " + self.name)
+        ax.set_title(str(self.id_No) + " : " + self.name)
         if out_path:
             plt.savefig(out_path)
         if show == True:
@@ -307,10 +307,10 @@ class Lake(object):
         import pandas as pd
         import matplotlib.pyplot as plt
         import warnings
-        from lakepy.utils import _validate
+        from . import utils
         if date_start and date_end:
-            _validate(date_start)
-            _validate(date_end)
+            utils._validate(date_start)
+            utils._validate(date_end)
 
             self.data.date = pd.to_datetime(self.data.date)
             self.data = self.data[(self.data['date'] > pd.Timestamp(date_start)) & (self.data['date'] < pd.Timestamp(
@@ -321,7 +321,7 @@ class Lake(object):
             raise ValueError('date_start and date_end params must both be None or strings with date format "%Y-%m-%d"')
         if how == 'plotly':
             pio.renderers.default = "browser"
-            plot = px.line(self.data, x='date', y = 'water_level', title = self.id_No.astype(str)
+            plot = px.line(self.data, x='date', y = 'water_level', title = str(self.id_No)
                                                                                          + ": " + self.name)
             if color != "blue":
                 warnings.warn('Cannot specify color for plotly style plots, use how = "seaborn" or "matplotlib" to '
@@ -342,7 +342,7 @@ class Lake(object):
         else:
             fig, ax = plt.subplots(1, 1)
             ax.xaxis.set_major_locator(ticker.AutoLocator())
-            ax.set_title(self.id_No.astype(str) + " : " + self.name)
+            ax.set_title(str(self.id_No) + " : " + self.name)
             ax.set_ylabel('Water Level [m]')
             ax.set_xlabel('Date')
             if how == 'seaborn':
