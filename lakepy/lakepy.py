@@ -314,7 +314,7 @@ class Lake(object):
             pio.renderers.default = "browser"
             plot = px.line(self.data, x='date', y = 'water_level', title = self.id_No.astype(str)
                                                                                          + ": " + self.name)
-            if color:
+            if color !="blue":
                 warnings.warn('Cannot specify color for plotly style plots, use how = "seaborn" or "matplotlib" to '
                               'pass color', category = RuntimeWarning)
             plot.update_xaxes(
