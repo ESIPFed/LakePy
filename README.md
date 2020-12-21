@@ -38,7 +38,7 @@ if you are using conda for package management you can
 import lakepy as lk
 my_lake = lk.search("mead")
 ```
-If there is more than one Lake matching "Mead", the search function will return a
+If there is more than one Lake matching "Mead", the search function will return a RuntimeWarning and display a table.
 
 > "Search Result: 'Mead' has more than 1 Result. Showing the 2 most relevant results.
 Specify 'id_No' or narrow search name."
@@ -67,6 +67,25 @@ We _highly recommend_ specifying an id_No _whenever possible_ to avoid issues wi
 |  0 |     138 | hydroweb | Mead        | Colorado | research | USA       | 2014-12-29 00:21 |      36.13 |     -114.45 | L_mead       | 2000-06-14 10:22 |
 
 It is important to note that different databases will return different types and amounts of metadata. Currently
+ latitude & longitude are only available from the USGS and HydroWeb databases, but GREALM lakes will soon have them!
+ 
+ The "my_lake" variable is now an object of class Lake() which comes with several attributes
+ 
+ - name
+ - country
+ - continent _(currently not supported for HydroWeb)_
+ - source
+ - original_id
+ - id_No
+ - observation_period
+ - latitude _(currently not supported for G-REALM)_
+ - longitude _(currently not supported for G-REALM)_
+ - misc_data
+ - dataframe
+ - data
+
+importantly, 
+
 
 LakePy allows for native time series plotting as well as map-view plots
 ```
@@ -77,26 +96,23 @@ my_lake.plot_mapview()
 ```
 
 ## Code Example
-Show what the library does as concisely as possible, developers should be able to figure out **how** your project solves their problem by looking at the code example. Make sure the API you are showing off is obvious, and that your code is short and concise.
-
 
 
 
 ## API Reference
 
-Depending on the size of the project, if it is small and simple enough the reference docs can be added to the README. For medium size to larger projects it is important to at least provide a link to where the API reference docs live.
-
-## How to use?
-If people like your project they’ll want to learn how they can use it. To do so include step by step guide to use your project.
 
 ## Contribute
 
 Let people know how they can contribute into your project. A [contributing guideline](https://github.com/zulip/zulip-electron/blob/master/CONTRIBUTING.md) will be a big plus.
 
 ## Credits
-Give proper credits. This could be a link to any repo which inspired you to build this project, any blogposts or links to people who contrbuted in this project. 
-
-#### Anything else that seems useful
+This work is based on funding provided by the ESIP Lab with support from the National Aeronautics and Space
+ Administration (NASA), National Oceanic and Atmospheric Administration (NOAA) and the United States Geologic
+  Survey (USGS). 
+  
+  The authors would also like to acknowledge the Dynamic Stratigraphy Group at UT Austin and the AWS
+   Staff that helped on this project!
 
 ## License
 
