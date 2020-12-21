@@ -298,10 +298,10 @@ class Lake(object):
         import pandas as pd
         import matplotlib.pyplot as plt
         import warnings
-        from lakepy.utils import validate
+        from lakepy.utils import _validate
         if date_start and date_end:
-            validate(date_start)
-            validate(date_end)
+            _validate(date_start)
+            _validate(date_end)
 
             self.data.date = pd.to_datetime(self.data.date)
             self.data = self.data[(self.data['date'] > pd.Timestamp(date_start)) & (self.data['date'] < pd.Timestamp(
@@ -350,4 +350,6 @@ class Lake(object):
             else:
                 return ax
 
-
+if __name__ == '__main__':
+    ay = search("Mead", source = 'hydroweb')
+    ay.plot_mapview()

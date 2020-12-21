@@ -22,7 +22,7 @@ def _printProgressBar(iteration, total, prefix = '', suffix = '', decimals = 1, 
     if iteration == total:
         print()
 
-def validate(date_text):
+def _validate(date_text):
     import datetime
     try:
         datetime.datetime.strptime(date_text, '%Y-%m-%d')
