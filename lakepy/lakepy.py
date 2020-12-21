@@ -250,7 +250,7 @@ class Lake(object):
         self.dataframe = dataframe
         self.data = data
 
-    def plot_mapview(self, show=True, out_path=None, *args, **kwargs):
+    def plot_mapview(self, show=True, out_path=None, zoom=12, *args, **kwargs):
         """
         Plot map-style overview of lake location using geopandas as contextily
         :param show: Flag to determine whether matplotlib.pyplot.show() is called (True) or axis object is returned (
@@ -271,7 +271,7 @@ class Lake(object):
         gdf.crs = 'EPSG:4326'
         fig, ax = plt.subplots(1,1)
         gdf.plot(*args, **kwargs, alpha=.5, ax=ax, color='red')
-        ctx.add_basemap(ax, source = ctx.providers.OpenTopoMap, crs = 'EPSG:4326')
+        ctx.add_basemap(ax, source = ctx.providers.OpenTopoMap, crs = 'EPSG:4326', reset_extent = True)
         ax.set_title(self.id_No.astype(str) + " : " + self.name)
         if out_path:
             plt.savefig(out_path)
@@ -314,7 +314,7 @@ class Lake(object):
             pio.renderers.default = "browser"
             plot = px.line(self.data, x='date', y = 'water_level', title = self.id_No.astype(str)
                                                                                          + ": " + self.name)
-            if color !="blue":
+            if color != "blue":
                 warnings.warn('Cannot specify color for plotly style plots, use how = "seaborn" or "matplotlib" to '
                               'pass color', category = RuntimeWarning)
             plot.update_xaxes(
