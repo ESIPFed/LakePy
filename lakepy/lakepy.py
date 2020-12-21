@@ -172,7 +172,7 @@ def _get_levels(lake):
     :type lake: class Lake()
     :return:
     """
-    from glld.utils import _printProgressBar
+    from lakepy.utils import _printProgressBar
     from sqlalchemy import create_engine
     import pandas as pd
     import numpy as np
@@ -299,7 +299,7 @@ class Lake(object):
         import pandas as pd
         import matplotlib.pyplot as plt
         import warnings
-        from glld.utils import validate
+        from lakepy.utils import validate
         if date_start and date_end:
             validate(date_start)
             validate(date_end)
