@@ -249,7 +249,7 @@ class Lake(object):
         self.dataframe = dataframe
         self.data = data
 
-    def plot_mapview(self, show=True, out_path=None, zoom=None, *args, **kwargs):
+    def plot_mapview(self, show=True, out_path=None, zoom=None, return_gdf=False, *args, **kwargs):
         """
         Plot map-style overview of lake location using geopandas as contextily
         :param show: Flag to determine whether matplotlib.pyplot.show() is called (True) or axis object is returned (
@@ -279,6 +279,8 @@ class Lake(object):
             plt.savefig(out_path)
         if show == True:
             plt.show()
+        elif return_gdf == True:
+            return gdf
         else:
             return ax
 
