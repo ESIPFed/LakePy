@@ -1,3 +1,7 @@
+/build/
+/dist/
+/lakepy.egg-info/
+/.idea/
 # Default ignored files
 /shelf/
 /workspace.xml
@@ -6,7 +10,4 @@
 /dataSources.local.xml
 # Editor-based HTTP Client requests
 /httpRequests/
-/build/
-/dist/
-/lakepy.egg-info/
-/.idea/
+
