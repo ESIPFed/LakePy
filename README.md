@@ -13,10 +13,7 @@ _See the funded proposal [here](https://www.esipfed.org/wp-content/uploads/2020/
 ## Motivation
 Lake level data is incredibly important to federal and local governments, scientists, and citizens. Until now,
 accessing lake level data involves laborious data-preparation and wrangling. We aim to provide this data quickly
-and on-demand
-
-## Screenshots
-Include logo/demo screenshot etc.
+and on-demand.
 
 ## Software Used
 <b>Built with</b>

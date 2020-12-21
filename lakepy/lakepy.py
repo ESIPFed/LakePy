@@ -45,6 +45,7 @@ def search(name=None, source=None, id_No=None):
         print(df_lake.filter(['id_No', 'source', 'lake_name']).to_markdown())
 
     elif len(df_lake) == 1:
+        print(df_lake.to_markdown())
         meta_series = df_lake['metadata'].map(eval).apply(pd.Series)
         df_unpacked = pd.merge(left=df_lake,
                                right=meta_series.drop(['source', 'lake_name'],
