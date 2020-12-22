@@ -74,6 +74,8 @@ We _highly recommend_ specifying an id_No _whenever possible_ to avoid issues wi
 It is important to note that different databases will return different types and amounts of metadata. Currently
  latitude & longitude are only available from the USGS and HydroWeb databases, but GREALM lakes will soon have them!
  
+ ### Lake() object
+ 
  The "my_lake" variable is now an object of class Lake() which comes with several attributes
  
  - name
@@ -85,11 +87,16 @@ It is important to note that different databases will return different types and
  - observation_period
  - latitude _(currently not supported for G-REALM)_
  - longitude _(currently not supported for G-REALM)_
- - misc_data
- - dataframe
- - data
+ - misc_data 
+ - dataframe 
+ - data 
 
-importantly, 
+importantly, my_lake.dataframe and my_lake.data are pandas dataframe instances with associated methods
+
+```
+my_lake.dataframe.summary()
+```
+
 
 
 LakePy allows for native time series plotting as well as map-view plots
@@ -113,12 +120,13 @@ Let people know how they can contribute into your project. A [contributing guide
 
 ## Credits
 This work is based on funding provided by the ESIP Lab with support from the National Aeronautics and Space
- Administration (NASA), National Oceanic and Atmospheric Administration (NOAA) and the United States Geologic
-  Survey (USGS). 
+Administration (NASA), National Oceanic and Atmospheric Administration (NOAA) and the United States Geologic
+Survey (USGS). 
   
-  The authors would also like to acknowledge the Dynamic Stratigraphy Group at UT Austin and the AWS
-   Staff that helped on this project!
+The authors would also like to acknowledge the Dynamic
+Stratigraphy Group at UT Austin and the AWS
+Staff that helped on this project!
 
 ## License
 
-MIT © [James Hooker Gearon & John Daniel Franey](https://github.com/ESIPFed/GlobalLakeLevelDatabase/blob/master/LICENSE)
+MIT © [James Hooker Gearon & John Franey](https://github.com/ESIPFed/GlobalLakeLevelDatabase/blob/master/LICENSE)
