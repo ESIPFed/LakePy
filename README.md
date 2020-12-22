@@ -94,21 +94,31 @@ It is important to note that different databases will return different types and
 importantly, my_lake.dataframe and my_lake.data are pandas dataframe instances with associated methods
 
 ```
-my_lake.dataframe.summary()
+my_lake.dataframe.describe().to_markdown()
 ```
 
+|       |   water_level |
+|:------|--------------:|
+| count |     119       |
+| mean  |     342.807   |
+| std   |       7.34547 |
+| min   |     330.75    |
+| 25%   |     337.905   |
+| 50%   |     342.26    |
+| 75%   |     347.555   |
+| max   |     365.43    |
 
+### Plotting
 
 LakePy allows for native time series plotting as well as map-view plots
 ```
 my_lake.plot_timeseries()
 ```
+plotly, seaborn, matplotlib
 ```
 my_lake.plot_mapview()
 ```
-
-## Code Example
-
+example
 
 
 ## API Reference

@@ -361,4 +361,5 @@ class Lake(object):
 
 if __name__ == '__main__':
     ay = search("Mead", source = 'hydroweb')
-    ay.plot_mapview()
+    #ay.plot_mapview()
+    print(ay.data.describe())
