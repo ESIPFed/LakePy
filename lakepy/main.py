@@ -290,12 +290,15 @@ class Lake(object):
                         date_start=None, date_end=None, *args, **kwargs):
         """
         Plot timeseries of lake water level data
-        :param how:
-        :param color:
+        :param how: what plotting package to use: "plotly", "seaborn" or "matplotlib"
+        :type how: str
+        :param color: color to plot timeseries with, must conform with selected package syntax
+        :type color: str
         :param show:
-        :param args:
-        :param kwargs:
-        :return:
+        :type show: bool
+        :param args: args to pass to matplotlib or seaborn axis
+        :param kwargs: kwargs to pass to matplotlib or seaborn axis
+        :return: matplotlib axis object, or None
         """
         import matplotlib.ticker as ticker
         import plotly.io as pio
