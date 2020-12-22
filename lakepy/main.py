@@ -270,11 +270,8 @@ class Lake(object):
         gdf = gpd.GeoDataFrame(self.dataframe, geometry = [Point(float(self.longitude),
                                                                  float(self.latitude))])
         gdf.crs = 'EPSG:4326'
-        minx, miny, maxx, maxy = gdf.bounds
         fig, ax = plt.subplots(1,1)
         gdf.plot(*args, **kwargs, alpha=.5, ax=ax, color='red', aspect = 'equal')
-        ax.set_xlim(minx, maxx)
-        ax.set_ylim(miny, maxy)
         if zoom:
             ctx.add_basemap(ax, source = ctx.providers.OpenTopoMap, crs = 'EPSG:4326', zoom=zoom)
         else:
@@ -307,10 +304,10 @@ class Lake(object):
         import pandas as pd
         import matplotlib.pyplot as plt
         import warnings
-        from . import utils
+        from lakepy.utils import _validate
         if date_start and date_end:
-            utils._validate(date_start)
-            utils._validate(date_end)
+            _validate(date_start)
+            _validate(date_end)
 
             self.data.date = pd.to_datetime(self.data.date)
             self.data = self.data[(self.data['date'] > pd.Timestamp(date_start)) & (self.data['date'] < pd.Timestamp(
