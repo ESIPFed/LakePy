@@ -1,3 +1,4 @@
+import contextily as ctx
 def search(name=None, source=None, id_No=None, markdown=False):
     """
     Main search function for querying the Global Lake Level Database
@@ -226,7 +227,7 @@ class Lake(object):
         self.dataframe = dataframe
         self.data = data
 
-    def plot_mapview(self, show=True, out_path=None, zoom=None, return_gdf=False, *args, **kwargs):
+    def plot_mapview(self, show=True, out_path=None, zoom=None, provider=None, return_gdf=False, *args, **kwargs):
         """
         Plot map-style overview of lake location using geopandas as contextily
         :param show: Flag to determine whether matplotlib.pyplot.show() is called (True) or axis object is returned (
@@ -234,6 +235,9 @@ class Lake(object):
         :type show: bool
         :param out_path: If supplied, figure will be saved to local filepath
         :type out_path: str
+        :param zoom: contextily zoom level
+        :type zoom: int
+        :param provider: contextily provider passed as ctx.providers.{your provider here}. See contextily documentation.
         :param args: additonal *args to pass to matplotlib.pyplot axis
         :param kwargs: additonal **kwargs to pass to matplotlib.pyplot axis
         :return: matplotlib axis instance if :param show is False
@@ -247,10 +251,15 @@ class Lake(object):
         gdf.crs = 'EPSG:4326'
         fig, ax = plt.subplots(1, 1)
         gdf.plot(*args, **kwargs, alpha = .5, ax = ax, color = 'red')
-        if zoom:
-            ctx.add_basemap(ax, source = ctx.providers.OpenTopoMap, crs = 'EPSG:4326', zoom = zoom)
+        if zoom and provider:
+            ctx.add_basemap(ax, source = provider, crs = 'EPSG:4326', zoom = zoom)
+        elif zoom:
+            ctx.add_basemap(ax, source = ctx.providers.OpenTopoMap, crs = 'EPSG:4326', zoom=zoom)
         else:
-            ctx.add_basemap(ax, source = ctx.providers.OpenTopoMap, crs = 'EPSG:4326')
+            ctx.add_basemap(ax, source = ctx.providers.OpenTopoMap, crs = 'EPSG:4326'
+
+
+
         ax.set_title(str(self.id_No) + " : " + self.name)
         if out_path:
             plt.savefig(out_path)
@@ -336,10 +345,10 @@ class Lake(object):
 
 
 if __name__ == '__main__':
-    ay = search(name='mead', source = 'hydroweb')
-    print(ay.data)
-    ay.plot_timeseries()
-    ay.plot_timeseries(how='matplotlib')
-    ay.plot_timeseries(how='seaborn')
+    ay = search(id_No = 377)
+    # print(ay.data)
+    # ay.plot_timeseries()
+    # ay.plot_timeseries(how='matplotlib')
+    # ay.plot_timeseries(how='seaborn')
     ay.plot_mapview()
     print('done!')

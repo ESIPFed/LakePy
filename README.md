@@ -126,7 +126,7 @@ my_lake.plot_timeseries(how='seaborn')
 ```
 my_lake.plot_mapview()
 ```
-example
+![](resources/contextily.png)
 
 
 ## API Reference
