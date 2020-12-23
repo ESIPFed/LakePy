@@ -57,7 +57,7 @@ def search(name=None, source=None, id_No=None, markdown=False):
         if markdown is True:
             print(df_unpacked.to_markdown())
         else:
-            print(df_unpacked)
+            print(df_unpacked.to_string())
         lake_object = _lake_meta_constructor(df_unpacked)
         return lake_object
 
@@ -337,4 +337,9 @@ class Lake(object):
 
 if __name__ == '__main__':
     ay = search(id_No = 223)
+    # print(ay.data)
+    # ay.plot_timeseries()
+    # ay.plot_timeseries(how='matplotlib')
+    # ay.plot_timeseries(how='seaborn')
     # ay.plot_mapview()
+    # print('done!')
