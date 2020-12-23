@@ -1,4 +1,4 @@
-def search(name=None, source=None, id_No=None):
+def search(name, source=None, id_No=None):
     """
     Main search function for querying the Global Lake Level Database
     :param name: Name of Lake or Reservoir. Be sure to use proper spelling. Wildcards (%) are allowed,
@@ -10,44 +10,35 @@ def search(name=None, source=None, id_No=None):
     :type id_No: str
     :return: Lake() object
     """
-    from sqlalchemy import create_engine
-    from sqlalchemy import text
-    import warnings
     import pandas as pd
-    cluster_arn = 'arn:aws:rds:us-east-2:003707765429:cluster:esip-global-lake-level'
-    secret_arn = 'arn:aws:secretsmanager:us-east-2:003707765429:secret:esip-lake-level-enduser-qugKfY'
-    database = 'GlobalLakeLevel'
-    if name:
-        safe_name = text(name)
-    if type(id_No) is int:
-        id_No = str(id_No)
+    import requests
+    import warnings
+    if not source:
+        url = 'https://4o8d0ft32f.execute-api.us-east-2.amazonaws.com/test/glld/name/%7Bname-search%7D?name={}'.format(name)
+        print(url)
+        r = requests.get(url)
+        json_decode = r.json()
+        df = pd.DataFrame().from_records(json_decode, columns=['id_No', 'lake_name', 'source', 'metadata'])
 
-    sql_engine = create_engine('mysql+pydataapi://',
-                               connect_args={
-                                   'resource_arn': cluster_arn,
-                                   'secret_arn': secret_arn,
-                                   'database': database}, pool_pre_ping=True).connect()
-    if id_No:
-        df_lake = pd.read_sql('select * from reference_ID where id_No = :id',
-                              con=sql_engine, params={'id': id_No})
     elif source:
-        df_lake = pd.read_sql('select * from reference_ID where lake_name like :name and source like :source',
-                              con=sql_engine, params={'name': safe_name, 'source': source})
+        url = 'https://4o8d0ft32f.execute-api.us-east-2.amazonaws.com/test/glld/name/%7Bname-search%7D?' \
+              'name={}&source={}'.format(name, source)
+        print(url)
+        r = requests.get(url)
+        json_decode = r.json()
+        df = pd.DataFrame().from_records(json_decode, columns=['id_No', 'lake_name', 'source', 'metadata'])
     else:
-        df_lake = pd.read_sql('SELECT * FROM reference_ID WHERE MATCH (lake_name) AGAINST (:name IN NATURAL LANGUAGE '
-                              'MODE) LIMIT 0, 5',
-                              con=sql_engine, params={'name': safe_name})
-    sql_engine.close()
-    if len(df_lake) < 1:
+        raise ValueError("I don't know how you did this, but if you did, make a github issue!")
+    if len(df) < 1:
         raise RuntimeError('No results returned. Please adjust search parameters or see documentation')
-    if len(df_lake) > 1:
+    if len(df) > 1:
         warnings.warn('Search Result: \'{}\' has more than 1 Result. Showing the {} most relevant results.\n'
-              'Specify \'id_No\' or narrow search name.'.format(safe_name, len(df_lake)), category = RuntimeWarning)
-        print(df_lake.filter(['id_No', 'source', 'lake_name']).to_markdown())
+              'Specify \'id_No\' or narrow search name.'.format(name, len(df)), category = RuntimeWarning)
+        print(df.filter(['id_No', 'source', 'lake_name']).to_markdown())
 
-    elif len(df_lake) == 1:
-        meta_series = df_lake['metadata'].map(eval).apply(pd.Series)
-        df_unpacked = pd.merge(left=df_lake,
+    elif len(df) == 1:
+        meta_series = df['metadata'].map(eval).apply(pd.Series)
+        df_unpacked = pd.merge(left=df,
                                right=meta_series.drop(['source', 'lake_name'],
                                axis=1),
                                left_index=True,
@@ -68,16 +59,6 @@ def _lake_meta_constructor(df):
     :return: Lake() object with associated metadata
     """
     import pandas as pd
-    from sqlalchemy import create_engine
-    cluster_arn = 'arn:aws:rds:us-east-2:003707765429:cluster:esip-global-lake-level'
-    secret_arn = 'arn:aws:secretsmanager:us-east-2:003707765429:secret:esip-lake-level-enduser-qugKfY'
-    database = 'GlobalLakeLevel'
-
-    sql_engine = create_engine('mysql+pydataapi://',
-                               connect_args={
-                                   'resource_arn': cluster_arn,
-                                   'secret_arn': secret_arn,
-                                   'database': database}).connect()
 
     # todo location!!!!!!!!
     if len(df) > 1:
@@ -134,14 +115,15 @@ def _lake_meta_constructor(df):
             lake.data = _get_levels(lake)
             return lake
         elif source == 'usgs':
-            df_new = pd.read_sql('select lake_name, min(date), max(date) from lake_water_level where lake_name = '
-                                 ':name', con = sql_engine, params = {'name': df.lake_name[0]})
+            #todo lambda
+            # df_new = pd.read_sql('select lake_name, min(date), max(date) from lake_water_level where lake_name = '
+            #                      ':name', con = sql_engine, params = {'name': df.lake_name[0]})
             name = df.lake_name[0]
             id_No = df.id_No[0]
             country = 'USA'
             continent = 'North America'
             original_id = df.site_no[0]
-            observation_period = df_new['min(date)'][0] + ' -- ' + df_new['max(date)'][0]
+            observation_period = 'None' #df_new['min(date)'][0] + ' -- ' + df_new['max(date)'][0]
             latitude = df.dec_lat_va[0]
             longitude = df.dec_long_va[0]
             df_misc = df.drop(['id_No', 'site_no', 'dec_lat_va', 'dec_long_va'], axis = 1)
@@ -162,7 +144,6 @@ def _lake_meta_constructor(df):
                         dataframe = dataframe,
                         data = None)
             lake.data = _get_levels(lake)
-            sql_engine.close()
             return lake
 def _get_levels(lake):
     """
@@ -171,37 +152,13 @@ def _get_levels(lake):
     :type lake: class Lake()
     :return:
     """
-    from lakepy.utils import _printProgressBar
-    from sqlalchemy import create_engine
+    import requests
     import pandas as pd
-    import numpy as np
-    cluster_arn = 'arn:aws:rds:us-east-2:003707765429:cluster:esip-global-lake-level'
-    secret_arn = 'arn:aws:secretsmanager:us-east-2:003707765429:secret:esip-lake-level-enduser-qugKfY'
-    database = 'GlobalLakeLevel'
-    chunksize = 500
-    id_No = lake.id_No
-    sql_engine = create_engine('mysql+pydataapi://',
-                               connect_args={
-                                   'resource_arn': cluster_arn,
-                                   'secret_arn': secret_arn,
-                                   'database': database}).connect()
-    df_status = pd.read_sql('select id_No, count(*) as count from lake_water_level where id_No = :id_No',
-                            con = sql_engine,
-                            params = {'id_No': id_No})
-    rownum = df_status.loc[0, "count"]
-    space = np.arange(0, rownum, chunksize)
-    space = space.tolist()
-    space.append(rownum)
-    df_list = []
-    _printProgressBar(0, len(space), prefix='Building Lake', suffix='Complete', length=50)
-    for count, i in enumerate(space, 0):
-        search_df = pd.read_sql('select * from lake_water_level where id_No = :id_No limit {}, {}'.format(i, chunksize),
-                                con = sql_engine,
-                                params = {'id_No': id_No})
-        df_list.append(search_df)
-        _printProgressBar(count + 1, len(space), prefix = 'Building Lake', suffix = 'Complete', length = 50)
-    df = pd.concat(df_list).sort_values('date')
-    sql_engine.close()
+    url = 'https://4o8d0ft32f.execute-api.us-east-2.amazonaws.com/test/glld/%7Bdata-search%7D?idNo={}'.format(
+        str(lake.id_No))
+    r = requests.get(url)
+    json_decode = r.json()
+    df = pd.DataFrame().from_records(json_decode, columns=['id_No', 'date', 'lake_name', 'water_level'])
     return df
 
 
@@ -271,7 +228,7 @@ class Lake(object):
                                                                  float(self.latitude))])
         gdf.crs = 'EPSG:4326'
         fig, ax = plt.subplots(1,1)
-        gdf.plot(*args, **kwargs, alpha=.5, ax=ax, color='red', aspect = 'equal')
+        gdf.plot(*args, **kwargs, alpha=.5, ax=ax, color='red')
         if zoom:
             ctx.add_basemap(ax, source = ctx.providers.OpenTopoMap, crs = 'EPSG:4326', zoom=zoom)
         else:
@@ -360,6 +317,5 @@ class Lake(object):
                 return ax
 
 if __name__ == '__main__':
-    ay = search("Mead", source = 'hydroweb')
-    #ay.plot_mapview()
-    print(ay.data.describe())
+    ay = search(name="Ayakkum")
+    ay.plot_mapview()
