@@ -16,7 +16,7 @@ LONG_DESCRIPTION = (HERE / "README.md").read_text()
 LONG_DESC_TYPE = "text/markdown"
 
 INSTALL_REQUIRES = [
-    'sqlalchemy',
+    'pymysql',
     'pandas',
     'numpy',
     'matplotlib',
@@ -26,7 +26,6 @@ INSTALL_REQUIRES = [
     'geopandas',
     'shapely',
     'contextily',
-    'pydataapi',
     'more-itertools==8.4',
     'tabulate'
 
