@@ -256,9 +256,7 @@ class Lake(object):
         elif zoom:
             ctx.add_basemap(ax, source = ctx.providers.OpenTopoMap, crs = 'EPSG:4326', zoom=zoom)
         else:
-            ctx.add_basemap(ax, source = ctx.providers.OpenTopoMap, crs = 'EPSG:4326'
-
-
+            ctx.add_basemap(ax, source = ctx.providers.OpenTopoMap, crs = 'EPSG:4326')
 
         ax.set_title(str(self.id_No) + " : " + self.name)
         if out_path:
