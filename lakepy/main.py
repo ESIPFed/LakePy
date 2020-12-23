@@ -251,9 +251,11 @@ class Lake(object):
         gdf.crs = 'EPSG:4326'
         fig, ax = plt.subplots(1, 1)
         gdf.plot(*args, **kwargs, alpha = .5, ax = ax, color = 'red')
-        if zoom and provider:
+        if zoom != None and provider != None:
             ctx.add_basemap(ax, source = provider, crs = 'EPSG:4326', zoom = zoom)
-        elif zoom:
+        elif provider != None:
+            ctx.add_basemap(ax, source = provider, crs = 'EPSG:4326')
+        elif zoom != None:
             ctx.add_basemap(ax, source = ctx.providers.OpenTopoMap, crs = 'EPSG:4326', zoom=zoom)
         else:
             ctx.add_basemap(ax, source = ctx.providers.OpenTopoMap, crs = 'EPSG:4326')
@@ -348,5 +350,5 @@ if __name__ == '__main__':
     # ay.plot_timeseries()
     # ay.plot_timeseries(how='matplotlib')
     # ay.plot_timeseries(how='seaborn')
-    ay.plot_mapview()
+    ay.plot_mapview(provider = ctx.providers.Esri.WorldImagery)
     print('done!')
