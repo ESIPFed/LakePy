@@ -336,10 +336,10 @@ class Lake(object):
 
 
 if __name__ == '__main__':
-    ay = search(id_No = 223)
-    # print(ay.data)
-    # ay.plot_timeseries()
-    # ay.plot_timeseries(how='matplotlib')
-    # ay.plot_timeseries(how='seaborn')
-    # ay.plot_mapview()
-    # print('done!')
+    ay = search(name='mead', source = 'hydroweb')
+    print(ay.data)
+    ay.plot_timeseries()
+    ay.plot_timeseries(how='matplotlib')
+    ay.plot_timeseries(how='seaborn')
+    ay.plot_mapview()
+    print('done!')

@@ -62,7 +62,7 @@ my_lake = lk.search(id_No = "138")
 
 - Specify a **name** and a **source**
 ```
-my_lake = lk.search(name="mead", source="hydroweb")
+my_lake = lk.search(name="mead", source="hydroweb", markdown=True)
 ```
 We _highly recommend_ specifying an id_No _whenever possible_ to avoid issues with similarly named lakes. Either way
 , the search returns a metadata markdown dataframe
@@ -114,7 +114,15 @@ LakePy allows for native time series plotting as well as map-view plots
 ```
 my_lake.plot_timeseries()
 ```
-plotly, seaborn, matplotlib
+Plotly (default)
+![](resources/plotly.png)
+---
+Seaborn/Matplotlib
+```
+my_lake.plot_timeseries(how='seaborn')
+```
+![](resources/seaborn.png)
+---
 ```
 my_lake.plot_mapview()
 ```
