@@ -34,7 +34,7 @@ pip install lakepy
 ```
 if you are using conda for package management you can
  [still use pip!](https://medium.com/@msarahan/anaconda-also-comes-with-pip-and-you-can-use-it-to-install-pypi-packages-into-conda-environments-9e7f021509f7)
- ### Searching the Global Lake Level Database
+### Searching the Global Lake Level Database
  The database can be searched using a name, a source ("grealm", "hydroweb", or "usgs"), or an identification number
  . The best practice for searching is to first specify a name.
  
@@ -74,7 +74,7 @@ We _highly recommend_ specifying an id_No _whenever possible_ to avoid issues wi
 It is important to note that different databases will return different types and amounts of metadata. Currently
  latitude & longitude are only available from the USGS and HydroWeb databases, but GREALM lakes will soon have them!
  
- ### Lake() object
+### Lake() object
  
  The "my_lake" variable is now an object of class Lake() which comes with several attributes
  
