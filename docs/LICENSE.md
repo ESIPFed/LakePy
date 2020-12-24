@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) [2020] [James Hooker Gearon & John Franey]
+Copyright &copy; 2020 [James Hooker Gearon](mailto:jake.gearon@gmail.com) & [John Franey](mailto:johnfraney96@gmail.com)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
