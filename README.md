@@ -115,20 +115,22 @@ LakePy allows for native time series plotting as well as map-view plots
 my_lake.plot_timeseries()
 ```
 Plotly (default)
-![](resources/plotly.png)
+![](docs/resources/plotly.png)
 ---
 Seaborn/Matplotlib
 ```
 my_lake.plot_timeseries(how='seaborn')
 ```
-![](resources/seaborn.png)
+![](docs/resources/seaborn.png)
 ---
 ```
 my_lake.plot_mapview()
 ```
-![](resources/contextily.png)
+![](docs/resources/contextily.png)
 
+## API Reference
 
+Visit our [documentation](https://esipfed.github.io/LakePy/) for the full reference.
 ## Contribute
 
 We would love your help in making this project better. Please refer to our
