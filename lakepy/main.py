@@ -8,7 +8,7 @@ def search(name=None, source=None, id_No=None, markdown=False):
         markdown (bool, optional): Returns markdown dataframe when True
 
     Returns:
-        `Lake`
+        Lake object: `Lake()` object
     """
 
     import pandas as pd
@@ -237,7 +237,7 @@ class Lake(object):
             **kwargs: Arbitrary keyword arguments.
 
         Returns:
-            object: ax
+            ax: matplotlib ax object
 
         """
         import geopandas as gpd
@@ -283,8 +283,9 @@ class Lake(object):
             **kwargs: Arbitrary keyword arguments.
 
         Returns:
-            object: Matplotlib axis object
-            NoneType: if show=True
+            NoneType or ax (optional): Time-series plotted through plotly in web browser. if `how` argument is
+                                        specified, returns matplotlib ax object
+
 
         """
         import matplotlib.ticker as ticker
