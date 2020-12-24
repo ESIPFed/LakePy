@@ -1,7 +1,7 @@
 ## LakePy
 
 <p align="center">
-  <img src="resources/ESIP_Lakes_Cover.jpg" />
+  <img src="docs/resources/ESIP_Lakes_Cover.jpg" />
 </p>
 
 LakePy is the pythonic user-centered front-end to the [Global Lake Level Database](link). This package can instantly
