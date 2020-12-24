@@ -129,9 +129,6 @@ my_lake.plot_mapview()
 ![](resources/contextily.png)
 
 
-## API Reference
-
-
 ## Contribute
 
 We would love your help in making this project better. Please refer to our

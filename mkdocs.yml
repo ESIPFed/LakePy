@@ -4,7 +4,7 @@ plugins:
   - search
   - mkdocstrings
 nav:
-    - Home: README.md
-    - Code Reference:
-      - lakepy: workflow-reference.md
+    - Home: docs_README.md
+    - API Reference: LakePy.md
+    - Contributing: contributing.md
 
