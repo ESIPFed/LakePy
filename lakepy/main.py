@@ -2,14 +2,13 @@ def search(name=None, source=None, id_No=None, markdown=False):
     """
 
     Args:
-        name (str): Name of Lake or Reservoir. Be sure to use proper spelling. Wildcards (%) are allowed,
-    as is any MySQL 5.7 syntax
+        name (str): Name of Lake or Reservoir. Be sure to use proper spelling. Wildcards (%) are allowed,as is any MySQL 5.7 syntax
         source (str): Lake water level source flag, accepted values are "usgs", "grealm", or "hydroweb"
         id_No (str,int): Global Lake Level Database identification number
         markdown (bool, optional): Returns markdown dataframe when True
 
     Returns:
-        :class:`Lake`
+        `Lake`
     """
 
     import pandas as pd
@@ -71,7 +70,7 @@ def _lake_meta_constructor(df):
         df (): Pandas DataFrame of lake metadata from :function:`search`
 
     Returns:
-        :class:`Lake`
+        {:class:`Lake`}
 
     """
 
@@ -171,16 +170,11 @@ def _get_levels(lake):
     """
     This function populates the Lake().data attribute with all available lake levels
     Args:
-        lake(:obj:): must be :class:`Lake` with metadata built from :function:`_lake_meta_constructor`
+        lake(object): must be :class:`Lake` with metadata built from :function:`_lake_meta_constructor`
 
-    Returns: Pandas DataFrame
+    Returns:
+        Pandas DataFrame
 
-    """
-    """
-    This function populates the Lake().data attribute with all available lake levels
-    :param lake: must be of Lake() object with metadata built from _lake_meta_constructor
-    :type lake: class Lake()
-    :return:
     """
     import requests
     import pandas as pd
@@ -194,6 +188,9 @@ def _get_levels(lake):
 
 
 class Lake(object):
+    """
+
+    """
 
     def __init__(self, name, country, continent, source, original_id, id_No,
                  observation_period, latitude, longitude, misc_data, dataframe, data):
@@ -210,8 +207,8 @@ class Lake(object):
             latitude (str): Decimal degree latitutde
             longitude (str): Decimal degree longitude
             misc_data (dict): Database-specific metadata
-            dataframe (:obj:`DataFrame`): Lake metadata as Pandas DataFrame
-            data (:obj:`DataFrame`): Lake water level time-series data
+            dataframe (DataFrame): Lake metadata as Pandas DataFrame
+            data (DataFrame): Lake water level time-series data
         """
         self.name = name
         self.country = country
@@ -231,8 +228,7 @@ class Lake(object):
         Plot map-style overview of lake location using [geopandas]() and [contextily]()
         Args:
             show (bool): Flag to determine whether matplotlib.pyplot.show() is called (True) or axis object is
-            returned (
-        False)
+            returned (False)
             out_path (str): If supplied, figure will be saved to input filepath
             zoom (int): contextily zoom level
             provider ():
@@ -241,7 +237,7 @@ class Lake(object):
             **kwargs: Arbitrary keyword arguments.
 
         Returns:
-            None if show=True, ax if show=False, gdf if return_gdf=True
+            object: ax
 
         """
         import geopandas as gpd
@@ -287,7 +283,8 @@ class Lake(object):
             **kwargs: Arbitrary keyword arguments.
 
         Returns:
-            Matplotlib axis object, or None
+            object: Matplotlib axis object
+            NoneType: if show=True
 
         """
         import matplotlib.ticker as ticker
