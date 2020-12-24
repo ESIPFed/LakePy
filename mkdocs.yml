@@ -7,4 +7,4 @@ nav:
     - Home: docs_README.md
     - API Reference: LakePy.md
     - Contributing: contributing.md
-
+    - License: LICENSE.md
