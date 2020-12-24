@@ -1,4 +1,3 @@
-import contextily as ctx
 def search(name=None, source=None, id_No=None, markdown=False):
     """
     Main search function for querying the Global Lake Level Database
@@ -343,12 +342,3 @@ class Lake(object):
             else:
                 return ax
 
-
-if __name__ == '__main__':
-    ay = search(id_No = 377)
-    # print(ay.data)
-    # ay.plot_timeseries()
-    # ay.plot_timeseries(how='matplotlib')
-    # ay.plot_timeseries(how='seaborn')
-    ay.plot_mapview(provider = ctx.providers.Esri.WorldImagery)
-    print('done!')

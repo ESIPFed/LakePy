@@ -1,0 +1,4 @@
+mkdocs.yml
+site_name: LakePy
+nav:
+    - Home: README.md
