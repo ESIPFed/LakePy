@@ -4,7 +4,7 @@
   <img src="docs/resources/ESIP_Lakes_Cover.jpg" />
 </p>
 
-LakePy is the pythonic user-centered front-end to the [Global Lake Level Database](link). This package can instantly
+LakePy is the pythonic user-centered front-end to the [Global Lake Level Database](https://github.com/ESIPFed/Global-Lake-Level-Database). This package can instantly
  deliver lake water levels for some 2000+ lakes scattered across the globe. Data comes from three sources (so far!)
  - [United States Geological Survey National Water Information System](https://waterdata.usgs.gov/nwis)
  - [United States Department of Agriculture: Foriegn Agricultural Service's G-REALM Database](https://ipad.fas.usda.gov/cropexplorer/global_reservoir/)
