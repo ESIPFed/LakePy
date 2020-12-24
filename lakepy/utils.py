@@ -23,6 +23,14 @@ def _printProgressBar(iteration, total, prefix = '', suffix = '', decimals = 1, 
         print()
 
 def _validate(date_text):
+    """
+
+    Args:
+        date_text (str): date
+
+    Returns:
+
+    """
     import datetime
     try:
         datetime.datetime.strptime(date_text, '%Y-%m-%d')

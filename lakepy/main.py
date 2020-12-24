@@ -1,15 +1,17 @@
 def search(name=None, source=None, id_No=None, markdown=False):
     """
-    Main search function for querying the Global Lake Level Database
-    :param name: Name of Lake or Reservoir. Be sure to use proper spelling. Wildcards (%) are allowed,
+
+    Args:
+        name (str): Name of Lake or Reservoir. Be sure to use proper spelling. Wildcards (%) are allowed,
     as is any MySQL 5.7 syntax
-    :type name: str
-    :param source: Lake water level source flag, accepted values are "usgs", "grealm", or "hydroweb"
-    :type source: str
-    :param id_No: Global Lake Level Database identification number,
-    :type id_No: str or int
-    :return: Lake() object
+        source (str): Lake water level source flag, accepted values are "usgs", "grealm", or "hydroweb"
+        id_No (str,int): Global Lake Level Database identification number
+        markdown (bool, optional): Returns markdown dataframe when True
+
+    Returns:
+        :class:`Lake`
     """
+
     import pandas as pd
     import requests
     import warnings
@@ -64,11 +66,15 @@ def search(name=None, source=None, id_No=None, markdown=False):
 
 def _lake_meta_constructor(df):
     """
-    This function populates the Lake() object with metadata
-    :param df: Pandas DataFrame of lake metadata from search()
-    :type df: Pandas DataFrame
-    :return: Lake() object with associated metadata
+
+    Args:
+        df (): Pandas DataFrame of lake metadata from :function:`search`
+
+    Returns:
+        :class:`Lake`
+
     """
+
     import pandas as pd
     import requests
     # todo location!!!!!!!!
@@ -164,6 +170,14 @@ def _lake_meta_constructor(df):
 def _get_levels(lake):
     """
     This function populates the Lake().data attribute with all available lake levels
+    Args:
+        lake(:obj:): must be :class:`Lake` with metadata built from :function:`_lake_meta_constructor`
+
+    Returns: Pandas DataFrame
+
+    """
+    """
+    This function populates the Lake().data attribute with all available lake levels
     :param lake: must be of Lake() object with metadata built from _lake_meta_constructor
     :type lake: class Lake()
     :return:
@@ -180,38 +194,24 @@ def _get_levels(lake):
 
 
 class Lake(object):
-    """
-
-    """
 
     def __init__(self, name, country, continent, source, original_id, id_No,
                  observation_period, latitude, longitude, misc_data, dataframe, data):
         """
-        Lake() constructor
-        :param name: Lake name
-        :type name: str
-        :param country: Country of lake residence
-        :type country: str
-        :param continent: Continent of lake residence
-        :type continent: str
-        :param source: Original database of lake data
-        :type source: str
-        :param original_id: Original identifier of lake
-        :type original_id: str
-        :param id_No: GLLD identification number
-        :type id_No: int
-        :param observation_period: Range of water level data
-        :type observation_period: str
-        :param latitude: Decimal degree latitude
-        :type latitude: str
-        :param longitude: Decimal degree longitude
-        :type longitude: str
-        :param misc_data: Database-specific metadata
-        :type misc_data: dict
-        :param dataframe: Lake metadata as Pandas DataFrame
-        :type dataframe: pandas.DataFrame()
-        :param data: Lake water level timeseries data
-        :type data: pandas.DataFrame()
+        Lake object with associated lake attributes and plotting methods
+        Args:
+            name (str): Lake name
+            country (str): Country of lake residence
+            continent (str): Continent of lake residence
+            source (str): Original database of lake data
+            original_id (str): Identifier within original lake database
+            id_No (str): Global Lake Level Database identification number
+            observation_period (str): Date range of accessible water level data
+            latitude (str): Decimal degree latitutde
+            longitude (str): Decimal degree longitude
+            misc_data (dict): Database-specific metadata
+            dataframe (:obj:`DataFrame`): Lake metadata as Pandas DataFrame
+            data (:obj:`DataFrame`): Lake water level time-series data
         """
         self.name = name
         self.country = country
@@ -228,18 +228,21 @@ class Lake(object):
 
     def plot_mapview(self, show=True, out_path=None, zoom=None, provider=None, return_gdf=False, *args, **kwargs):
         """
-        Plot map-style overview of lake location using geopandas as contextily
-        :param show: Flag to determine whether matplotlib.pyplot.show() is called (True) or axis object is returned (
+        Plot map-style overview of lake location using [geopandas]() and [contextily]()
+        Args:
+            show (bool): Flag to determine whether matplotlib.pyplot.show() is called (True) or axis object is
+            returned (
         False)
-        :type show: bool
-        :param out_path: If supplied, figure will be saved to local filepath
-        :type out_path: str
-        :param zoom: contextily zoom level
-        :type zoom: int
-        :param provider: contextily provider passed as ctx.providers.{your provider here}. See contextily documentation.
-        :param args: additonal *args to pass to matplotlib.pyplot axis
-        :param kwargs: additonal **kwargs to pass to matplotlib.pyplot axis
-        :return: matplotlib axis instance if :param show is False
+            out_path (str): If supplied, figure will be saved to input filepath
+            zoom (int): contextily zoom level
+            provider ():
+            return_gdf (bool): Returns GeoDataFrame if True
+            *args: Variable length argument list.
+            **kwargs: Arbitrary keyword arguments.
+
+        Returns:
+            None if show=True, ax if show=False, gdf if return_gdf=True
+
         """
         import geopandas as gpd
         import contextily as ctx
@@ -273,15 +276,19 @@ class Lake(object):
                         date_start=None, date_end=None, *args, **kwargs):
         """
         Plot timeseries of lake water level data
-        :param how: what plotting package to use: "plotly", "seaborn" or "matplotlib"
-        :type how: str
-        :param color: color to plot timeseries with, must conform with selected package syntax
-        :type color: str
-        :param show:
-        :type show: bool
-        :param args: args to pass to matplotlib or seaborn axis
-        :param kwargs: kwargs to pass to matplotlib or seaborn axis
-        :return: matplotlib axis object, or None
+
+        Args:
+            how (str):
+            color (str):
+            show (bool):
+            date_start (str):
+            date_end (str):
+            *args: Variable length argument list.
+            **kwargs: Arbitrary keyword arguments.
+
+        Returns:
+            Matplotlib axis object, or None
+
         """
         import matplotlib.ticker as ticker
         import plotly.io as pio
