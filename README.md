@@ -133,7 +133,7 @@ my_lake.plot_mapview()
 Visit our [documentation](https://esipfed.github.io/LakePy/) for the full reference.
 ## Contribute
 
-We would love your help in making this project better. Please refer to our
+We would love your help in making this project better! Please refer to our
 [contribution guide](https://github.com/ESIPFed/LakePy/blob/master/docs/contributing.md) to learn how. 
 
 ## Credits
