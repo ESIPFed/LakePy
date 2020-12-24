@@ -134,7 +134,8 @@ my_lake.plot_mapview()
 
 ## Contribute
 
-Let people know how they can contribute into your project. A [contributing guideline](https://github.com/zulip/zulip-electron/blob/master/CONTRIBUTING.md) will be a big plus.
+We would love your help in making this project better. Please refer to our
+[contribution guide](https://github.com/ESIPFed/LakePy/blob/master/resources/contributing.md) to learn how. 
 
 ## Credits
 This work is based on funding provided by the ESIP Lab with support from the National Aeronautics and Space
