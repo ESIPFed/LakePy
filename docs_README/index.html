@@ -1,0 +1,708 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="shortcut icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.2">
+    
+    
+      
+        <title>Home - LakePy</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.73f7c429.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.39b8e14a.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+      
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#lakepy" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href=".." title="LakePy" class="md-header-nav__button md-logo" aria-label="LakePy">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      <div class="md-header-nav__ellipsis">
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            LakePy
+          </span>
+        </div>
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            
+              Home
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="LakePy" class="md-nav__button md-logo" aria-label="LakePy">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    LakePy
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Home
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+    
+    <a href="./" class="md-nav__link md-nav__link--active">
+      Home
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#lakepy" class="md-nav__link">
+    LakePy
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#motivation" class="md-nav__link">
+    Motivation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#software-used" class="md-nav__link">
+    Software Used
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quickstart" class="md-nav__link">
+    Quickstart
+  </a>
+  
+    <nav class="md-nav" aria-label="Quickstart">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    Installation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plotting" class="md-nav__link">
+    Plotting
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-reference" class="md-nav__link">
+    API Reference
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contribute" class="md-nav__link">
+    Contribute
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#credits" class="md-nav__link">
+    Credits
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#license" class="md-nav__link">
+    License
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+    
+      
+      
+      
+
+
+
+  <li class="md-nav__item">
+    <a href="../LakePy/" class="md-nav__link">
+      API Reference
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+
+  <li class="md-nav__item">
+    <a href="../contributing/" class="md-nav__link">
+      Contributing
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+
+  <li class="md-nav__item">
+    <a href="../LICENSE/" class="md-nav__link">
+      License
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#lakepy" class="md-nav__link">
+    LakePy
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#motivation" class="md-nav__link">
+    Motivation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#software-used" class="md-nav__link">
+    Software Used
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quickstart" class="md-nav__link">
+    Quickstart
+  </a>
+  
+    <nav class="md-nav" aria-label="Quickstart">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    Installation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plotting" class="md-nav__link">
+    Plotting
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-reference" class="md-nav__link">
+    API Reference
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contribute" class="md-nav__link">
+    Contribute
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#credits" class="md-nav__link">
+    Credits
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#license" class="md-nav__link">
+    License
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                  <h1>Home</h1>
+                
+                <h2 id="lakepy">LakePy</h2>
+<p><img alt="" src="../resources/ESIP_Lakes_Cover.jpg" /></p>
+<p>LakePy is the pythonic user-centered front-end to the <a href="link">Global Lake Level Database</a>. This package can instantly
+ deliver lake water levels for some 2000+ lakes scattered across the globe. Data comes from three sources (so far!)
+ - <a href="https://waterdata.usgs.gov/nwis">United States Geological Survey National Water Information System</a>
+ - <a href="https://ipad.fas.usda.gov/cropexplorer/global_reservoir/">United States Department of Agriculture: Foriegn Agricultural Service's G-REALM Database</a>
+ - <a href="http://hydroweb.theia-land.fr/">Theia's HydroWeb Database</a></p>
+<p><strong>Funding for this work comes from the Earth Science Information Partners (ESIP) Winter 2020 Grant</strong></p>
+<p><em>See the funded proposal <a href="https://www.esipfed.org/wp-content/uploads/2020/04/Gearon.pdf">here</a></em></p>
+<h2 id="motivation">Motivation</h2>
+<p>Lake level data is incredibly important to federal and local governments, scientists, and citizens. Until now,
+accessing lake level data involves laborious data-preparation and wrangling. We aim to provide this data quickly
+and on-demand.</p>
+<h2 id="software-used">Software Used</h2>
+<p><b>Built with</b>
+- <a href="https://www.python.org/">Python</a>
+- <a href="https://aws.amazon.com/rds/aurora/serverless/">Amazon Aurora Serverless</a>
+- <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html">Amazon Aurora Serverless Data API</a></p>
+<h2 id="quickstart">Quickstart</h2>
+<h3 id="installation">Installation</h3>
+<pre><code>pip install lakepy
+</code></pre>
+<p>if you are using conda for package management you can
+ <a href="https://medium.com/@msarahan/anaconda-also-comes-with-pip-and-you-can-use-it-to-install-pypi-packages-into-conda-environments-9e7f021509f7">still use pip!</a>
+ ### Searching the Global Lake Level Database
+ The database can be searched using a name, a source ("grealm", "hydroweb", or "usgs"), or an identification number
+ . The best practice for searching is to first specify a name.</p>
+<p>Let's search for <a href="https://en.wikipedia.org/wiki/Lake_Mead">Lake Mead</a> instantiating a Lake() object.</p>
+<pre><code>import lakepy as lk
+my_lake = lk.search(&quot;mead&quot;)
+</code></pre>
+<p>If there is more than one Lake matching "Mead", the search function will return a RuntimeWarning and display a table.</p>
+<blockquote>
+<p>"Search Result: 'Mead' has more than 1 Result. Showing the 2 most relevant results.
+Specify 'id_No' or narrow search name."</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th align="right"></th>
+<th align="right">id_No</th>
+<th align="left">source</th>
+<th align="left">lake_name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="right">0</td>
+<td align="right">138</td>
+<td align="left">hydroweb</td>
+<td align="left">Mead</td>
+</tr>
+<tr>
+<td align="right">1</td>
+<td align="right">1556</td>
+<td align="left">usgs</td>
+<td align="left">MEAD LAKE WEST BAY NEAR WILLARD, WI</td>
+</tr>
+</tbody>
+</table>
+<p>We will select id_No 138 corresponding to Lake Mead from HydroWeb's database and re-run our search 1 of 2 ways:
+- Specify the <strong>id_No</strong> explicitly as a string</p>
+<pre><code>my_lake = lk.search(id_No = &quot;138&quot;)
+</code></pre>
+<ul>
+<li>Specify a <strong>name</strong> and a <strong>source</strong></li>
+</ul>
+<pre><code>my_lake = lk.search(name=&quot;mead&quot;, source=&quot;hydroweb&quot;, markdown=True)
+</code></pre>
+<p>We <em>highly recommend</em> specifying an id_No <em>whenever possible</em> to avoid issues with similarly named lakes. Either way
+, the search returns a metadata markdown dataframe</p>
+<table>
+<thead>
+<tr>
+<th align="right"></th>
+<th align="right">id_No</th>
+<th align="left">source</th>
+<th align="left">lake_name</th>
+<th align="left">basin</th>
+<th align="left">status</th>
+<th align="left">country</th>
+<th align="left">end_date</th>
+<th align="right">latitude</th>
+<th align="right">longitude</th>
+<th align="left">identifier</th>
+<th align="left">start_date</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="right">0</td>
+<td align="right">138</td>
+<td align="left">hydroweb</td>
+<td align="left">Mead</td>
+<td align="left">Colorado</td>
+<td align="left">research</td>
+<td align="left">USA</td>
+<td align="left">2014-12-29 00:21</td>
+<td align="right">36.13</td>
+<td align="right">-114.45</td>
+<td align="left">L_mead</td>
+<td align="left">2000-06-14 10:22</td>
+</tr>
+</tbody>
+</table>
+<p>It is important to note that different databases will return different types and amounts of metadata. Currently
+ latitude &amp; longitude are only available from the USGS and HydroWeb databases, but GREALM lakes will soon have them!</p>
+<p>### Lake() object</p>
+<p>The "my_lake" variable is now an object of class Lake() which comes with several attributes</p>
+<ul>
+<li>name</li>
+<li>country</li>
+<li>continent <em>(currently not supported for HydroWeb)</em></li>
+<li>source</li>
+<li>original_id</li>
+<li>id_No</li>
+<li>observation_period</li>
+<li>latitude <em>(currently not supported for G-REALM)</em></li>
+<li>longitude <em>(currently not supported for G-REALM)</em></li>
+<li>misc_data </li>
+<li>dataframe </li>
+<li>data </li>
+</ul>
+<p>importantly, my_lake.dataframe and my_lake.data are pandas dataframe instances with associated methods</p>
+<pre><code>my_lake.dataframe.describe().to_markdown()
+</code></pre>
+<table>
+<thead>
+<tr>
+<th align="left"></th>
+<th align="right">water_level</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">count</td>
+<td align="right">119</td>
+</tr>
+<tr>
+<td align="left">mean</td>
+<td align="right">342.807</td>
+</tr>
+<tr>
+<td align="left">std</td>
+<td align="right">7.34547</td>
+</tr>
+<tr>
+<td align="left">min</td>
+<td align="right">330.75</td>
+</tr>
+<tr>
+<td align="left">25%</td>
+<td align="right">337.905</td>
+</tr>
+<tr>
+<td align="left">50%</td>
+<td align="right">342.26</td>
+</tr>
+<tr>
+<td align="left">75%</td>
+<td align="right">347.555</td>
+</tr>
+<tr>
+<td align="left">max</td>
+<td align="right">365.43</td>
+</tr>
+</tbody>
+</table>
+<h3 id="plotting">Plotting</h3>
+<p>LakePy allows for native time series plotting as well as map-view plots</p>
+<pre><code>my_lake.plot_timeseries()
+</code></pre>
+<p>Plotly (default)
+<img alt="" src="../resources/plotly.png" /></p>
+<hr />
+<p>Seaborn/Matplotlib</p>
+<pre><code>my_lake.plot_timeseries(how='seaborn')
+</code></pre>
+<h2 id="_1"><img alt="" src="../resources/seaborn.png" /></h2>
+<pre><code>my_lake.plot_mapview()
+</code></pre>
+<p><img alt="" src="../resources/contextily.png" /></p>
+<h2 id="api-reference">API Reference</h2>
+<h2 id="contribute">Contribute</h2>
+<p>Let people know how they can contribute into your project. A <a href="https://github.com/zulip/zulip-electron/blob/master/CONTRIBUTING.md">contributing guideline</a> will be a big plus.</p>
+<h2 id="credits">Credits</h2>
+<p>This work is based on funding provided by the ESIP Lab with support from the National Aeronautics and Space
+Administration (NASA), National Oceanic and Atmospheric Administration (NOAA) and the United States Geologic
+Survey (USGS). </p>
+<p>The authors would also like to acknowledge the Dynamic
+Stratigraphy Group at UT Austin and the AWS
+Staff that helped on this project!</p>
+<h2 id="license">License</h2>
+<p>MIT © <a href="https://github.com/ESIPFed/GlobalLakeLevelDatabase/blob/master/LICENSE">James Hooker Gearon &amp; John Franey</a></p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+        
+          <a href="../LakePy/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                API Reference
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/vendor.08c56446.min.js"></script>
+      <script src="../assets/javascripts/bundle.6ced434e.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      
+      <script>
+        app = initialize({
+          base: "..",
+          features: [],
+          search: Object.assign({
+            worker: "../assets/javascripts/worker/search.8c7e0a7e.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+    
+  </body>
+</html>
