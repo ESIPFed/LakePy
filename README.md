@@ -23,6 +23,9 @@ and on-demand.
 ## Software Used
 <b>Built with</b>
 - [Python](https://www.python.org/)
+  - [Pandas](https://pandas.pydata.org/)
+  - [PyMySQL](https://pymysql.readthedocs.io/en/latest/)
+  - [Boto3](https://boto3.readthedocs.io/)
 - [Amazon MySQL RDS](https://aws.amazon.com/rds/mysql/)
 - [Amazon API Gateway](https://aws.amazon.com/api-gateway/)
 - [Amazon Lambda](https://aws.amazon.com/lambda/)
