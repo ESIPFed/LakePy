@@ -23,8 +23,9 @@ and on-demand.
 ## Software Used
 <b>Built with</b>
 - [Python](https://www.python.org/)
-- [Amazon Aurora Serverless](https://aws.amazon.com/rds/aurora/serverless/)
-- [Amazon Aurora Serverless Data API](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html)
+- [Amazon MySQL RDS](https://aws.amazon.com/rds/mysql/)
+- [Amazon API Gateway](https://aws.amazon.com/api-gateway/)
+- [Amazon Lambda](https://aws.amazon.com/lambda/)
 
 ## Quickstart
 
