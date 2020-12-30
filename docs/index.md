@@ -126,10 +126,6 @@ my_lake.plot_mapview()
 ```
 ![](resources/contextily.png)
 
-
-## API Reference
-
-
 ## Contribute
 
 Let people know how they can contribute into your project. A [contributing guideline](https://github.com/zulip/zulip-electron/blob/master/CONTRIBUTING.md) will be a big plus.
