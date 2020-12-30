@@ -6,8 +6,8 @@ google_analytics: ['UA-186311766-1', 'https://esipfed.github.io/']
 theme: material
 copyright: MIT
 plugins:
-  - search
-  - mkdocstrings
+    - mkdocstrings
+    - search
 nav:
     - Home: index.md
     - API Reference: API.md

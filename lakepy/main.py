@@ -1,7 +1,7 @@
 def search(name=None, source=None, id_No=None, markdown=False):
     """
-
-    Args:
+    Search function that interacts directly with the Global Lake Level Database API.
+    Arguments:
         name (str): Name of Lake or Reservoir. Be sure to use proper spelling. Wildcards (%) are allowed,as is any MySQL 5.7 syntax
         source (str): Lake water level source flag, accepted values are "usgs", "grealm", or "hydroweb"
         id_No (str,int): Global Lake Level Database identification number
@@ -66,7 +66,7 @@ def search(name=None, source=None, id_No=None, markdown=False):
 def _lake_meta_constructor(df):
     """
 
-    Args:
+    Arguments:
         df (): Pandas DataFrame of lake metadata from :function:`search`
 
     Returns:
@@ -169,7 +169,7 @@ def _lake_meta_constructor(df):
 def _get_levels(lake):
     """
     This function populates the Lake().data attribute with all available lake levels
-    Args:
+    Arguments:
         lake(object): must be :class:`Lake` with metadata built from :function:`_lake_meta_constructor`
 
     Returns:
@@ -188,15 +188,12 @@ def _get_levels(lake):
 
 
 class Lake(object):
-    """
-
-    """
 
     def __init__(self, name, country, continent, source, original_id, id_No,
                  observation_period, latitude, longitude, misc_data, metadata, data):
         """
         Lake object with associated lake attributes and plotting methods
-        Args:
+        Arguments:
             name (str): Lake name
             country (str): Country of lake residence
             continent (str): Continent of lake residence
@@ -227,7 +224,7 @@ class Lake(object):
     def plot_mapview(self, show=True, out_path=None, zoom=None, provider=None, return_gdf=False, *args, **kwargs):
         """
         Plot map-style overview of lake location using [geopandas]() and [contextily]()
-        Args:
+        Arguments:
             show (bool): Flag to determine whether matplotlib.pyplot.show() is called (True) or axis object is
             returned (False)
             out_path (str): If supplied, figure will be saved to input filepath
@@ -274,7 +271,7 @@ class Lake(object):
         """
         Plot timeseries of lake water level data
 
-        Args:
+        Arguments:
             how (str):
             color (str):
             show (bool):
