@@ -7,7 +7,7 @@
 LakePy is the pythonic user-centered front-end to the [Global Lake Level Database](https://github.com/ESIPFed/Global-Lake-Level-Database). This package can instantly
  deliver lake water levels for some 2000+ lakes scattered across the globe. Data comes from three sources (so far!)
  - [United States Geological Survey National Water Information System](https://waterdata.usgs.gov/nwis)
- - [United States Department of Agriculture: Foriegn Agricultural Service's G-REALM Database](https://ipad.fas.usda.gov/cropexplorer/global_reservoir/)
+ - [United States Department of Agriculture: Foreign Agricultural Service's G-REALM Database](https://ipad.fas.usda.gov/cropexplorer/global_reservoir/)
  - [Theia's HydroWeb Database](http://hydroweb.theia-land.fr/)
 
  
@@ -31,7 +31,7 @@ and on-demand.
 - [Amazon Lambda](https://aws.amazon.com/lambda/)
 
 ## Quickstart
-
+For a full API Reference, please consult LakePy's [documentation](https://esipfed.github.io/LakePy/)
 ### Installation
 ```
 pip install lakepy

@@ -1,10 +1,15 @@
 site_name: LakePy
+repo_url: https://github.com/ESIPFed/LakePy
+site_description: Documentation for the LakePy Python Package
+site_author: James Gearon & John Franey
+google_analytics: ['UA-186311766-1', 'https://esipfed.github.io/'] 
 theme: material
+copyright: MIT
 plugins:
   - search
   - mkdocstrings
 nav:
-    - Home: docs_README.md
-    - API Reference: LakePy.md
+    - Home: index.md
+    - API Reference: API.md
     - Contributing: contributing.md
     - License: LICENSE.md

@@ -223,6 +223,7 @@ class Lake(object):
         self.dataframe = dataframe
         self.data = data
 
+
     def plot_mapview(self, show=True, out_path=None, zoom=None, provider=None, return_gdf=False, *args, **kwargs):
         """
         Plot map-style overview of lake location using [geopandas]() and [contextily]()
@@ -346,4 +347,6 @@ class Lake(object):
                 plt.show()
             else:
                 return ax
-
+if __name__ == '__main__':
+    lake = search(id_No = 114)
+    print(lake.data.to_markdown())

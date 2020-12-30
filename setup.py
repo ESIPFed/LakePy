@@ -12,7 +12,7 @@ URL = 'https://github.com/ESIPFed/LakePy'
 LICENSE = 'MIT License'
 DESCRIPTION = 'Provides access to the Global Lake Level Database and extended functionality for lake water level ' \
               'analysis'
-LONG_DESCRIPTION = (HERE / "docs_README.md").read_text()
+LONG_DESCRIPTION = (HERE / "index.md").read_text()
 LONG_DESC_TYPE = "text/markdown"
 
 INSTALL_REQUIRES = [
