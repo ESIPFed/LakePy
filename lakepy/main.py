@@ -90,7 +90,7 @@ def _lake_meta_constructor(df):
             id_No = df.id_No[0]
             observation_period = df['Satellite Observation Period'][0]
             misc_data = {'Type': df.Type[0], 'Resolution': df.Resolution[0]}
-            dataframe = df
+            metadata = df
             lake = Lake(name = name,
                         country = country,
                         continent = continent,
@@ -101,7 +101,7 @@ def _lake_meta_constructor(df):
                         latitude = None,
                         longitude = None,
                         misc_data = misc_data,
-                        dataframe = dataframe,
+                        metadata = metadata,
                         data = None)
             lake.data = _get_levels(lake)
             return lake
@@ -115,7 +115,7 @@ def _lake_meta_constructor(df):
             latitude = df.latitude[0]
             longitude = df.longitude[0]
             misc_data = {'basin': df.basin[0], 'status': df.status[0]}
-            dataframe = df
+            metadata = df
 
             lake = Lake(name = name,
                         country = country,
@@ -127,7 +127,7 @@ def _lake_meta_constructor(df):
                         latitude = latitude,
                         longitude = longitude,
                         misc_data = misc_data,
-                        dataframe = dataframe,
+                        metadata = metadata,
                         data = None)
             lake.data = _get_levels(lake)
             return lake
@@ -149,7 +149,7 @@ def _lake_meta_constructor(df):
             misc_data = df_misc.to_dict(orient = 'list')
             for k in misc_data:
                 misc_data[k] = misc_data[k][0]
-            dataframe = df
+            metadata = df
             lake = Lake(name = name,
                         country = country,
                         continent = continent,
@@ -160,7 +160,7 @@ def _lake_meta_constructor(df):
                         latitude = latitude,
                         longitude = longitude,
                         misc_data = misc_data,
-                        dataframe = dataframe,
+                        metadata = metadata,
                         data = None)
             lake.data = _get_levels(lake)
             return lake
@@ -193,7 +193,7 @@ class Lake(object):
     """
 
     def __init__(self, name, country, continent, source, original_id, id_No,
-                 observation_period, latitude, longitude, misc_data, dataframe, data):
+                 observation_period, latitude, longitude, misc_data, metadata, data):
         """
         Lake object with associated lake attributes and plotting methods
         Args:
@@ -207,7 +207,7 @@ class Lake(object):
             latitude (str): Decimal degree latitutde
             longitude (str): Decimal degree longitude
             misc_data (dict): Database-specific metadata
-            dataframe (DataFrame): Lake metadata as Pandas DataFrame
+            metadata (DataFrame): Lake metadata as Pandas DataFrame
             data (DataFrame): Lake water level time-series data
         """
         self.name = name
@@ -220,7 +220,7 @@ class Lake(object):
         self.latitude = latitude
         self.longitude = longitude
         self.misc_data = misc_data
-        self.dataframe = dataframe
+        self.metadata = metadata
         self.data = data
 
 
@@ -245,7 +245,7 @@ class Lake(object):
         import contextily as ctx
         from shapely.geometry import Point
         import matplotlib.pyplot as plt
-        gdf = gpd.GeoDataFrame(self.dataframe, geometry = [Point(float(self.longitude),
+        gdf = gpd.GeoDataFrame(self.metadata, geometry = [Point(float(self.longitude),
                                                                  float(self.latitude))])
         gdf.crs = 'EPSG:4326'
         fig, ax = plt.subplots(1, 1)
