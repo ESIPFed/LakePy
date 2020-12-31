@@ -1,16 +1,14 @@
 ## LakePy
 
-<p align="center">
-  <img src="docs/resources/ESIP_Lakes_Cover.jpg" />
-</p>
+![](resources/ESIP_Lakes_Cover.jpg)
 
 LakePy is the pythonic user-centered front-end to the [Global Lake Level Database](https://github.com/ESIPFed/Global-Lake-Level-Database). This package can instantly
  deliver lake water levels for some 2000+ lakes scattered across the globe. Data comes from three sources (so far!)
 
 
- - [United States Geological Survey National Water Information System](https://waterdata.usgs.gov/nwis)
- - [United States Department of Agriculture: Foreign Agricultural Service's G-REALM Database](https://ipad.fas.usda.gov/cropexplorer/global_reservoir/)
- - [Theia's HydroWeb Database](http://hydroweb.theia-land.fr/)
+ * [United States Geological Survey National Water Information System](https://waterdata.usgs.gov/nwis)
+ * [United States Department of Agriculture: Foriegn Agricultural Service's G-REALM Database](https://ipad.fas.usda.gov/cropexplorer/global_reservoir/)
+ * [Theia's HydroWeb Database](http://hydroweb.theia-land.fr/)
 
  
 **Funding for this work comes from the Earth Science Information Partners (ESIP) Winter 2020 Grant**
@@ -26,16 +24,16 @@ and on-demand.
 <b>Built with</b>
 
 
-- [Python](https://www.python.org/)
+* [Python](https://www.python.org/)
   - [Pandas](https://pandas.pydata.org/)
   - [PyMySQL](https://pymysql.readthedocs.io/en/latest/)
   - [Boto3](https://boto3.readthedocs.io/)
-- [Amazon MySQL RDS](https://aws.amazon.com/rds/mysql/)
-- [Amazon API Gateway](https://aws.amazon.com/api-gateway/)
-- [Amazon Lambda](https://aws.amazon.com/lambda/)
+* [Amazon MySQL RDS](https://aws.amazon.com/rds/mysql/)
+* [Amazon API Gateway](https://aws.amazon.com/api-gateway/)
+* [Amazon Lambda](https://aws.amazon.com/lambda/)
 
 ## Quickstart
-For a full API Reference, please consult LakePy's [documentation](https://esipfed.github.io/LakePy/)
+
 ### Installation
 ```
 pip install lakepy
@@ -123,24 +121,22 @@ LakePy allows for native time series plotting as well as map-view plots
 my_lake.plot_timeseries()
 ```
 Plotly (default)
-![](docs/resources/plotly.png)
+![](resources/plotly.png)
 ---
 Seaborn/Matplotlib
 ```
 my_lake.plot_timeseries(how='seaborn')
 ```
-![](docs/resources/seaborn.png)
+![](resources/seaborn.png)
 ---
 ```
 my_lake.plot_mapview()
 ```
-![](docs/resources/contextily.png)
-
+![](resources/contextily.png)
 
 ## Contribute
 
-We would love your help in making this project better. Please refer to our
-[contribution guide](https://github.com/ESIPFed/LakePy/blob/master/docs/contributing.md) to learn how. 
+Let people know how they can contribute into your project. A [contributing guideline](https://github.com/zulip/zulip-electron/blob/master/CONTRIBUTING.md) will be a big plus.
 
 ## Credits
 This work is based on funding provided by the ESIP Lab with support from the National Aeronautics and Space
