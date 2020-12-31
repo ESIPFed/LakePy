@@ -132,6 +132,8 @@ my_lake.plot_mapview()
 ```
 ![](docs/resources/contextily.png)
 
+## API Reference
+Please refer to the [LakePy documentation](http://lakepydocs.com.s3-website.us-east-2.amazonaws.com).
 
 ## Contribute
 
