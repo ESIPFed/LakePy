@@ -270,13 +270,12 @@ class Lake(object):
                         date_start=None, date_end=None, *args, **kwargs):
         """
         Plot timeseries of lake water level data
-
         Arguments:
-            how (str):
-            color (str):
-            show (bool):
-            date_start (str):
-            date_end (str):
+            how (str): Which method of plotting to use. Plotly (default), Matplotlib, or Seaborn.
+            color (str): Color of lineplot, cannot be passed to Plotly.
+            show (bool): If True, display figure, else return `ax` object
+            date_start (str): The beginning of the desired plotting date range supplied as %Y-%m-%d string.
+            date_end (str): The end of the desired plotting date range supplied as %Y-%m-%d string.
             *args: Variable length argument list.
             **kwargs: Arbitrary keyword arguments.
 
