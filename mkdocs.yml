@@ -12,6 +12,9 @@ copyright: MIT
 plugins:
     - search
     - mkdocstrings
+markdown_extensions:
+    - pymdownx.betterem:
+        smart_enable: all
 nav:
     - Home: index.md
     - API Reference: API.md
