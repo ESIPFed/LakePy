@@ -343,6 +343,3 @@ class Lake(object):
                 plt.show()
             else:
                 return ax
-if __name__ == '__main__':
-    lake = search(id_No = 114)
-    print(lake.data.to_markdown())
