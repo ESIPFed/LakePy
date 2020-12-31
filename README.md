@@ -31,7 +31,7 @@ and on-demand.
 - [Amazon Lambda](https://aws.amazon.com/lambda/)
 
 ## Quickstart
-For a full API Reference, please consult LakePy's [documentation](https://esipfed.github.io/LakePy/)
+For a full API Reference, please consult LakePy's [documentation](http://lakepydocs.com.s3-website.us-east-2.amazonaws.com)
 ### Installation
 ```
 pip install lakepy
