@@ -5,10 +5,16 @@ site_author: James Gearon & John Franey
 google_analytics: ['UA-186311766-1', 'http://lakepydocs.com.s3-website.us-east-2.amazonaws.com/'] 
 theme: 
     name: material
-    logo: 'img/logo.png'
-    favicon: 'img/logo.png'
+    logo: 'img/Asset 2.png'
+    favicon: 'img/Asset 2.png'
     palette:
       primary: blue
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/ESIPFed/LakePy/
+    - icon: fontawesome/brands/medium
+      link: https://medium.com/@jake.gearon_34983
 copyright: MIT
 plugins:
     - search
