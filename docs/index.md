@@ -34,6 +34,8 @@ and on-demand.
 
 ## Quickstart
 
+- For a list of Lakes with corresponding ID numbers, see the [Lake Reference List](LakeReferenceList.csv)
+
 ### Installation
 ```
 pip install lakepy
