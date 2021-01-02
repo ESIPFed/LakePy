@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 HERE = pathlib.Path(__file__).parent
 
-VERSION = '2.0.1'
+VERSION = '2.1.0'
 PACKAGE_NAME = 'lakepy'
 AUTHOR = 'James H. Gearon & John D. Franey'
 AUTHOR_EMAIL = 'jake.gearon@gmail.com'
@@ -12,7 +12,7 @@ URL = 'https://github.com/ESIPFed/LakePy'
 LICENSE = 'MIT License'
 DESCRIPTION = 'Provides access to the Global Lake Level Database and extended functionality for lake water level ' \
               'analysis'
-LONG_DESCRIPTION = (HERE / "index.md").read_text()
+LONG_DESCRIPTION = (HERE / "README.md").read_text()
 LONG_DESC_TYPE = "text/markdown"
 
 INSTALL_REQUIRES = [
