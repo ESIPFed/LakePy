@@ -5,10 +5,10 @@ site_author: James Gearon & John Franey
 google_analytics: ['UA-186311766-1', 'http://lakepydocs.com.s3-website.us-east-2.amazonaws.com/'] 
 theme: 
     name: material
-    logo: 'img/Asset 2.png'
-    favicon: 'img/Asset 2.png'
+    logo: 'img/LPNu2.png'
+    favicon: 'img/LPNu2.png'
     palette:
-      primary: blue
+      primary: blue grey
 extra:
   social:
     - icon: fontawesome/brands/github
