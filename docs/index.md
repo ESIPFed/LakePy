@@ -139,6 +139,8 @@ my_lake.plot_mapview()
 Let people know how they can contribute into your project. A [contributing guideline](https://github.com/zulip/zulip-electron/blob/master/CONTRIBUTING.md) will be a big plus.
 
 ## Citing LakePy
+[![DOI](https://zenodo.org/badge/322186575.svg)](https://zenodo.org/badge/latestdoi/322186575)
+
 Please consider citing us if you use LakePy in your research! The recommended citation is:
 > James Gearon, & John Franey. (2021, January 4). ESIPFed/LakePy v2.1.0 (Version v2.1.0). Zenodo. http://doi.org/10.
 5281/zenodo.4415936
