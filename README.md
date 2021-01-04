@@ -1,4 +1,5 @@
 ## LakePy
+https://zenodo.org/badge/322186575.svg
 
 <p align="center">
   <img src="docs/img/esipfr.png" />
