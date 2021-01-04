@@ -143,6 +143,11 @@ Please refer to the [LakePy documentation](http://lakepydocs.com.s3-website.us-e
 We would love your help in making this project better. Please refer to our
 [contribution guide](https://github.com/ESIPFed/LakePy/blob/master/docs/contributing.md) to learn how. 
 
+## Citing LakePy
+Please consider citing us if you use LakePy in your research! The recommended citation is:
+> James Gearon, & John Franey. (2021, January 4). ESIPFed/LakePy v2.1.0 (Version v2.1.0). Zenodo. http://doi.org/10.
+5281/zenodo.4415936
+
 ## Credits
 This work is based on funding provided by the ESIP Lab with support from the National Aeronautics and Space
 Administration (NASA), National Oceanic and Atmospheric Administration (NOAA) and the United States Geologic
