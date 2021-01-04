@@ -1,5 +1,5 @@
 ## LakePy
-https://zenodo.org/badge/322186575.svg
+[![DOI](https://zenodo.org/badge/322186575.svg)](https://zenodo.org/badge/latestdoi/322186575)
 
 <p align="center">
   <img src="docs/img/esipfr.png" />
