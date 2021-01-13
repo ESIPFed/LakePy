@@ -288,9 +288,10 @@ class Lake(object):
 
         """
         import matplotlib.ticker as ticker
+        from matplotlib.dates import DateFormatter
         import plotly.io as pio
         import plotly.express as px
-        import seaborn as sns
+        import seaborn as sns; sns.set_style()
         import pandas as pd
         import matplotlib.pyplot as plt
         import warnings
@@ -328,20 +329,25 @@ class Lake(object):
             plot.show()
         else:
             fig, ax = plt.subplots(1, 1)
+            date_form = DateFormatter("%m/%y")
+            ax.xaxis.set_major_formatter(date_form)
             ax.xaxis.set_major_locator(ticker.AutoLocator())
             ax.set_title(str(self.id_No) + " : " + self.name)
             ax.set_ylabel('Water Level [m]')
             ax.set_xlabel('Date')
+
             if how == 'seaborn':
-                sns.set_style('whitegrid')
                 sns.lineplot(data = self.data, x = "date", y = "water_level", ax = ax, color = color, *args, **kwargs)
             elif how == 'matplotlib':
                 ax.plot(self.data.date, self.data.water_level, color = color, *args,
                         **kwargs)
-                plt.xticks(rotation = 45, ha = 'right')
+                # plt.xticks(rotation = 45, ha = 'right')
             else:
                 raise SyntaxError("'how' parameter must be 'plotly', 'seaborn', or 'matplotlib'")
             if show == True:
                 plt.show()
             else:
                 return ax
+if __name__ == '__main__':
+    texoma = search(id_No = 1092)
+    texoma.plot_timeseries(how = 'seaborn')
