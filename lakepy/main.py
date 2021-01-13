@@ -288,7 +288,10 @@ class Lake(object):
 
         """
         import matplotlib.ticker as ticker
+        import matplotlib.dates as mdates
         from matplotlib.dates import DateFormatter
+        from matplotlib.dates import AutoDateLocator
+        from matplotlib.dates import AutoDateFormatter
         import plotly.io as pio
         import plotly.express as px
         import seaborn as sns; sns.set_style('darkgrid')
@@ -329,9 +332,8 @@ class Lake(object):
             plot.show()
         else:
             fig, ax = plt.subplots(1, 1)
-            date_form = DateFormatter("%m/%y")
-            ax.xaxis.set_major_formatter(date_form)
-            ax.xaxis.set_major_locator(ticker.AutoLocator())
+            ax.xaxis.set_major_locator(AutoDateLocator())
+            fig.autofmt_xdate()
             ax.set_title(str(self.id_No) + " : " + self.name)
             ax.set_ylabel('Water Level [m]')
             ax.set_xlabel('Date')
@@ -349,5 +351,5 @@ class Lake(object):
             else:
                 return ax
 if __name__ == '__main__':
-    texoma = search(id_No = 1092)
+    texoma = search(id_No = 1199)
     texoma.plot_timeseries(how = 'seaborn')
