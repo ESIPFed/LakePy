@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 HERE = pathlib.Path(__file__).parent
 
-VERSION = '2.1.1'
+VERSION = '2.1.2'
 PACKAGE_NAME = 'lakepy'
 AUTHOR = 'James H. Gearon & John D. Franey'
 AUTHOR_EMAIL = 'jake.gearon@gmail.com'

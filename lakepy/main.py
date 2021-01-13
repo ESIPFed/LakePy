@@ -291,7 +291,7 @@ class Lake(object):
         from matplotlib.dates import DateFormatter
         import plotly.io as pio
         import plotly.express as px
-        import seaborn as sns; sns.set_style()
+        import seaborn as sns; sns.set_style('darkgrid')
         import pandas as pd
         import matplotlib.pyplot as plt
         import warnings
