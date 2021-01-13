@@ -27,7 +27,8 @@ INSTALL_REQUIRES = [
     'shapely',
     'contextily',
     'more-itertools==8.4',
-    'tabulate'
+    'tabulate',
+    'ipython'
 ]
 
 setup(name = PACKAGE_NAME,
