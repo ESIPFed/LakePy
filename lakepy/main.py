@@ -14,6 +14,7 @@ def search(name=None, source=None, id_No=None, markdown=False):
     import pandas as pd
     import requests
     import warnings
+    from IPython.display import display
     if id_No:
         id_No = str(id_No)
         url = 'https://4o8d0ft32f.execute-api.us-east-2.amazonaws.com/prod/glld/search/?idNo={}'.format(
@@ -58,7 +59,8 @@ def search(name=None, source=None, id_No=None, markdown=False):
         if markdown is True:
             print(df_unpacked.to_markdown())
         else:
-            print(df_unpacked.to_string())
+            with pd.option_context('display.max_rows', 5, 'display.max_columns', None):
+                display(df_unpacked)
         lake_object = _lake_meta_constructor(df_unpacked)
         return lake_object
 
