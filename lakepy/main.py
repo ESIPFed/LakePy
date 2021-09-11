@@ -104,8 +104,10 @@ def _lake_meta_constructor(df):
                         longitude = None,
                         misc_data = misc_data,
                         metadata = metadata,
-                        data = None)
+                        data = None,
+                        timeseries = None)
             lake.data = _get_levels(lake)
+            lake.timeseries = lake.data.filter(['date', 'water_level']).set_index('date')
             return lake
 
         elif source == 'hydroweb':
@@ -130,8 +132,10 @@ def _lake_meta_constructor(df):
                         longitude = longitude,
                         misc_data = misc_data,
                         metadata = metadata,
-                        data = None)
+                        data = None,
+                        timeseries=None)
             lake.data = _get_levels(lake)
+            lake.timeseries = lake.data.filter(['date', 'water_level']).set_index('date')
             return lake
         elif source == 'usgs':
             name = df.lake_name[0]
@@ -163,8 +167,10 @@ def _lake_meta_constructor(df):
                         longitude = longitude,
                         misc_data = misc_data,
                         metadata = metadata,
-                        data = None)
+                        data = None,
+                        timeseries=None)
             lake.data = _get_levels(lake)
+            lake.timeseries = lake.data.filter(['date', 'water_level']).set_index('date')
             return lake
 
 
@@ -192,7 +198,7 @@ def _get_levels(lake):
 class Lake(object):
 
     def __init__(self, name, country, continent, source, original_id, id_No,
-                 observation_period, latitude, longitude, misc_data, metadata, data):
+                 observation_period, latitude, longitude, misc_data, metadata, data, timeseries):
         """
         Lake object with associated lake attributes and plotting methods
         Arguments:
@@ -221,15 +227,16 @@ class Lake(object):
         self.misc_data = misc_data
         self.metadata = metadata
         self.data = data
+        self.timeseries = timeseries
 
 
-    def plot_mapview(self, show=True, out_path=None, zoom=None, provider=None, return_gdf=False, *args, **kwargs):
+    def plot_mapview(self, show=True, out_path=None, zoom=None, provider=None, return_gdf=False, force_contextily=False, *args, **kwargs):
         """
         Plot map-style overview of lake location using [geopandas]() and [contextily]()
         Arguments:
             show (bool): Flag to determine whether matplotlib.pyplot.show() is called (True) or axis object is
             returned (False)
-            out_path (str): If supplied, figure will be saved to input filepath
+            out_path (str): If supplied, figure will be saved to filepath
             zoom (int): contextily zoom level
             provider ():
             return_gdf (bool): Returns GeoDataFrame if True
@@ -240,36 +247,60 @@ class Lake(object):
             ax: matplotlib ax object
 
         """
+        from lakepy.utils import _isnotebook
         import geopandas as gpd
         import contextily as ctx
         from shapely.geometry import Point
         import matplotlib.pyplot as plt
-        gdf = gpd.GeoDataFrame(self.metadata, geometry = [Point(float(self.longitude),
-                                                                 float(self.latitude))])
-        gdf.crs = 'EPSG:4326'
-        fig, ax = plt.subplots(1, 1)
-        gdf.plot(*args, **kwargs, alpha = .5, ax = ax, color = 'red')
-        if zoom != None and provider != None:
-            ctx.add_basemap(ax, source = provider, crs = 'EPSG:4326', zoom = zoom)
-        elif provider != None:
-            ctx.add_basemap(ax, source = provider, crs = 'EPSG:4326')
-        elif zoom != None:
-            ctx.add_basemap(ax, source = ctx.providers.OpenTopoMap, crs = 'EPSG:4326', zoom=zoom)
-        else:
-            ctx.add_basemap(ax, source = ctx.providers.OpenTopoMap, crs = 'EPSG:4326')
 
-        ax.set_title(str(self.id_No) + " : " + self.name)
-        if out_path:
-            plt.savefig(out_path)
-        if show == True:
-            plt.show()
-        elif return_gdf == True:
-            return gdf
+        if _isnotebook() == False or force_contextily == True:
+            if self.metadata.source[0] == "usgs":
+                gdf = gpd.GeoDataFrame(self.metadata, crs="epsg:4269", geometry=[Point(float(self.longitude),
+                                                                      float(self.latitude))])
+
+            elif self.metadata.source[0] == "hydroweb":
+                gdf = gpd.GeoDataFrame(self.metadata, crs="epsg:4326", geometry=[Point(float(self.longitude),
+                                                                      float(self.latitude))])
+
+            elif self.metadata.source[0] == "grealm":
+                gdf = gpd.GeoDataFrame(self.metadata, crs="epsg:4326", geometry=[Point(float(self.longitude),
+                                                                      float(self.latitude))])
+            else:
+                gdf = None
+            fig, ax = plt.subplots(1, 1)
+            temp = gdf.to_crs("epsg:3857")
+            temp.plot(*args, **kwargs, alpha = .5, ax = ax, color = 'red')
+            if zoom != None and provider != None:
+                ctx.add_basemap(ax, source = provider, zoom = zoom)
+            elif provider != None:
+                ctx.add_basemap(ax, source = provider)
+            elif zoom != None:
+                ctx.add_basemap(ax, zoom=zoom)
+            else:
+                ctx.add_basemap(ax)
+
+            ax.set_title(str(self.id_No) + " : " + self.name)
+            if out_path:
+                plt.savefig(out_path)
+            if show == True:
+                plt.show()
+            elif return_gdf == True:
+                return gdf
+            else:
+                return ax
         else:
-            return ax
+            import leafmap.foliumap as leafmap
+            from IPython.display import display
+            import warnings
+            warnings.simplefilter(action='ignore', category=FutureWarning)
+            gdf = gpd.GeoDataFrame(self.metadata, crs="epsg:4326", geometry=[Point(float(self.longitude),
+                                                                                   float(self.latitude))])
+            m = leafmap.Map(center=[float(self.latitude), float(self.longitude)], zoom=11, google_map="HYBRID") # center=[lat, lon]
+            m.add_gdf(gdf, zoom_to_layer=False,layer_name=self.name)
+            display(m)
 
     def plot_timeseries(self, how='plotly', color="blue", show=True,
-                        date_start=None, date_end=None, *args, **kwargs):
+                        date_start=None, date_end=None, jupyter=False, *args, **kwargs):
         """
         Plot timeseries of lake water level data
         Arguments:
@@ -299,6 +330,7 @@ class Lake(object):
         import matplotlib.pyplot as plt
         import warnings
         from lakepy.utils import _validate
+        from lakepy.utils import _isnotebook
         if date_start and date_end:
             _validate(date_start)
             _validate(date_end)
@@ -311,9 +343,13 @@ class Lake(object):
         else:
             raise ValueError('date_start and date_end params must both be None or strings with date format "%Y-%m-%d"')
         if how == 'plotly':
-            pio.renderers.default = "browser"
-            plot = px.line(self.data, x = 'date', y = 'water_level', title = str(self.id_No)
-                                                                             + ": " + self.name)
+            if jupyter == True or _isnotebook() == True:
+                pio.renderers.default = "notebook"
+            else:
+                pio.renderers.default = "broswer"
+            plot = px.line(self.timeseries, title = str(self.id_No)+ ": " + self.name)
+            plot.update_yaxes(title_text='Water Level (m)')
+
             if color != "blue":
                 warnings.warn('Cannot specify color for plotly style plots, use how = "seaborn" or "matplotlib" to '
                               'pass color', category = RuntimeWarning)
@@ -330,6 +366,7 @@ class Lake(object):
                         dict(step = "all"),
                     ])), type = "date")
             plot.show()
+
         else:
             fig, ax = plt.subplots(1, 1)
             ax.xaxis.set_major_locator(AutoDateLocator())
@@ -339,10 +376,11 @@ class Lake(object):
             ax.set_xlabel('Date')
 
             if how == 'seaborn':
-                sns.lineplot(data = self.data, x = "date", y = "water_level", ax = ax, color = color, *args, **kwargs)
+                sns.lineplot(data = self.timeseries, ax = ax, color = color, *args, **kwargs)
             elif how == 'matplotlib':
-                ax.plot(self.data.date, self.data.water_level, color = color, *args,
-                        **kwargs)
+                plt.plot(self.timeseries, c = color, *args,
+                        **kwargs, label='Water Level')
+                plt.legend()
                 # plt.xticks(rotation = 45, ha = 'right')
             else:
                 raise SyntaxError("'how' parameter must be 'plotly', 'seaborn', or 'matplotlib'")
@@ -351,5 +389,5 @@ class Lake(object):
             else:
                 return ax
 if __name__ == '__main__':
-    texoma = search(id_No = 1199)
-    texoma.plot_timeseries(how = 'seaborn')
+    texoma = search(id_No = 1104)
+    texoma.plot_mapview()

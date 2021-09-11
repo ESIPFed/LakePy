@@ -6,7 +6,7 @@ HERE = pathlib.Path(__file__).parent
 VERSION = '2.1.3'
 PACKAGE_NAME = 'lakepy'
 AUTHOR = 'James H. Gearon & John D. Franey'
-AUTHOR_EMAIL = 'jake.gearon@gmail.com'
+AUTHOR_EMAIL = 'jhgearon@iu.edu'
 URL = 'https://github.com/ESIPFed/LakePy'
 
 LICENSE = 'MIT License'
@@ -28,7 +28,8 @@ INSTALL_REQUIRES = [
     'contextily',
     'more-itertools==8.4',
     'tabulate',
-    'ipython'
+    'ipython',
+    'leafmap'
 ]
 
 setup(name = PACKAGE_NAME,
