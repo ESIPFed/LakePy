@@ -32,7 +32,6 @@ bibliography: paper.bib
 ---
 
 # Summary
-
 LakePy is a freely available, open-source python package which serves historical lake-level data, associated metadata,
 and is equipped with several built-in lake analysis tools. The objective of LakePy is simple: to make accessing and
 manipulating lake time-series data convenient, efficient, and fully open-source. Additionally, LakePy assumes no
@@ -45,12 +44,10 @@ and [LeafMap](https://github.com/giswqs/leafmap) [@Wu2021] as well
 as [Amazon Web Services](https://aws.amazon.com/) infrastructure. LakePy is capable of serving water level time-series
 data for more than 2,000 global lakes and is updated often. Both natural lakes and reservoirs are included in the
 dynamic dataset to accommodate a range of use-cases. Additionally, native visualization methods allow for rapid and easy
-analysis, even for inexperienced users \ref{fig:map}.
+analysis, even for inexperienced users.
 
 ![LakePy interactive map and timeseries plots.\label{fig:map}](Joss_fig.png)
-
 # Statement of need
-
 _**LakePy represents the largest compilation of publicly accessible global lake level data**_. Lake data are crucial to
 water resource management and continued scientific research into limnological questions. Moreover, anthropogenic climate
 change is affecting lakes rapidly and in unexpected ways [@woolway_worldwide_2019], making easily-accessible and
@@ -61,9 +58,7 @@ These data are often behind registration walls, stored in text files on old serv
 data retrieval an extended process. Indeed, many researchers, government officials, and concerned citizens who may want
 access to local lake level information might be unaware or unable to interface with the existing lake level data
 infrastructure.
-
 # Data Sources
-
 LakePy serves as the user-centered front-end to
 the [Global Lake Level Database](https://github.com/ESIPFed/Global-Lake-Level-Database). The Global Lake Level Database
 was constructed as a part of the LakePy project and can be considered part of the package infrastructure. The Global
@@ -77,12 +72,9 @@ can instantly deliver lake water levels for some 2000+ lakes across the globe. S
 
 Each of these databases are freely available but have obvious barriers-to-entry for the non-technical end user. LakePy
 collates the relevant lake level information and associated metadata and provides a simple front-end search function.
-
 # Acknowledgements
-
 This work is based on funding provided by the Earth Science Information Partners (ESIP) Lab with support from the
 National Aeronautics and Space Administration (NASA), National Oceanic and Atmospheric Administration (NOAA) and the
 United States Geologic Survey (USGS). The authors would also like to thank The University of Texas at Austin and Indiana
 University for additional funding and support. Special thanks to Dr. Annie Burgess (ESIP) for project support.
-
 # References
