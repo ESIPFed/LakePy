@@ -14,14 +14,18 @@ tags:
 
 authors:
   - name: James H. Gearon[^corresponding author]
-    orcid: 0000-0002-0115-7937 affiliation: "1, 2"
-  - name: John Daniel Franey affiliation: 3
+    orcid: 0000-0002-0115-7937 
+    affiliation: "1, 2"
+  - name: John Daniel Franey 
+    affiliation: 3
 
 affiliations:
-  - name: The University of Texas at Austin, Dept. of Geological Sciences index: 2
-  - name: Indiana University, Dept. of Earth & Atmospheric Sciences index: 1
-  - name: The University of Texas at Austin, Bureau of Economic Geology index: 3 date: 11 September 2021 bibliography:
-
+  - name: The University of Texas at Austin, Dept. of Geological Sciences
+    index: 2
+  - name: Indiana University, Dept. of Earth & Atmospheric Sciences 
+    index: 1
+  - name: The University of Texas at Austin, Bureau of Economic Geology 
+    index: 3 
 date: 1 October 2021    
 bibliography: paper.bib
 
