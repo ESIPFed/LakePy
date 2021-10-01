@@ -346,7 +346,7 @@ class Lake(object):
             if jupyter == True or _isnotebook() == True:
                 pio.renderers.default = "notebook"
             else:
-                pio.renderers.default = "broswer"
+                pio.renderers.default = "browser"
             plot = px.line(self.timeseries, title = str(self.id_No)+ ": " + self.name)
             plot.update_yaxes(title_text='Water Level (m)')
 
