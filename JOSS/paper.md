@@ -35,7 +35,7 @@ associated Jupyter notebooks. LakePy is built on several open-source packages su
 as [GeoPandas](https://geopandas.org/) [@kelsey_jordahl_2020_3946761:2020]
 , [PyMySQL](https://pymysql.readthedocs.io/en/latest/) [@pymysql:2016]
 , [Boto3](https://boto3.readthedocs.io/), [Contextily](https://github.com/geopandas/contextily) [@contextily:2020],
-and [LeafMap](https://github.com/giswqs/leafmap) [@Wu2021:2021] as well
+and [LeafMap](https://github.com/giswqs/leafmap) [@Qiusheng Wu:2021] as well
 as [Amazon Web Services](https://aws.amazon.com/) infrastructure. LakePy is capable of serving water level time-series
 data for more than 2,000 global lakes and is updated often. Both natural lakes and reservoirs are included in the
 dynamic dataset to accommodate a range of use-cases. Additionally, native visualization methods allow for rapid and easy
