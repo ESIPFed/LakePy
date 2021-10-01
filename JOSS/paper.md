@@ -2,26 +2,28 @@
 title: 'LakePy: a Python Package for Accessing and Manipulating Lacustrine Time-Series Data'
 
 tags:
-
-- Python
-- lakes
-- timeseries
-- remote sensing
-- water level
-- lacustrine
-- AWS
-- water management
-- data availability
+  - Python
+  - lakes
+  - timeseries
+  - remote sensing
+  - water level
+  - lacustrine
+  - AWS
+  - water management
+  - data availability
 
 authors:
+  - name: James H. Gearon[^corresponding author]
+    orcid: 0000-0002-0115-7937 affiliation: "1, 2"
+  - name: John Daniel Franey affiliation: 3
 
-- name: James H. Gearon[^corresponding author]
-  orcid: 0000-0002-0115-7937 affiliation: "1, 2"
-- name: John Daniel Franey affiliation: 3
-- name: The University of Texas at Austin, Dept. of Geological Sciences index: 2
-- name: Indiana University, Dept. of Earth & Atmospheric Sciences index: 1
-- name: The University of Texas at Austin, Bureau of Economic Geology index: 3 date: 11 September 2021 bibliography:
-  paper.bib
+affiliations:
+  - name: The University of Texas at Austin, Dept. of Geological Sciences index: 2
+  - name: Indiana University, Dept. of Earth & Atmospheric Sciences index: 1
+  - name: The University of Texas at Austin, Bureau of Economic Geology index: 3 date: 11 September 2021 bibliography:
+
+date: 1 October 2021    
+bibliography: paper.bib
 
 ---
 
@@ -32,10 +34,10 @@ and is equipped with several built-in lake analysis tools. The objective of Lake
 manipulating lake time-series data convenient, efficient, and fully open-source. Additionally, LakePy assumes no
 previous Python knowledge for the end-user, aiming to include clear and instructive steps within the documentation and
 associated Jupyter notebooks. LakePy is built on several open-source packages such
-as [GeoPandas](https://geopandas.org/) [@kelsey_jordahl_2020_3946761:2020]
-, [PyMySQL](https://pymysql.readthedocs.io/en/latest/) [@pymysql:2016]
-, [Boto3](https://boto3.readthedocs.io/), [Contextily](https://github.com/geopandas/contextily) [@contextily:2020],
-and [LeafMap](https://github.com/giswqs/leafmap) [@Qiusheng Wu:2021] as well
+as [GeoPandas](https://geopandas.org/) [@kelsey_jordahl_2020_3946761]
+, [PyMySQL](https://pymysql.readthedocs.io/en/latest/) [@pymysql]
+, [Boto3](https://boto3.readthedocs.io/), [Contextily](https://github.com/geopandas/contextily) [@contextily],
+and [LeafMap](https://github.com/giswqs/leafmap) [@Wu2021] as well
 as [Amazon Web Services](https://aws.amazon.com/) infrastructure. LakePy is capable of serving water level time-series
 data for more than 2,000 global lakes and is updated often. Both natural lakes and reservoirs are included in the
 dynamic dataset to accommodate a range of use-cases. Additionally, native visualization methods allow for rapid and easy
@@ -45,7 +47,7 @@ analysis, even for inexperienced users \autoref{fig:map} \autoref{fig:ts}.
 
 _**LakePy represents the largest compilation of publicly accessible global lake level data**_. Lake data are crucial to
 water resource management and continued scientific research into limnological questions. Moreover, anthropogenic climate
-change is affecting lakes rapidly and in unexpected ways [@woolway_worldwide_2019:2019], making easily-accessible and
+change is affecting lakes rapidly and in unexpected ways [@woolway_worldwide_2019], making easily-accessible and
 up-to-date lake level data even more important as climate change mitigation efforts are rolled out. For the past decade,
 and increasingly so in the last few years, that data has been dutifully warehoused across federal, state, local,
 academic, and private databases. The issue with these data is not their existence, but rather their _ease of access_.
