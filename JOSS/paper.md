@@ -13,7 +13,7 @@ tags:
   - data availability
 
 authors:
-  - name: James H. Gearon[^corresponding author]
+  - name: James H. Gearon^[corresponding author]
     orcid: 0000-0002-0115-7937 
     affiliation: "1, 2"
   - name: John Daniel Franey 
@@ -45,7 +45,7 @@ and [LeafMap](https://github.com/giswqs/leafmap) [@Wu2021] as well
 as [Amazon Web Services](https://aws.amazon.com/) infrastructure. LakePy is capable of serving water level time-series
 data for more than 2,000 global lakes and is updated often. Both natural lakes and reservoirs are included in the
 dynamic dataset to accommodate a range of use-cases. Additionally, native visualization methods allow for rapid and easy
-analysis, even for inexperienced users \autoref{fig:map} \autoref{fig:ts}.
+analysis, even for inexperienced users \ref{fig:map} \ref{fig:ts}.
 
 # Statement of need
 
@@ -78,8 +78,7 @@ collates the relevant lake level information and associated metadata and provide
 
 # Figures
 
-![LakePy interactive maps in Jupyter Notebook.\label{fig:map}](JOSS_Figure1.png)
-and referenced from text using .
+![LakePy interactive maps in Jupyter Notebook.\label{fig:map}](JOSS_Figure1.png){width=300px height=200px}
 
 ![LakePy interactive timeseries in notebook or browser.\label{fig:ts}](JOSS_Figure2.png)
 
