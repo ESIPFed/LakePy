@@ -20,10 +20,10 @@ authors:
     affiliation: 3
 
 affiliations:
-  - name: The University of Texas at Austin, Dept. of Geological Sciences
-    index: 2
   - name: Indiana University, Dept. of Earth & Atmospheric Sciences 
     index: 1
+  - name: The University of Texas at Austin, Dept. of Geological Sciences
+    index: 2
   - name: The University of Texas at Austin, Bureau of Economic Geology 
     index: 3 
 date: 1 October 2021    
@@ -45,7 +45,9 @@ and [LeafMap](https://github.com/giswqs/leafmap) [@Wu2021] as well
 as [Amazon Web Services](https://aws.amazon.com/) infrastructure. LakePy is capable of serving water level time-series
 data for more than 2,000 global lakes and is updated often. Both natural lakes and reservoirs are included in the
 dynamic dataset to accommodate a range of use-cases. Additionally, native visualization methods allow for rapid and easy
-analysis, even for inexperienced users \ref{fig:map} \ref{fig:ts}.
+analysis, even for inexperienced users \ref{fig:map}.
+
+![LakePy interactive map and timeseries plots.\label{fig:map}](Joss_fig.png)
 
 # Statement of need
 
@@ -75,12 +77,6 @@ can instantly deliver lake water levels for some 2000+ lakes across the globe. S
 
 Each of these databases are freely available but have obvious barriers-to-entry for the non-technical end user. LakePy
 collates the relevant lake level information and associated metadata and provides a simple front-end search function.
-
-# Figures
-
-![LakePy interactive maps in Jupyter Notebook.\label{fig:map}](JOSS_Figure1.png){width=300px height=200px}
-
-![LakePy interactive timeseries in notebook or browser.\label{fig:ts}](JOSS_Figure2.png)
 
 # Acknowledgements
 
