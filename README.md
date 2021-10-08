@@ -150,11 +150,7 @@ Please consider citing us if you use LakePy in your research! The recommended ci
 ## Credits
 This work is based on funding provided by the ESIP Lab with support from the National Aeronautics and Space
 Administration (NASA), National Oceanic and Atmospheric Administration (NOAA) and the United States Geologic
-Survey (USGS). 
-  
-The authors would also like to acknowledge the Dynamic
-Stratigraphy Group at UT Austin and the AWS
-Staff that helped on this project!
+Survey (USGS). LakePy received additional, generous support in 2021 from Derek Masaki and Farial Shahnaz. Many thanks to them.
 
 ## License
 
