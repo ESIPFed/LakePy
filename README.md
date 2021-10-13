@@ -2,7 +2,7 @@
 [![DOI](https://zenodo.org/badge/322186575.svg)](https://zenodo.org/badge/latestdoi/322186575)
 
 <p align="center">
-  <img src="docs/img/esipfr.png" />
+  <img src="docs/img/LakePyLogoUpdated.jpg" />
 </p>
 
 LakePy is the pythonic user-centered front-end to the [Global Lake Level Database](https://github.com/ESIPFed/Global-Lake-Level-Database). This package can instantly
