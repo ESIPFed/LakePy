@@ -22,7 +22,6 @@ INSTALL_REQUIRES = [
     'matplotlib',
     'seaborn',
     'plotly',
-    'datetime',
     'geopandas',
     'shapely',
     'contextily',
