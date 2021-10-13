@@ -33,7 +33,7 @@ and on-demand.
 
 ## Quickstart
 - For a full API Reference, please consult LakePy's [documentation](http://lakepydocs.com.s3-website.us-east-2.amazonaws.com)
-- For a list of Lakes with corresponding ID numbers, see the [Lake Reference List](LakeReferenceList.csv)
+- For a list of Lakes with corresponding ID numbers, see the [Lake Reference List](LakeReferenceList_Oct2021.csv)
 ### Installation
 ```
 pip install lakepy
