@@ -105,9 +105,16 @@ def _lake_meta_constructor(df):
                         misc_data = misc_data,
                         metadata = metadata,
                         data = None,
-                        timeseries = None)
+                        timeseries = None,
+                        mean = None,
+                        median = None,
+                        mode = None)
             lake.data = _get_levels(lake)
             lake.timeseries = lake.data.filter(['date', 'water_level']).set_index('date')
+            lake.timeseries.index = pd.to_datetime(lake.timeseries.index)
+            lake.mean = lake.data['water_level'].mean()
+            lake.median = lake.data['water_level'].median()
+            lake.mode = lake.data['water_level'].mode()
             return lake
 
         elif source == 'hydroweb':
@@ -133,9 +140,16 @@ def _lake_meta_constructor(df):
                         misc_data = misc_data,
                         metadata = metadata,
                         data = None,
-                        timeseries=None)
+                        timeseries=None,
+                        mean = None,
+                        median = None,
+                        mode = None)
             lake.data = _get_levels(lake)
             lake.timeseries = lake.data.filter(['date', 'water_level']).set_index('date')
+            lake.timeseries.index = pd.to_datetime(lake.timeseries.index)
+            lake.mean = lake.data['water_level'].mean()
+            lake.median = lake.data['water_level'].median()
+            lake.mode = lake.data['water_level'].mode()
             return lake
         elif source == 'usgs':
             name = df.lake_name[0]
@@ -168,9 +182,16 @@ def _lake_meta_constructor(df):
                         misc_data = misc_data,
                         metadata = metadata,
                         data = None,
-                        timeseries=None)
+                        timeseries=None,
+                        mean = None,
+                        median = None,
+                        mode = None)
             lake.data = _get_levels(lake)
             lake.timeseries = lake.data.filter(['date', 'water_level']).set_index('date')
+            lake.timeseries.index = pd.to_datetime(lake.timeseries.index)
+            lake.mean = lake.data['water_level'].mean()
+            lake.median = lake.data['water_level'].median()
+            lake.mode = lake.data['water_level'].mode()
             return lake
 
 
@@ -198,7 +219,7 @@ def _get_levels(lake):
 class Lake(object):
 
     def __init__(self, name, country, continent, source, original_id, id_No,
-                 observation_period, latitude, longitude, misc_data, metadata, data, timeseries):
+                 observation_period, latitude, longitude, misc_data, metadata, data, timeseries, mean, median, mode):
         """
         Lake object with associated lake attributes and plotting methods
         Arguments:
@@ -228,6 +249,10 @@ class Lake(object):
         self.metadata = metadata
         self.data = data
         self.timeseries = timeseries
+        self.mean = mean
+        self.median = median
+        self.mode = mode
+
 
 
     def plot_mapview(self, show=True, out_path=None, zoom=None, provider=None, return_gdf=False, force_contextily=False, *args, **kwargs):
@@ -388,6 +413,49 @@ class Lake(object):
                 plt.show()
             else:
                 return ax
+
+
+    def auto_corr(self, lags = 30, show=True, *args, **kwargs):
+        import matplotlib.pyplot as plt
+        import seaborn as sns
+        sns.set_style('whitegrid')
+        from statsmodels.graphics.tsaplots import plot_acf
+        data = self.timeseries
+        if data.isnull() is False:
+            pass
+        else:
+            data = data.dropna(how = 'any')
+        data['diff'] = data.diff()
+        data["diff"].iloc[0] = 0
+        if show is True:
+            plot_acf(x = data['diff'], lags = lags, title = 'Autocorrelation for {}, Median Time Interval: {}'.format(
+                self.name, self.timeseries.index.to_series().diff().median()), *args, **kwargs)
+            plt.show()
+        else:
+            return plot_acf(x = data['diff'], lags = lags, title = 'Autocorrelation for {}, Median Time Interval: {}'.format(
+                self.name, self.timeseries.index.to_series().diff().median()), *args, **kwargs)
+
+
+    def seasonal_decompose(self, model='additive', period=30):
+        import matplotlib.pyplot as plt
+        import seaborn as sns
+        sns.set_style('whitegrid')
+        from statsmodels.tsa.seasonal import seasonal_decompose
+        data = self.timeseries
+        res = seasonal_decompose(data, model = "additive", period = period)
+        fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize = (15, 8))
+        res.trend.plot(ax = ax1, ylabel = "trend")
+        res.resid.plot(ax = ax2, ylabel = "seasoanlity")
+        res.seasonal.plot(ax = ax3, ylabel = "residual")
+        plt.suptitle('Seasonal Decomposition of {}'.format(self.name))
+        plt.show()
+
+    def check_stationarity(self):
+        from statsmodels.tsa.stattools import adfuller, kpss
+
 if __name__ == '__main__':
-    texoma = search(id_No = 1104)
-    texoma.plot_mapview()
+    texoma = search(id_No = 2014)
+    texoma.auto_corr()
+    texoma.seasonal_decompose(period = 14)
+    # print(texoma.timeseries.index.to_series().diff().value_counts())
+    # print(texoma.timeseries.index.to_series().diff().median())
