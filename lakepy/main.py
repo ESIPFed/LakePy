@@ -415,11 +415,11 @@ class Lake(object):
                 return ax
 
 
-    def auto_corr(self, lags = 30, show=True, *args, **kwargs):
+    def auto_correlation(self, lags = 30, show=True, *args, **kwargs):
         import matplotlib.pyplot as plt
         import seaborn as sns
         sns.set_style('whitegrid')
-        from statsmodels.graphics.tsaplots import plot_acf
+        from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
         data = self.timeseries
         if data.isnull() is False:
             pass
@@ -434,6 +434,15 @@ class Lake(object):
         else:
             return plot_acf(x = data['diff'], lags = lags, title = 'Autocorrelation for {}, Median Time Interval: {}'.format(
                 self.name, self.timeseries.index.to_series().diff().median()), *args, **kwargs)
+        if show is True:
+            plot_pacf(x = data['diff'], lags = lags, title = 'Partial Autocorrelation for {}, Median Time '
+                                                                    'Interval: {}'.format(
+                self.name, self.timeseries.index.to_series().diff().median()))
+            plt.show()
+        else:
+            return plot_pacf(x = data['diff'], lags = lags, title = 'Partial Autocorrelation for {}, Median Time '
+                                                                    'Interval: {}'.format(
+                self.name, self.timeseries.index.to_series().diff().median()))
 
 
     def seasonal_decompose(self, model='additive', period=30):
@@ -461,7 +470,7 @@ class Lake(object):
         else:
             print('Series is Stationary')
         # KPSS Test
-        stats, p, lags, critical_values = kpss(self.timeseries, 'ct')
+        stats, p, lags, critical_values = kpss(self.timeseries, 'ct', nlags='auto')
         print('KPSS Test Statistics: {}'.format(stats))
         print('p-value: {}'.format(p))
 
@@ -474,7 +483,7 @@ class Lake(object):
 if __name__ == '__main__':
     laket = search(id_No = 2014)
     laket.check_stationarity()
-    laket.auto_corr()
+    laket.auto_correlation()
     #texoma.seasonal_decompose(period = 14)
     # print(texoma.timeseries.index.to_series().diff().value_counts())
     # print(texoma.timeseries.index.to_series().diff().median())
