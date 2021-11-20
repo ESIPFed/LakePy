@@ -482,7 +482,7 @@ class Lake(object):
         data = self.timeseries
         if period is None:
             period = round(365/self.timeseries.index.to_series().diff().median().days)
-        res = seasonal_decompose(data, model = "additive", period = period)
+        res = seasonal_decompose(data, model = model, period = period)
         fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize = (15, 8))
         res.trend.plot(ax = ax1, ylabel = "trend", color='k')
         res.resid.plot(ax = ax2, ylabel = "seasoanlity", color='k')
@@ -590,12 +590,35 @@ class Lake(object):
         ax.set_xlabel('Time')
         plt.tight_layout()
         plt.show()
+    def lag_plot(self, nlags=4, figsize=None):
+        """
+
+        Args:
+            nlags: An int or array of lag values, used on horizontal axis. Uses np.arange(lags) when lags is an int.
+            figsize: figure size entered as a tuple
+
+        Returns: None
+
+        """
+        import matplotlib.pyplot as plt
+        from pandas.plotting import lag_plot
+        if figsize is None:
+            figsize = (10, 3)
+        plt.rcParams.update({'ytick.left': False, 'axes.titlepad': 10})
+        fig, axes = plt.subplots(1, nlags, figsize = figsize, sharex = True, sharey = True, dpi = 100)
+        for i, ax in enumerate(axes.flatten()[:nlags]):
+            lag_plot(self.timeseries, lag = i + 1, ax = ax, c = 'firebrick')
+            ax.set_title('Lag ' + str(i + 1))
+        plt.suptitle('Lag Plots for {}'.format(self.name))
+        plt.tight_layout()
+        plt.show()
 
 
 
 if __name__ == '__main__':
     laket = search(id_No = 2034)
-    laket.check_stationarity()
-    laket.plot_rolling_statistic()
-    laket.auto_correlation(lags = 20)
-    laket.seasonal_decompose()
+    # laket.check_stationarity()
+    # laket.plot_rolling_statistic()
+    # laket.auto_correlation(lags = 20)
+    # laket.seasonal_decompose()
+    laket.lag_plot(nlags = 5)
