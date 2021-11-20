@@ -421,6 +421,17 @@ class Lake(object):
 
 
     def auto_correlation(self, lags = 30, show=True, *args, **kwargs):
+        """
+
+        Args:
+            lags: An int or array of lag values, used on horizontal axis. Uses np.arange(lags) when lags is an int.
+            show: Boolean flag to show plot (True) or return axis (False)
+            *args: matplotlib args
+            **kwargs: matplotlib kwargs
+
+        Returns: None if show is True, Matplotlib axis if show is False
+
+        """
         import matplotlib.pyplot as plt
         import seaborn as sns
         sns.set_style('whitegrid')
@@ -434,15 +445,15 @@ class Lake(object):
         data["diff"].iloc[0] = 0
         if show is True:
             plot_acf(x = data['diff'], lags = lags, title = 'Autocorrelation for {}, Median Time Interval: {}'.format(
-                self.name, self.timeseries.index.to_series().diff().median()), *args, **kwargs)
+                self.name, self.timeseries.index.to_series().diff().median().days + ' days'), *args, **kwargs)
             plt.show()
         else:
             return plot_acf(x = data['diff'], lags = lags, title = 'Autocorrelation for {}, Median Time Interval: {}'.format(
-                self.name, self.timeseries.index.to_series().diff().median()), *args, **kwargs)
+                self.name, self.timeseries.index.to_series().diff().median().days + ' days'), *args, **kwargs)
         if show is True:
             plot_pacf(x = data['diff'], lags = lags, title = 'Partial Autocorrelation for {}, Median Time '
                                                                     'Interval: {}'.format(
-                self.name, self.timeseries.index.to_series().diff().median()))
+                self.name, self.timeseries.index.to_series().diff().median().days + ' days'))
             plt.show()
         else:
             return plot_pacf(x = data['diff'], lags = lags, title = 'Partial Autocorrelation for {}, '
@@ -452,6 +463,16 @@ class Lake(object):
 
 
     def seasonal_decompose(self, model='additive', period=None):
+        """
+
+        Args:
+            model: "additive" or "multiplicative" see
+            https://www.statsmodels.org/dev/generated/statsmodels.tsa.seasonal.seasonal_decompose.html for more details
+            period: Period of the series.
+
+        Returns: None
+
+        """
         import matplotlib.pyplot as plt
         import seaborn as sns
         sns.set_style('whitegrid')
@@ -471,6 +492,11 @@ class Lake(object):
         plt.show()
 
     def check_stationarity(self): # credit for this code goes to Sivakar Sivarajah https://towardsdatascience.com/most-useful-python-functions-for-time-series-analysis-ed1a9cb3aa8b
+        """
+
+        Returns: None
+
+        """
         from statsmodels.tsa.stattools import adfuller, kpss
         result = adfuller(self.timeseries, autolag = 'AIC')
         print('STATIONARITY TEST FOR {}\n'.format(self.name))
@@ -568,8 +594,8 @@ class Lake(object):
 
 
 if __name__ == '__main__':
-    laket = search(id_No = 2014)
+    laket = search(id_No = 2034)
     laket.check_stationarity()
     laket.plot_rolling_statistic()
-    laket.auto_correlation()
+    laket.auto_correlation(lags = 20)
     laket.seasonal_decompose()
