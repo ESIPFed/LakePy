@@ -106,6 +106,7 @@ def _lake_meta_constructor(df):
                         metadata = metadata,
                         data = None,
                         timeseries = None,
+                        datum = ('meters above TOPEX/Poseidon ellipsoid'),
                         mean = None,
                         median = None,
                         mode = None)
@@ -141,6 +142,7 @@ def _lake_meta_constructor(df):
                         metadata = metadata,
                         data = None,
                         timeseries=None,
+                        datum = ('meters above WGS84 ellipsoid'),
                         mean = None,
                         median = None,
                         mode = None)
@@ -183,6 +185,7 @@ def _lake_meta_constructor(df):
                         metadata = metadata,
                         data = None,
                         timeseries=None,
+                        datum = [''],
                         mean = None,
                         median = None,
                         mode = None)
@@ -219,7 +222,8 @@ def _get_levels(lake):
 class Lake(object):
 
     def __init__(self, name, country, continent, source, original_id, id_No,
-                 observation_period, latitude, longitude, misc_data, metadata, data, timeseries, mean, median, mode):
+                 observation_period, latitude, longitude, misc_data, metadata, data, timeseries, datum, mean, median, \
+                                                                                                     mode):
         """
         Lake object with associated lake attributes and plotting methods
         Arguments:
@@ -249,6 +253,7 @@ class Lake(object):
         self.metadata = metadata
         self.data = data
         self.timeseries = timeseries
+        self.datum = datum
         self.mean = mean
         self.median = median
         self.mode = mode
@@ -445,12 +450,14 @@ class Lake(object):
                 self.name, self.timeseries.index.to_series().diff().median()))
 
 
-    def seasonal_decompose(self, model='additive', period=30):
+    def seasonal_decompose(self, model='additive', period=None):
         import matplotlib.pyplot as plt
         import seaborn as sns
         sns.set_style('whitegrid')
         from statsmodels.tsa.seasonal import seasonal_decompose
         data = self.timeseries
+        if period is None:
+            period = 365/self.timeseries.index.to_series().diff().median().days
         res = seasonal_decompose(data, model = "additive", period = period)
         fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize = (15, 8))
         res.trend.plot(ax = ax1, ylabel = "trend")
@@ -478,12 +485,80 @@ class Lake(object):
             print('Series is not Stationary')
         else:
             print('Series is Stationary')
+    def plot_rolling_statistic(self, figsize=None, median=False):
+        import matplotlib.pyplot as plt
+        import seaborn as sns; sns.set_style('darkgrid')
+        SMALL_SIZE = 12
+        MEDIUM_SIZE = 14
+        BIGGER_SIZE = 24
+        plt.rc('font', size = MEDIUM_SIZE)  # controls default text sizes
+        plt.rc('axes', titlesize = MEDIUM_SIZE)  # fontsize of the axes title
+        plt.rc('axes', labelsize = MEDIUM_SIZE)  # fontsize of the x and y labels
+        plt.rc('xtick', labelsize = MEDIUM_SIZE)  # fontsize of the tick labels
+        plt.rc('ytick', labelsize = MEDIUM_SIZE)  # fontsize of the tick labels
+        plt.rc('legend', fontsize = SMALL_SIZE)  # legend fontsize
+        plt.rc('figure', titlesize = BIGGER_SIZE)  # fontsize of the figure title
+        start = laket.timeseries.index.min()
+        end = laket.timeseries.index.max()
+        if figsize:
+            fig, ax = plt.subplots(figsize = figsize)
+        else:
+            fig, ax = plt.subplots(figsize=(10,6))
+        df = self.timeseries
+        if median is False:
+            ax.plot(df.loc[start:end], marker = 'o', markersize = 1, linestyle = '-', label = 'ORIGINAL_DATA',
+                    linewidth = 1, color = 'k')
+
+            ax.plot(df.rolling(window = 7, center = True).mean().loc[start:end], marker = 'o', markersize = 1,
+                    linestyle = '--', label = 'ROLLING_WINDOW_SIZE_5', linewidth = 0.5, color = 'b')
+
+            ax.plot(df.rolling(window = 10, center = True).mean().loc[start:end], marker = 'o', markersize = 1,
+                    linestyle = '--', label = 'ROLLING_WINDOW_SIZE_10', linewidth = 0.5, color = 'r')
+
+            ax.plot(df.rolling(window = 30, center = True).mean().loc[start:end], marker = 'o', markersize = 1,
+                    linestyle = '--', label = 'ROLLING_WINDOW_SIZE_20', linewidth = 0.5, color = 'y')
+
+            ax.plot(df.rolling(window = 50, center = True).mean().loc[start:end], marker = 'o', markersize = 1,
+                    linestyle = '--', label = 'ROLLING_WINDOW_SIZE_50', linewidth = 0.5, color = 'm')
+            ax.set_title('Rolling Mean for {}'.format(self.name), fontsize=24)
+        else:
+            ax.plot(df.loc[start:end], marker = 'o', markersize = 1, linestyle = '-', label = 'ORIGINAL_DATA',
+                    linewidth = 1, color = 'k')
+
+            ax.plot(df.rolling(window = 7, center = True).median().loc[start:end], marker = 'o', markersize = 1,
+                    linestyle = '--', label = 'ROLLING_WINDOW_SIZE_5', linewidth = 0.5, color = 'b')
+
+            ax.plot(df.rolling(window = 10, center = True).median().loc[start:end], marker = 'o', markersize = 1,
+                    linestyle = '--', label = 'ROLLING_WINDOW_SIZE_10', linewidth = 0.5, color = 'r')
+
+            ax.plot(df.rolling(window = 30, center = True).median().loc[start:end], marker = 'o', markersize = 1,
+                    linestyle = '--', label = 'ROLLING_WINDOW_SIZE_20', linewidth = 0.5, color = 'y')
+
+            ax.plot(df.rolling(window = 50, center = True).median().loc[start:end], marker = 'o', markersize = 1,
+                    linestyle = '--', label = 'ROLLING_WINDOW_SIZE_50', linewidth = 0.5, color = 'm')
+            ax.set_title('Rolling Median for {}'.format(self.name), fontsize=24)
+
+
+        if self.source == 'grealm':
+            ax.set_ylabel('Water Level (meters above TOPEX/Poseidon ellipsoid)')
+            ax.legend()
+        if self.source == 'hydroweb':
+            ax.set_ylabel('Water Level (meters above WGS84 ellipsoid')
+            ax.legend()
+        if self.source == 'usgs':
+            ax.set_ylabel('Water Level (ft)')
+            ax.legend()
+        ax.set_xlabel('Time')
+        plt.tight_layout()
+        plt.show()
+
 
 
 if __name__ == '__main__':
     laket = search(id_No = 2014)
-    laket.check_stationarity()
-    laket.auto_correlation()
-    #texoma.seasonal_decompose(period = 14)
+    laket.plot_rolling_statistic()
+    #laket.check_stationarity()
+    #laket.auto_correlation()
+    laket.seasonal_decompose()
     # print(texoma.timeseries.index.to_series().diff().value_counts())
     # print(texoma.timeseries.index.to_series().diff().median())
