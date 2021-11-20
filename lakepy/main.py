@@ -450,12 +450,31 @@ class Lake(object):
         plt.suptitle('Seasonal Decomposition of {}'.format(self.name))
         plt.show()
 
-    def check_stationarity(self):
+    def check_stationarity(self): # credit for this code goes to Sivakar Sivarajah https://towardsdatascience.com/most-useful-python-functions-for-time-series-analysis-ed1a9cb3aa8b
         from statsmodels.tsa.stattools import adfuller, kpss
+        result = adfuller(self.timeseries, autolag = 'AIC')
+        print('STATIONARITY TEST FOR {}\n'.format(self.name))
+        print('ADF Statistic: {}'.format(result[0]))
+        print('p-value: {}'.format(result[1]))
+        if result[1] > 0.05:
+            print('Series is not Stationary')
+        else:
+            print('Series is Stationary')
+        # KPSS Test
+        stats, p, lags, critical_values = kpss(self.timeseries, 'ct')
+        print('KPSS Test Statistics: {}'.format(stats))
+        print('p-value: {}'.format(p))
+
+        if p < 0.05:
+            print('Series is not Stationary')
+        else:
+            print('Series is Stationary')
+
 
 if __name__ == '__main__':
-    texoma = search(id_No = 2014)
-    texoma.auto_corr()
-    texoma.seasonal_decompose(period = 14)
+    laket = search(id_No = 2014)
+    laket.check_stationarity()
+    laket.auto_corr()
+    #texoma.seasonal_decompose(period = 14)
     # print(texoma.timeseries.index.to_series().diff().value_counts())
     # print(texoma.timeseries.index.to_series().diff().median())
