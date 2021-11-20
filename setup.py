@@ -28,7 +28,10 @@ INSTALL_REQUIRES = [
     'more-itertools==8.4',
     'tabulate',
     'ipython',
-    'leafmap'
+    'leafmap',
+    'scaleogram',
+    'statsmodels',
+
 ]
 
 setup(name = PACKAGE_NAME,

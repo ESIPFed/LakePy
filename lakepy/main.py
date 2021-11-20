@@ -612,6 +612,28 @@ class Lake(object):
         plt.suptitle('Lag Plots for {}'.format(self.name))
         plt.tight_layout()
         plt.show()
+    def wavelet_analysis(self, scales=None, wavelet=None, yaxis = 'scale'):
+        """
+
+        Args:
+            scales:
+            wavelet:
+            yaxis:
+
+        Returns:
+
+        """
+        import scaleogram as scg
+        import numpy as np
+        import matplotlib.pyplot as plt
+        if scales is None:
+            scales = np.logspace(.1, 2.5, num = 600, dtype = np.int64)
+        if wavelet:
+            scg.set_default_wavelet(wavelet)
+        else:
+            scg.set_default_wavelet('cmor1-3.5')
+        scg.cws(self.timeseries.iloc[:,0], scales = scales, yaxis = yaxis)
+        plt.show()
 
 
 
@@ -621,4 +643,4 @@ if __name__ == '__main__':
     # laket.plot_rolling_statistic()
     # laket.auto_correlation(lags = 20)
     # laket.seasonal_decompose()
-    laket.lag_plot(nlags = 5)
+    laket.wavelet_analysis()
