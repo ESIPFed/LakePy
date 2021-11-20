@@ -445,7 +445,8 @@ class Lake(object):
                 self.name, self.timeseries.index.to_series().diff().median()))
             plt.show()
         else:
-            return plot_pacf(x = data['diff'], lags = lags, title = 'Partial Autocorrelation for {}, Median Time '
+            return plot_pacf(x = data['diff'], lags = lags, title = 'Partial Autocorrelation for {}, '
+                                                                                 'Median Time '
                                                                     'Interval: {}'.format(
                 self.name, self.timeseries.index.to_series().diff().median()))
 
@@ -454,16 +455,19 @@ class Lake(object):
         import matplotlib.pyplot as plt
         import seaborn as sns
         sns.set_style('whitegrid')
+        import matplotlib
+        matplotlib.rcParams.update(matplotlib.rcParamsDefault)
         from statsmodels.tsa.seasonal import seasonal_decompose
         data = self.timeseries
         if period is None:
-            period = 365/self.timeseries.index.to_series().diff().median().days
+            period = round(365/self.timeseries.index.to_series().diff().median().days)
         res = seasonal_decompose(data, model = "additive", period = period)
         fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize = (15, 8))
-        res.trend.plot(ax = ax1, ylabel = "trend")
-        res.resid.plot(ax = ax2, ylabel = "seasoanlity")
-        res.seasonal.plot(ax = ax3, ylabel = "residual")
-        plt.suptitle('Seasonal Decomposition of {}'.format(self.name))
+        res.trend.plot(ax = ax1, ylabel = "trend", color='k')
+        res.resid.plot(ax = ax2, ylabel = "seasoanlity", color='k')
+        res.seasonal.plot(ax = ax3, ylabel = "residual", color='k')
+        plt.suptitle('Seasonal Decomposition of {}'.format(self.name), fontsize=24)
+        plt.tight_layout()
         plt.show()
 
     def check_stationarity(self): # credit for this code goes to Sivakar Sivarajah https://towardsdatascience.com/most-useful-python-functions-for-time-series-analysis-ed1a9cb3aa8b
@@ -486,6 +490,15 @@ class Lake(object):
         else:
             print('Series is Stationary')
     def plot_rolling_statistic(self, figsize=None, median=False):
+        """
+
+        Args:
+            figsize: figure size entered as a tuple
+            median: Boolean flag, computes the median instead of mean if True
+
+        Returns: None
+
+        """
         import matplotlib.pyplot as plt
         import seaborn as sns; sns.set_style('darkgrid')
         SMALL_SIZE = 12
@@ -556,9 +569,7 @@ class Lake(object):
 
 if __name__ == '__main__':
     laket = search(id_No = 2014)
+    laket.check_stationarity()
     laket.plot_rolling_statistic()
-    #laket.check_stationarity()
-    #laket.auto_correlation()
+    laket.auto_correlation()
     laket.seasonal_decompose()
-    # print(texoma.timeseries.index.to_series().diff().value_counts())
-    # print(texoma.timeseries.index.to_series().diff().median())
