@@ -34,7 +34,7 @@ more options and methods to our users. We are sure many of you have great ideas 
 never thought of!
 
 - We currently use issues and PR for bug patches. if you have an idea about a new feature please send a **description
-and code example** to [lakepygithub@gmail.com](mailto:lakepygithub@gmail.com).
+and code example** to [jhgearon@iu.edu](mailto:jhgearon@iu.edu).
 - After discussions, revisions, and approval, feel free to open a new
   [pull request](https://github.com/ESIPFed/LakePy/compare) with the same title.
   
@@ -50,7 +50,7 @@ a new lake data is a country, state, or county, if it is public data, we would l
 do check to make sure the lakes you wish to add are not already a part of LakePy.
 
 Adding a new data source is fairly resource intensive and occurs on our backend. Please reach out to us at
-[lakepygithub@gmail.com](mailto:lakepygithub@gmail.com) to get started on adding a new data source.
+[jhgearon@iu.edu](mailto:jhgearon@iu.edu) to get started on adding a new data source.
 
 
 We appreciate taking the time to look into how to contribute towards LakePy.
@@ -59,6 +59,6 @@ Thanks,
 
 *James Gearon & John Franey*
 
-**LakePy is Funded by the Earth Science Information Partners (ESIP) Winter 2020 Grant.**
+**LakePy is Funded by the Earth Science Information Partners (ESIP) Winter 2020 Grant and the charitable contribution of Derek Masaki and Farial Shahnaz.**
 
 _See the funded proposal [here](https://www.esipfed.org/wp-content/uploads/2020/04/Gearon.pdf)._
