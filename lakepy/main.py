@@ -265,10 +265,10 @@ class Lake(object):
         Plot map-style overview of lake location using [geopandas](https://geopandas.org/en/stable/) and [contextily](https://contextily.readthedocs.io/en/latest/)
         Arguments:
             show (bool): Flag to determine whether matplotlib.pyplot.show() is called (True) or axis object is
-            returned (False)
+                returned (False)
             out_path (str): If supplied, figure will be saved to filepath
             zoom (int): contextily zoom level
-            provider ():
+            provider (str): contextily provider
             return_gdf (bool): Returns GeoDataFrame if True
             *args: Variable length argument list.
             **kwargs: Arbitrary keyword arguments.
@@ -421,7 +421,7 @@ class Lake(object):
 
         Args:
             lags (int or array_like): An int or array of lag values, used on horizontal axis. Uses np.arange(lags) when
-            lags is an int.
+                lags is an int.
             show (bool): Boolean flag to show plot (True) or return axis (False)
             *args: matplotlib args
             **kwargs: matplotlib kwargs
@@ -465,7 +465,7 @@ class Lake(object):
         See here for more details](https://www.statsmodels.org/dev/generated/statsmodels.tsa.seasonal.seasonal_decompose.html)
         Args:
             model (str): Model type: "additive" or "multiplicative" see
-            https://www.statsmodels.org/dev/generated/statsmodels.tsa.seasonal.seasonal_decompose.html for more details.
+                https://www.statsmodels.org/dev/generated/statsmodels.tsa.seasonal.seasonal_decompose.html for more details.
             period (int): Period of the series.
             show (bool): Displays figure if
 
@@ -507,7 +507,7 @@ class Lake(object):
             ADF (bool): Computes Augmented Dickey Fuller Test for stationarity.
             KPSS (bool): Computes Kwiatkowski-Phillips-Schmidt-Shin test for stationarity
             return_params (bool): if True and only one method selected (ADF or KPSS), returns test statistics. 8
-            terms are packed into one term for ADF, 4 statistics are returned for KPSS.
+                terms are packed into one term for ADF, 4 statistics are returned for KPSS.
 
         Returns:
             NoneType or ax (optional): Test statistics for either ADF or KPSS if return_params is true
@@ -628,8 +628,8 @@ class Lake(object):
         Computes the common lag plot, used to investigate patterns in time-series data. [See here for more
         information.](https://www.statisticshowto.com/lag-plot/)
         Args:
-            nlags: An int or array of lag values, used on horizontal axis. Uses np.arange(lags) when lags is an
-            int.
+            nlags (int or array_like): An int or array of lag values, used on horizontal axis. Uses np.arange(lags)
+                when lags is an int.
             figsize (tuple): figure size entered as a tuple
 
         Returns:
