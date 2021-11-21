@@ -262,7 +262,7 @@ class Lake(object):
 
     def plot_mapview(self, show=True, out_path=None, zoom=None, provider=None, return_gdf=False, force_contextily=False, *args, **kwargs):
         """
-        Plot map-style overview of lake location using [geopandas]() and [contextily]()
+        Plot map-style overview of lake location using [geopandas](https://geopandas.org/en/stable/) and [contextily](https://contextily.readthedocs.io/en/latest/)
         Arguments:
             show (bool): Flag to determine whether matplotlib.pyplot.show() is called (True) or axis object is
             returned (False)
@@ -345,14 +345,8 @@ class Lake(object):
         Returns:
             NoneType or ax (optional): Time-series plotted through plotly in web browser. if `how` argument is
                                         specified, returns matplotlib ax object
-
-
         """
-        import matplotlib.ticker as ticker
-        import matplotlib.dates as mdates
-        from matplotlib.dates import DateFormatter
         from matplotlib.dates import AutoDateLocator
-        from matplotlib.dates import AutoDateFormatter
         import plotly.io as pio
         import plotly.express as px
         import seaborn as sns; sns.set_style('darkgrid')
@@ -433,7 +427,6 @@ class Lake(object):
             **kwargs: matplotlib kwargs
 
         Returns: None if show is True, Matplotlib axis if show is False
-
         """
         import matplotlib.pyplot as plt
         import seaborn as sns
