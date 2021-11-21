@@ -426,7 +426,8 @@ class Lake(object):
             *args: matplotlib args
             **kwargs: matplotlib kwargs
 
-        Returns: None if show is True, Matplotlib axis if show is False
+        Returns:
+            NoneType or ax (optional): None if show is True, Matplotlib axis if show is False
         """
         import matplotlib.pyplot as plt
         import seaborn as sns
@@ -468,7 +469,8 @@ class Lake(object):
             period (int): Period of the series.
             show (bool): Displays figure if
 
-        Returns: None
+        Returns:
+            NoneType or ax (optional): None if show is True, Matplotlib axis if show is False
 
         """
         import matplotlib.pyplot as plt
@@ -507,7 +509,8 @@ class Lake(object):
             return_params (bool): if True and only one method selected (ADF or KPSS), returns test statistics. 8
             terms are packed into one term for ADF, 4 statistics are returned for KPSS.
 
-        Returns: Test statistics for either ADF or KPSS if return_params is true
+        Returns:
+            NoneType or ax (optional): Test statistics for either ADF or KPSS if return_params is true
 
         """
 
@@ -548,7 +551,8 @@ class Lake(object):
             median (bool): Boolean flag, computes the median instead of mean if True
             show (bool):
 
-        Returns: None if show is True, matplotlib axis object if show is False
+        Returns:
+            NoneType or ax (optional): None if show is True, matplotlib axis object if show is False
 
         """
         import matplotlib.pyplot as plt
@@ -628,7 +632,8 @@ class Lake(object):
             int.
             figsize (tuple): figure size entered as a tuple
 
-        Returns: None
+        Returns:
+            NoneType or ax (optional): None if show is True, matplotlib axis object if show is False
 
         """
         import matplotlib.pyplot as plt
@@ -705,7 +710,8 @@ class Lake(object):
 
                 - ``'scale'`` : display the wavelet scales parameter.
 
-        Returns: None if show is True, scaleogram axis object if show is False
+        Returns:
+            NoneType or ax (optional): None if show is True, scaleogram axis object if show is False
 
         """
         import scaleogram as scg
