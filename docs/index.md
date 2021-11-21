@@ -32,7 +32,7 @@ and on-demand.
 
 ## Quickstart
 
-- For a list of Lakes with corresponding ID numbers, see the [Lake Reference List](../../LakeReferenceList_Oct2021.csv)
+- For a list of Lakes with corresponding ID numbers, see the [Lake Reference List](../docs/LakeReferenceList_Oct2021.csv)
 
 ### Installation
 ```
