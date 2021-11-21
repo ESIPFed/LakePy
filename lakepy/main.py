@@ -424,8 +424,9 @@ class Lake(object):
         """
 
         Args:
-            lags: An int or array of lag values, used on horizontal axis. Uses np.arange(lags) when lags is an int.
-            show: Boolean flag to show plot (True) or return axis (False)
+            lags (int or array_like): An int or array of lag values, used on horizontal axis. Uses np.arange(lags) when
+            lags is an int.
+            show (bool): Boolean flag to show plot (True) or return axis (False)
             *args: matplotlib args
             **kwargs: matplotlib kwargs
 
@@ -462,13 +463,15 @@ class Lake(object):
                 self.name, self.timeseries.index.to_series().diff().median()))
 
 
-    def seasonal_decompose(self, model='additive', period=None):
+    def seasonal_decompose(self, model='additive', period=None, show=True):
         """
-
+        Performs seasonal decomposition using moving averages. Plots trend, seasonality, and residual components. [
+        See here for more details](https://www.statsmodels.org/dev/generated/statsmodels.tsa.seasonal.seasonal_decompose.html)
         Args:
-            model: "additive" or "multiplicative" see
-            https://www.statsmodels.org/dev/generated/statsmodels.tsa.seasonal.seasonal_decompose.html for more details
-            period: Period of the series.
+            model (str): Model type: "additive" or "multiplicative" see
+            https://www.statsmodels.org/dev/generated/statsmodels.tsa.seasonal.seasonal_decompose.html for more details.
+            period (int): Period of the series.
+            show (bool): Displays figure if
 
         Returns: None
 
@@ -489,40 +492,68 @@ class Lake(object):
         res.seasonal.plot(ax = ax3, ylabel = "residual", color='k')
         plt.suptitle('Seasonal Decomposition of {}'.format(self.name), fontsize=24)
         plt.tight_layout()
-        plt.show()
-
-    def check_stationarity(self): # credit for this code goes to Sivakar Sivarajah https://towardsdatascience.com/most-useful-python-functions-for-time-series-analysis-ed1a9cb3aa8b
-        """
-
-        Returns: None
-
-        """
-        from statsmodels.tsa.stattools import adfuller, kpss
-        result = adfuller(self.timeseries, autolag = 'AIC')
-        print('STATIONARITY TEST FOR {}\n'.format(self.name))
-        print('ADF Statistic: {}'.format(result[0]))
-        print('p-value: {}'.format(result[1]))
-        if result[1] > 0.05:
-            print('Series is not Stationary')
+        if show is True:
+            plt.show()
         else:
-            print('Series is Stationary')
-        # KPSS Test
-        stats, p, lags, critical_values = kpss(self.timeseries, 'ct', nlags='auto')
-        print('KPSS Test Statistics: {}'.format(stats))
-        print('p-value: {}'.format(p))
+            return fig
 
-        if p < 0.05:
-            print('Series is not Stationary')
-        else:
-            print('Series is Stationary')
-    def plot_rolling_statistic(self, figsize=None, median=False):
+    def check_stationarity(self, ADF=True, KPSS=True, return_params=False):
         """
+        Determine stationarity of lake level time series by computing the [Augmented Dickey Fuller Test](
+        https://www.statsmodels.org/dev/generated/statsmodels.tsa.stattools.adfuller.html) and/or the [
+        Kwiatkowski-Phillips-Schmidt-Shin](https://www.statsmodels.org/dev/generated/statsmodels.tsa.stattools.kpss
+        .html) test for stationarity.
 
+        Credit for this code goes to [Sivakar Sivarajah](
+        https://towardsdatascience.com/most-useful-python-functions-for-time-series-analysis-ed1a9cb3aa8b)
         Args:
-            figsize: figure size entered as a tuple
-            median: Boolean flag, computes the median instead of mean if True
+            ADF (bool): Computes Augmented Dickey Fuller Test for stationarity.
+            KPSS (bool): Computes Kwiatkowski-Phillips-Schmidt-Shin test for stationarity
+            return_params (bool): if True and only one method selected (ADF or KPSS), returns test statistics. 8
+            terms are packed into one term for ADF, 4 statistics are returned for KPSS.
 
-        Returns: None
+        Returns: Test statistics for either ADF or KPSS if return_params is true
+
+        """
+
+        from statsmodels.tsa.stattools import adfuller, kpss
+        if ADF is True and KPSS is True and return_params is True:
+            raise RuntimeError('One method (KPSS or ADF) must be False for parameters to be returned.')
+        if ADF is True:
+            result = adfuller(self.timeseries, autolag = 'AIC')
+            print('STATIONARITY TEST FOR {}\n'.format(self.name))
+            print('ADF Statistic: {}'.format(result[0]))
+            print('p-value: {}'.format(result[1]))
+            if return_params is True:
+                return result
+            else:
+                if result[1] > 0.05:
+                    print('Series is not Stationary')
+                else:
+                    print('Series is Stationary')
+        # KPSS Test
+        if KPSS is True:
+            stats, p, lags, critical_values = kpss(self.timeseries, 'ct', nlags='auto')
+            print('KPSS Test Statistics: {}'.format(stats))
+            print('p-value: {}'.format(p))
+            if return_params is True:
+                return stats, p, lags, critical_values
+            else:
+                if p < 0.05:
+                    print('Series is not Stationary')
+                else:
+                    print('Series is Stationary')
+
+    def plot_rolling_statistic(self, figsize=None, median=False, show=True):
+        """
+        Plot rolling statistics for lake water level at a series of window sizes (7, 10, 30, 50). Default statistic
+        is mean, set median to True to compute medians.
+        Args:
+            figsize (tuple): figure size entered as a tuple
+            median (bool): Boolean flag, computes the median instead of mean if True
+            show (bool):
+
+        Returns: None if show is True, matplotlib axis object if show is False
 
         """
         import matplotlib.pyplot as plt
@@ -589,13 +620,18 @@ class Lake(object):
             ax.legend()
         ax.set_xlabel('Time')
         plt.tight_layout()
-        plt.show()
-    def lag_plot(self, nlags=4, figsize=None):
+        if show is True:
+            plt.show()
+        else:
+            return ax
+    def lag_plot(self, nlags=4, figsize=None, show = True):
         """
-
+        Computes the common lag plot, used to investigate patterns in time-series data. [See here for more
+        information.](https://www.statisticshowto.com/lag-plot/)
         Args:
-            nlags: An int or array of lag values, used on horizontal axis. Uses np.arange(lags) when lags is an int.
-            figsize: figure size entered as a tuple
+            nlags: An int or array of lag values, used on horizontal axis. Uses np.arange(lags) when lags is an
+            int.
+            figsize (tuple): figure size entered as a tuple
 
         Returns: None
 
@@ -611,16 +647,70 @@ class Lake(object):
             ax.set_title('Lag ' + str(i + 1))
         plt.suptitle('Lag Plots for {}'.format(self.name))
         plt.tight_layout()
-        plt.show()
-    def wavelet_analysis(self, scales=None, wavelet=None, yaxis = 'scale'):
+        if show is True:
+            plt.show()
+        else:
+            return fig
+    def wavelet_analysis(self, scales=None, wavelet=None, yaxis = 'scale', show=True):
         """
-
+        1D lake water level data analysis with the Scaleogram package by [Alexandre
+        Sauvé](https://github.com/alsauve). Utilizes Continuous Wavelet Transforms built on [PyWavelets](
+        https://github.com/PyWavelets/pywt). These descriptions are taken from [Alexandre
+        Sauvé](https://github.com/alsauve).
         Args:
-            scales:
-            wavelet:
-            yaxis:
+            scales: an array of float or int >= 1 with increasing values.
+                The scale parameter is homogenous with the periodicity of the events
+                to be analyzed in the signal.
 
-        Returns:
+                The relation between scale ``s`` and corresponding period length ``p`` is:
+
+                    ``p = s / C``
+
+                where ``C`` is the central frequency parameter used to build the wavelet.
+
+                Example: if ``wavelet='cmor1-1.5'`` the name pattern of the wavelet is
+                ``nameB-C``, hence ``C=1.5``  and ``period=s/1.5``.
+
+                ``scales`` can be any array of values as long as they are in
+                increasing order. Under the hood, plotting is implemented with
+                ``pmeshgrid`` which allow to associate reliably for each pixel the
+                correct axis coordinates.
+
+                Examples::
+
+                    import numpy as np
+                    scales_linear = np.arange(1,200, 2)
+                    scales_log    = np.logspace(0,2)
+
+                Online doc about scale:
+                    https://github.com/alsauve/scaleogram/tree/master/doc/scale-to-frequency.ipynb
+                ** This description comes directly from Scaleogram by [Alexandre
+                    Sauvé](https://github.com/alsauve)**
+            wavelet: The default wavelet function is Morlay (``cmor1-1.5``) which is a good start
+                as a general purpose wavelet because it has a good compromise betwen
+                compacity and smoothness in both time and frequency domain.
+
+                Note : for the continuous transform, there is no scaling function
+                by contrast with the discrete transform.
+
+                Example::
+
+                    wavelet=pywt.ContinuousWavelet('cmor1-1.5')
+            yaxis: selects the Y axis units.
+                - [``'period'``] : Convert scales to human readable period values.
+                    The period units is the same as the ``time`` input parameter.
+                    If time is not provided, periods are in number of samples units.
+
+                - ``'frequency'`` : Converts scales to frequency
+                    The frequency unit is depending on the time argument value.
+                    If time is not provided, the frequency represents the number of
+                    oscillations per sample.
+
+                    In this mode ``yscale`` is set to ``'log'`` by default (if not provided).
+
+                - ``'scale'`` : display the wavelet scales parameter.
+
+        Returns: None if show is True, scaleogram axis object if show is False
 
         """
         import scaleogram as scg
@@ -632,15 +722,20 @@ class Lake(object):
             scg.set_default_wavelet(wavelet)
         else:
             scg.set_default_wavelet('cmor1-3.5')
-        scg.cws(self.timeseries.iloc[:,0], scales = scales, yaxis = yaxis)
-        plt.show()
+        ax = scg.cws(self.timeseries.iloc[:,0], scales = scales, yaxis = yaxis)
+        if show is True:
+            plt.show()
+        else:
+            return ax
+
+
 
 
 
 if __name__ == '__main__':
     laket = search(id_No = 2034)
-    # laket.check_stationarity()
-    # laket.plot_rolling_statistic()
-    # laket.auto_correlation(lags = 20)
-    # laket.seasonal_decompose()
+    laket.check_stationarity()
+    laket.plot_rolling_statistic()
+    laket.auto_correlation(lags = 20)
+    laket.seasonal_decompose()
     laket.wavelet_analysis()
