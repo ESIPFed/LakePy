@@ -422,6 +422,8 @@ class Lake(object):
 
     def auto_correlation(self, lags = 30, show=True, *args, **kwargs):
         """
+        Provides autocorrelation and partial autocorrelation plots to determine the coefficient of correlation
+        between two values in the lake level timeseries.
 
         Args:
             lags (int or array_like): An int or array of lag values, used on horizontal axis. Uses np.arange(lags) when
