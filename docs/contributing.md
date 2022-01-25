@@ -52,6 +52,9 @@ do check to make sure the lakes you wish to add are not already a part of LakePy
 Adding a new data source is fairly resource intensive and occurs on our backend. Please reach out to us at
 [jhgearon@iu.edu](mailto:jhgearon@iu.edu) to get started on adding a new data source.
 
+## STAC Compliancy
+We really want to make LakePy STAC compliant, but it involves attaching spatial locations for every lake.
+This is a work in progress
 
 We appreciate taking the time to look into how to contribute towards LakePy.
 
