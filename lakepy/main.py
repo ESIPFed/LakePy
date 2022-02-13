@@ -353,8 +353,8 @@ class Lake(object):
         import pandas as pd
         import matplotlib.pyplot as plt
         import warnings
-        from lakepy.utils import _validate
-        from lakepy.utils import _isnotebook
+        from utils import _validate
+        from utils import _isnotebook
         if date_start and date_end:
             _validate(date_start)
             _validate(date_end)
