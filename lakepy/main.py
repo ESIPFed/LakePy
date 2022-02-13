@@ -277,7 +277,7 @@ class Lake(object):
             ax: matplotlib ax object
 
         """
-        from lakepy.utils import _isnotebook
+        from utils import _isnotebook
         import geopandas as gpd
         import contextily as ctx
         from shapely.geometry import Point
