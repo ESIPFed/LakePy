@@ -21,21 +21,21 @@ def search(name=None, source=None, id_No=None, markdown=False):
             id_No)
         r = requests.get(url)
         json_decode = r.json()
-        df = pd.DataFrame().from_records(json_decode, columns = ['id_No', 'source', 'lake_name', 'metadata'])
+        df = pd.DataFrame().from_records(json_decode, columns = ['id_No', 'lake_name', 'source', 'metadata'])
 
     elif not source:
         url = 'https://4o8d0ft32f.execute-api.us-east-2.amazonaws.com/prod/glld/search/?name={}'.format(
             name)
         r = requests.get(url)
         json_decode = r.json()
-        df = pd.DataFrame().from_records(json_decode, columns = ['id_No', 'source', 'lake_name', 'metadata'])
+        df = pd.DataFrame().from_records(json_decode, columns = ['id_No', 'lake_name', 'source', 'metadata'])
 
     elif source:
         url = 'https://4o8d0ft32f.execute-api.us-east-2.amazonaws.com/prod/glld/' \
               'search?name={}&source={}'.format(name, source)
         r = requests.get(url)
         json_decode = r.json()
-        df = pd.DataFrame().from_records(json_decode, columns = ['id_No', 'source', 'lake_name', 'metadata'])
+        df = pd.DataFrame().from_records(json_decode, columns = ['id_No', 'lake_name', 'source', 'metadata'])
     else:
         raise ValueError("I don't know how you did this, but if you did, make a github issue!")
     if len(df) < 1:
