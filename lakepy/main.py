@@ -330,7 +330,7 @@ class Lake(object):
             display(m)
 
     def plot_timeseries(self, how='plotly', color="blue", show=True,
-                        date_start=None, date_end=None, jupyter=False, *args, **kwargs):
+                        date_start=None, date_end=None, jupyter=False, renderer=None, *args, **kwargs):
         """
         Plot timeseries of lake water level data
         Arguments:
@@ -367,7 +367,9 @@ class Lake(object):
         else:
             raise ValueError('date_start and date_end params must both be None or strings with date format "%Y-%m-%d"')
         if how == 'plotly':
-            if jupyter == True or _isnotebook() == True:
+            if renderer:
+                pio.renderers.default = "notebook"
+            elif jupyter == True or _isnotebook() == True:
                 pio.renderers.default = "notebook"
             else:
                 pio.renderers.default = "browser"
@@ -442,15 +444,15 @@ class Lake(object):
         data["diff"].iloc[0] = 0
         if show is True:
             plot_acf(x = data['diff'], lags = lags, title = 'Autocorrelation for {}, Median Time Interval: {}'.format(
-                self.name, self.timeseries.index.to_series().diff().median().days + ' days'), *args, **kwargs)
+                self.name, str(self.timeseries.index.to_series().diff().median().days) + ' days'), *args, **kwargs)
             plt.show()
         else:
             return plot_acf(x = data['diff'], lags = lags, title = 'Autocorrelation for {}, Median Time Interval: {}'.format(
-                self.name, self.timeseries.index.to_series().diff().median().days + ' days'), *args, **kwargs)
+                self.name, str(self.timeseries.index.to_series().diff().median().days) + ' days'), *args, **kwargs)
         if show is True:
             plot_pacf(x = data['diff'], lags = lags, title = 'Partial Autocorrelation for {}, Median Time '
                                                                     'Interval: {}'.format(
-                self.name, self.timeseries.index.to_series().diff().median().days + ' days'))
+                self.name, str(self.timeseries.index.to_series().diff().median().days) + ' days'))
             plt.show()
         else:
             return plot_pacf(x = data['diff'], lags = lags, title = 'Partial Autocorrelation for {}, '
@@ -734,7 +736,8 @@ class Lake(object):
 
 
 if __name__ == '__main__':
-    laket = search(id_No = 2034)
+    laket = search(id_No = 204)
+    laket.plot_timeseries()
     laket.check_stationarity()
     laket.plot_rolling_statistic()
     laket.auto_correlation(lags = 20)
