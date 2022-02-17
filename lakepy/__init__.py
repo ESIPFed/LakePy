@@ -1,3 +1,3 @@
-from .main import search
-from .main import Lake
+from lakepy.src.main import search
+from lakepy.src.main import Lake
 

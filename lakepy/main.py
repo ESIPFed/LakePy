@@ -368,7 +368,7 @@ class Lake(object):
             raise ValueError('date_start and date_end params must both be None or strings with date format "%Y-%m-%d"')
         if how == 'plotly':
             if renderer:
-                pio.renderers.default = "notebook"
+                pio.renderers.default = renderer
             elif jupyter == True or _isnotebook() == True:
                 pio.renderers.default = "notebook"
             else:
