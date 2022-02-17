@@ -1,4 +1,3 @@
-import utils
 def search(name=None, source=None, id_No=None, markdown=False):
     """
     Search function that interacts directly with the Global Lake Level Database API.
