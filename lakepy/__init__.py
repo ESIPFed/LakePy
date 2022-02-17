@@ -1,3 +1,4 @@
-from lakepy.src.main import search
-from lakepy.src.main import Lake
+from lakepy.main import search
+from lakepy.main import Lake
+from lakepy import utils
 

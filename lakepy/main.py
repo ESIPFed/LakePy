@@ -1,3 +1,4 @@
+import utils
 def search(name=None, source=None, id_No=None, markdown=False):
     """
     Search function that interacts directly with the Global Lake Level Database API.
@@ -736,7 +737,7 @@ class Lake(object):
 
 
 if __name__ == '__main__':
-    laket = search(id_No = 204)
+    laket = search(id_No = 2045)
     laket.plot_timeseries()
     laket.check_stationarity()
     laket.plot_rolling_statistic()
