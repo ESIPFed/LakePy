@@ -544,7 +544,8 @@ class Lake(object):
                 else:
                     print('Series is Stationary')
 
-    def plot_rolling_statistic(self, figsize=None, median=False, show=True):
+    def plot_rolling_statistic(self, windows=[7, 10, 30, 50], plotly=True, figsize=None, median=False, show=True,
+                               xlim=None, ylim=None):
         """
         Plot rolling statistics for lake water level at a series of window sizes (7, 10, 30, 50). Default statistic
         is mean, set median to True to compute medians.
@@ -562,52 +563,62 @@ class Lake(object):
         SMALL_SIZE = 12
         MEDIUM_SIZE = 14
         BIGGER_SIZE = 24
-        plt.rc('font', size = MEDIUM_SIZE)  # controls default text sizes
-        plt.rc('axes', titlesize = MEDIUM_SIZE)  # fontsize of the axes title
-        plt.rc('axes', labelsize = MEDIUM_SIZE)  # fontsize of the x and y labels
-        plt.rc('xtick', labelsize = MEDIUM_SIZE)  # fontsize of the tick labels
-        plt.rc('ytick', labelsize = MEDIUM_SIZE)  # fontsize of the tick labels
+        plt.rc('font', size = SMALL_SIZE)  # controls default text sizes
+        plt.rc('axes', titlesize = SMALL_SIZE)  # fontsize of the axes title
+        plt.rc('axes', labelsize = SMALL_SIZE)  # fontsize of the x and y labels
+        plt.rc('xtick', labelsize = SMALL_SIZE)  # fontsize of the tick labels
+        plt.rc('ytick', labelsize = SMALL_SIZE)  # fontsize of the tick labels
         plt.rc('legend', fontsize = SMALL_SIZE)  # legend fontsize
-        plt.rc('figure', titlesize = BIGGER_SIZE)  # fontsize of the figure title
-        start = laket.timeseries.index.min()
-        end = laket.timeseries.index.max()
+        plt.rc('figure', titlesize = MEDIUM_SIZE)  # fontsize of the figure title
+        start = self.timeseries.index.min()
+        end = self.timeseries.index.max()
+        colors = ['k', 'b', 'r', 'y', 'm']
         if figsize:
             fig, ax = plt.subplots(figsize = figsize)
         else:
             fig, ax = plt.subplots(figsize=(10,6))
         df = self.timeseries
-        if median is False:
-            ax.plot(df.loc[start:end], marker = 'o', markersize = 1, linestyle = '-', label = 'ORIGINAL_DATA',
-                    linewidth = 1, color = 'k')
+        if plotly == True:
+            import plotly.express as px
+            import plotly.graph_objs as go
+            import pandas as pd
+            start = self.data.date.min()
+            end = self.data.date.max()
+            fig = go.Figure()
 
-            ax.plot(df.rolling(window = 7, center = True).mean().loc[start:end], marker = 'o', markersize = 1,
-                    linestyle = '--', label = 'ROLLING_WINDOW_SIZE_5', linewidth = 0.5, color = 'b')
+            # Add traces
 
-            ax.plot(df.rolling(window = 10, center = True).mean().loc[start:end], marker = 'o', markersize = 1,
-                    linestyle = '--', label = 'ROLLING_WINDOW_SIZE_10', linewidth = 0.5, color = 'r')
+            fig.add_trace(go.Scatter(x = self.data.date.loc[start:end], y = self.data.water_level, mode = 'lines',
+                                     name = 'markers'))
+            for i in windows:
 
-            ax.plot(df.rolling(window = 30, center = True).mean().loc[start:end], marker = 'o', markersize = 1,
-                    linestyle = '--', label = 'ROLLING_WINDOW_SIZE_20', linewidth = 0.5, color = 'y')
+                temp_df = self.data.copy()
+                if median:
+                    temp_df['rolling_1'] = temp_df.water_level.rolling(window = i, center = True).median()
+                    temp_df = temp_df.dropna(how = 'any')
+                    fig.add_trace(
+                        go.Scatter(x = temp_df.date, y = temp_df.rolling_1, mode = 'lines', name = 'markers'))
+                else:
+                    temp_df['rolling_1'] = temp_df.water_level.rolling(window = i, center = True).mean()
+                    temp_df = temp_df.dropna(how = 'any')
+                    fig.add_trace(go.Scatter(x = temp_df.date, y = temp_df.rolling_1, mode = 'lines', name = 'markers'))
+            fig.show()
 
-            ax.plot(df.rolling(window = 50, center = True).mean().loc[start:end], marker = 'o', markersize = 1,
-                    linestyle = '--', label = 'ROLLING_WINDOW_SIZE_50', linewidth = 0.5, color = 'm')
-            ax.set_title('Rolling Mean for {}'.format(self.name), fontsize=24)
-        else:
-            ax.plot(df.loc[start:end], marker = 'o', markersize = 1, linestyle = '-', label = 'ORIGINAL_DATA',
-                    linewidth = 1, color = 'k')
+            if median is False:
+                ax.plot(df.loc[start:end], marker = 'o', markersize = 1, linestyle = '-', label = 'ORIGINAL_DATA',
+                        linewidth = 1, color = 'k')
+                for i, c in zip(windows, colors):
+                    ax.plot(df.rolling(window = i, center = True).mean().loc[start:end], marker = 'o',
+                            markersize = 1, linestyle = '--', label = 'ROLLING_WINDOW_SIZE_{}'.format(i),
+                            linewidth = 0.5, color = c)
+            else:
+                ax.plot(df.loc[start:end], marker = 'o', markersize = 1, linestyle = '-', label = 'ORIGINAL_DATA',
+                        linewidth = 1, color = 'k')
+                for i, c in zip(windows, colors):
+                    ax.plot(df.rolling(window = i, center = True).median().loc[start:end], marker = 'o',
+                            markersize = 1, linestyle = '--', label = 'ROLLING_WINDOW_SIZE_{}'.format(i),
+                            linewidth = 0.5, color = c)
 
-            ax.plot(df.rolling(window = 7, center = True).median().loc[start:end], marker = 'o', markersize = 1,
-                    linestyle = '--', label = 'ROLLING_WINDOW_SIZE_5', linewidth = 0.5, color = 'b')
-
-            ax.plot(df.rolling(window = 10, center = True).median().loc[start:end], marker = 'o', markersize = 1,
-                    linestyle = '--', label = 'ROLLING_WINDOW_SIZE_10', linewidth = 0.5, color = 'r')
-
-            ax.plot(df.rolling(window = 30, center = True).median().loc[start:end], marker = 'o', markersize = 1,
-                    linestyle = '--', label = 'ROLLING_WINDOW_SIZE_20', linewidth = 0.5, color = 'y')
-
-            ax.plot(df.rolling(window = 50, center = True).median().loc[start:end], marker = 'o', markersize = 1,
-                    linestyle = '--', label = 'ROLLING_WINDOW_SIZE_50', linewidth = 0.5, color = 'm')
-            ax.set_title('Rolling Median for {}'.format(self.name), fontsize=24)
 
 
         if self.source == 'grealm':
@@ -619,6 +630,8 @@ class Lake(object):
         if self.source == 'usgs':
             ax.set_ylabel('Water Level (ft)')
             ax.legend()
+        if xlim:
+            ax.set_xlim(xlim)
         ax.set_xlabel('Time')
         plt.tight_layout()
         if show is True:
@@ -645,7 +658,7 @@ class Lake(object):
         plt.rcParams.update({'ytick.left': False, 'axes.titlepad': 10})
         fig, axes = plt.subplots(1, nlags, figsize = figsize, sharex = True, sharey = True, dpi = 100)
         for i, ax in enumerate(axes.flatten()[:nlags]):
-            lag_plot(self.timeseries, lag = i + 1, ax = ax, c = 'firebrick')
+            lag_plot(self.timeseries, lag = i + 1, ax = ax, c = 'firebrick', marker="+")
             ax.set_title('Lag ' + str(i + 1))
         plt.suptitle('Lag Plots for {}'.format(self.name))
         plt.tight_layout()
